@@ -82,7 +82,8 @@ jobs:
 
   stdlib:
     name: Standard-library tools / Python 3.9
-    runs-on: ubuntu-latest
+    # Keep Python 3.9 on an image with a published setup-python build.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
