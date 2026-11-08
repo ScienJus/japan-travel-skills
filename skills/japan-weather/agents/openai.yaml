@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Weather"
+  short_description: "Check city forecasts, warnings and typical monthly climate"
+  default_prompt: "Use $japan-weather to check weather information for my Japanese destination and travel dates."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "TableCheck"
+  short_description: "Find restaurants, courses and anonymous reservation availability"
+  default_prompt: "Use $tablecheck to find restaurants, compare courses and check dates and time slots without booking."

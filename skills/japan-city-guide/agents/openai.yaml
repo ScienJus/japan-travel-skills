@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan City Guides"
+  short_description: "Find official sights, events and local specialties"
+  default_prompt: "Use $japan-city-guide to find official destination information and verify places for my trip."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Hotel Discovery"
+  short_description: "Find candidate hotels, facilities and practical details"
+  default_prompt: "Use $japan-hotels to find hotels matching my location and facility requirements."

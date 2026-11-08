@@ -1,0 +1,13 @@
+# Runtime dependencies verified on Python 3.12; marker adds Python 3.10 support.
+anyio==4.15.1
+beautifulsoup4==4.15.0
+certifi==2026.10.23
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.20
+jpholiday==1.0.3
+socksio==1.0.0
+soupsieve==2.10
+typing_extensions==4.16.0
+exceptiongroup==1.3.1; python_version < "3.11"

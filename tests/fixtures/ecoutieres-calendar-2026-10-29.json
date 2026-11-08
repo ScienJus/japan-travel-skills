@@ -1,0 +1,228 @@
+{
+  "restaurant_id": "17013984",
+  "people": 2,
+  "source_checked_at": "2026-10-29T04:35:01.482Z",
+  "days": [
+    {
+      "date": "2026-10-29",
+      "raw_status": 4,
+      "offered_times": []
+    },
+    {
+      "date": "2026-10-30",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-10-31",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-01",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-02",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-03",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-04",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-05",
+      "raw_status": 0,
+      "offered_times": []
+    },
+    {
+      "date": "2026-11-06",
+      "raw_status": 1,
+      "offered_times": [
+        "12:00"
+      ]
+    },
+    {
+      "date": "2026-11-07",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-08",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-09",
+      "raw_status": 0,
+      "offered_times": []
+    },
+    {
+      "date": "2026-11-10",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-11",
+      "raw_status": 2,
+      "offered_times": [
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-12",
+      "raw_status": 2,
+      "offered_times": [
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-15",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-16",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-17",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-18",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-19",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-20",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "raw_status": 0,
+      "offered_times": []
+    },
+    {
+      "date": "2026-11-23",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00"
+      ]
+    },
+    {
+      "date": "2026-11-26",
+      "raw_status": 2,
+      "offered_times": [
+        "12:00",
+        "18:30"
+      ]
+    },
+    {
+      "date": "2026-11-27",
+      "raw_status": 2,
+      "offered_times": [
+        "18:30"
+      ]
+    }
+  ]
+}

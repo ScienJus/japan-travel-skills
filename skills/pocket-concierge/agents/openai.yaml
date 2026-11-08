@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pocket Concierge"
+  short_description: "Find restaurants, courses and anonymous reservation availability"
+  default_prompt: "Use $pocket-concierge to find restaurants and check dates, party sizes and course-linked availability without booking."

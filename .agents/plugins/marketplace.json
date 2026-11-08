@@ -1,0 +1,20 @@
+{
+  "name": "japan-travel-local",
+  "interface": {
+    "displayName": "Japan Travel Local"
+  },
+  "plugins": [
+    {
+      "name": "japan-travel",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

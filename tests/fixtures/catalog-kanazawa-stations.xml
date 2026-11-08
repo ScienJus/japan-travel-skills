@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<items>
+<item name="すべて" optval="0" />
+<item name="金沢駅" optval="11810" />
+<item name="西金沢駅" optval="13872" />
+<item name="東金沢駅" optval="11865" />
+<item name="森本駅" optval="11866" />
+<item name="北鉄金沢駅" optval="9021" />
+<item name="七ツ屋駅" optval="7189" />
+<item name="上諸江駅" optval="2738" />
+<item name="磯部駅" optval="769" />
+<item name="割出駅" optval="10735" />
+<item name="三口駅" optval="9504" />
+<item name="三ツ屋駅" optval="9520" />
+<item name="大河端駅" optval="2018" />
+<item name="北間駅" optval="3204" />
+<item name="蚊爪駅" optval="2251" />
+<item name="野町駅" optval="7786" />
+<item name="西泉駅" optval="7326" />
+<item name="新西金沢駅" optval="5257" />
+<item name="馬替駅" optval="9181" />
+<item name="額住宅前駅" optval="7675" />
+<item name="乙丸駅" optval="2092" />
+<item name="四十万駅" optval="4592" />
+<item name="陽羽里駅" optval="11800" />
+</items>

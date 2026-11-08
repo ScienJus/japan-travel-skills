@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Holidays"
+  short_description: "Check official Japanese public holidays and calendar breaks"
+  default_prompt: "Use $japan-holidays to check Japanese public holidays during my travel dates."

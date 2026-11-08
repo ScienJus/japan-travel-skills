@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Daylight"
+  short_description: "Check sunrise, sunset and daylight at Japanese locations"
+  default_prompt: "Use $japan-daylight to check sunrise, sunset and daylight for my destination and dates."

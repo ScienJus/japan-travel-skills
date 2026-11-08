@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Rail Passes"
+  short_description: "Compare official rail-pass products, prices and conditions"
+  default_prompt: "Use $japan-passes to find relevant official rail passes and read their prices and conditions."

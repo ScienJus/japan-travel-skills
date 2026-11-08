@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tabelog Restaurant Search"
+  short_description: "Find Japanese restaurants, reviews, and booking availability"
+  default_prompt: "Use $tabelog to find Japanese restaurants, compare details and recent reviews, and check anonymous availability without booking."

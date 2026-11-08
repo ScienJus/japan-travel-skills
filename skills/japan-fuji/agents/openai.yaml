@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mount Fuji Viewing"
+  short_description: "Read broad north and south Mount Fuji viewing indices"
+  default_prompt: "Use $japan-fuji to read the north and south Mount Fuji viewing indices for my dates."

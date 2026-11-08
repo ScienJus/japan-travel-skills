@@ -1,0 +1,5 @@
+# Repository checks only. Includes canonical pins so dependency updates inspect them too.
+-r requirements.lock
+-r requirements-dev.txt
+bandit==1.9.4
+pip-audit==2.10.1

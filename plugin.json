@@ -1,0 +1,33 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "japan-travel",
+  "version": "0.3.0",
+  "description": "Source guidance and read-only tools for planning travel in Japan: destinations, weather, rail/bus routes, seasonal viewing, hotels, rail passes and restaurants.",
+  "author": {
+    "name": "ScienJus"
+  },
+  "license": "MIT",
+  "keywords": [
+    "japan",
+    "travel",
+    "weather",
+    "transit",
+    "holidays",
+    "daylight"
+  ],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "interface": {
+        "displayName": "Japan Travel",
+        "shortDescription": "Japan travel query tools",
+        "longDescription": "Thirteen skills for Japan travel research: destinations, weather, rail/bus routes, seasonal viewing, hotels, passes and restaurants. Official source guides cover fourteen destinations, including Tokyo, Osaka, Kyoto, Sapporo, Fukuoka and the original Hokuriku/Nagano cities; other coverage varies by skill. Requires local Python and outbound HTTPS; see skill requirements. Anonymous, read-only results with source links and explicit unknowns. No reservations or purchases.",
+        "developerName": "ScienJus",
+        "category": "Productivity",
+        "capabilities": [
+          "Read"
+        ]
+      }
+    }
+  }
+}

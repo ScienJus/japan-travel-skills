@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Travel Planner"
+  short_description: "Build, review or revise Japan travel itineraries"
+  default_prompt: "Use $japan-travel-planner to build, review or revise my Japan itinerary using the specialists needed for my request."

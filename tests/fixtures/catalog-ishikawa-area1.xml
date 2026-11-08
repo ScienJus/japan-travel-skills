@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<items>
+<item name="すべて" optval="0" />
+<item name="金沢周辺" optval="A1701" />
+<item name="加賀・白山" optval="A1702" />
+<item name="能登南部" optval="A1703" />
+<item name="能登北部" optval="A1704" />
+</items>

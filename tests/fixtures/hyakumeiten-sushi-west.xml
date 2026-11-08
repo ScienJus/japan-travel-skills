@@ -1,0 +1,7 @@
+<markers>
+<srchinfo cnt="2" nextpg="" prevpg="" />
+
+<marker id="17010524" holiday="水曜日、木曜日" icon="/images/map/rstmap_icon_rating35_restaurants.png" selected_icon="/images/map/rstmap_icon_rating35_restaurants_selected.png" lat="36.57649061715492" lng="136.64990979561196" rsturl="/ishikawa/A1701/A170101/17010524/" rvwlst_url="/ishikawa/A1701/A170101/17010524/dtlrvwlst/" rstname="小松 弥助" rstcat="寿司" rvwcnt="788" score="4.30" lunch_score="0.0" dinner_score="0.00" price_range2="－" price_range1="￥10,000～￥14,999" alone_flag="1" memo="0" pcd="17" station_name="北鉄金沢、金沢、七ツ屋" />
+
+<marker id="17010028" holiday="水曜日" icon="/images/map/rstmap_icon_rating35_restaurants.png" selected_icon="/images/map/rstmap_icon_rating35_restaurants_selected.png" lat="36.575391027155035" lng="136.64810286560217" rsturl="/ishikawa/A1701/A170101/17010028/" rvwlst_url="/ishikawa/A1701/A170101/17010028/dtlrvwlst/" rstname="すし屋　小桜" rstcat="寿司、日本料理" rvwcnt="309" score="3.80" lunch_score="0.0" dinner_score="0.00" price_range2="￥20,000～￥29,999" price_range1="￥10,000～￥14,999" memo="0" pcd="17" station_name="金沢、北鉄金沢、七ツ屋" />
+</markers>

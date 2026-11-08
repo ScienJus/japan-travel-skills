@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Sakura and Foliage"
+  short_description: "Compare attributed sakura and autumn-foliage timing"
+  default_prompt: "Use $japan-seasons to compare both providers for sakura or autumn foliage at my destination."

@@ -1,0 +1,163 @@
+{
+  "id": "16010357",
+  "name": "Ebi Tei Bekkan",
+  "url": "https://tabelog.com/en/toyama/A1601/A160101/16010357/",
+  "rating": 4.11,
+  "review_count": 90,
+  "cuisines": [
+    "Japanese Cuisine"
+  ],
+  "latitude": 36.69287016725738,
+  "longitude": 137.2037534563993,
+  "coordinate_source": "https://tabelog.com/en/toyama/A1601/A160101/16010357/",
+  "price_range": "JPY 20,000~JPY 29,999",
+  "phone": "+81-76-432-3181",
+  "hours": [
+    {
+      "title": "Mon, Tue, Wed, Thu, Fri, Sat, Sun, Public Holiday, Day before public holiday, Day after public holiday",
+      "dayList": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "closed": false,
+      "rangeList": [
+        {
+          "open": 720,
+          "close": 900
+        },
+        {
+          "open": 1080,
+          "close": 1320
+        }
+      ],
+      "day_types": [
+        "holiday",
+        "before_holiday",
+        "after_holiday"
+      ]
+    }
+  ],
+  "info": [
+    {
+      "label": "Restaurant name",
+      "value": "Ebi Tei Bekkan"
+    },
+    {
+      "label": "Categories",
+      "value": "Japanese Cuisine"
+    },
+    {
+      "label": "Phone number (for reservation and inquiry)",
+      "value": "050-5456-8870"
+    },
+    {
+      "label": "Reservation availability",
+      "value": "Reservation only\nWe kindly ask everyone to start their meal at the same time. It would be helpful if you could arrive about 10 minutes before your reservation time. The estimated dining time is between 2.5 to 3 hours.\nChildren aged 12 and over are requested to order the same course meal as adults. Due to the structure of the building, we ask that you refrain from moving seats or stepping outside during your meal. Please note that we do not have facilities for breastfeeding, diaper changing, or children's chairs."
+    },
+    {
+      "label": "Address",
+      "value": "富山県富山市安野屋町2-4-10"
+    },
+    {
+      "label": "Transportation",
+      "value": "The Ebi Tei Bekkan is just a 1-minute walk from the Anno-ya tram stop and a 20-minute walk from Toyama Station, or about 5 to 10 minutes by taxi.\n59 meters from Yasunoya."
+    },
+    {
+      "label": "Business hours",
+      "value": "Mon, Tue, Wed, Thu, Fri, Sat, Sun, Public Holiday, Day before public holiday, Day after public holiday\n12:00 PM - 3:00 PM\n6:00 PM - 10:00 PM\n■Business hours\nIrregular holidays (temporary openings and closures may occur).\nLunch service starts at 12:00, with doors opening at 11:30.\nDinner service starts at 18:00, with doors opening at 17:30.\nIf you are running more than 10 minutes late, please give us a call."
+    },
+    {
+      "label": "Average price",
+      "value": "Dinner: JPY 20,000 - JPY 29,999\nLunch: JPY 20,000 - JPY 29,999"
+    },
+    {
+      "label": "Average price (Based on reviews)",
+      "value": "Dinner: JPY 30,000 - JPY 39,999\nLunch: JPY 30,000 - JPY 39,999"
+    },
+    {
+      "label": "Payment methods",
+      "value": "Credit card accepted\n(VISA, Master, JCB, AMEX, Diners, UnionPay)\nElectronic money not accepted\nQR code payments not accepted"
+    },
+    {
+      "label": "Receipt (Qualified simple invoice)",
+      "value": "Qualified invoice (receipt) available\nRegistration numberT5230002000276\n*For the latest registration status, please check the National Tax Agency's Qualified Invoice Issuer Publication Site or contact the restaurant."
+    },
+    {
+      "label": "Service charge & fee",
+      "value": "Service charge 10%\nOriginal text\nサービス料10%\nThis section has been automatically translated. Please check with the restaurant for accurate information."
+    },
+    {
+      "label": "Number of seats",
+      "value": "12 seats\n( Counter seating for 6, private room for up to 6 people.)"
+    },
+    {
+      "label": "Private rooms",
+      "value": "Available\nFor 2 people, For 4 people, For 6 people\nThe two private rooms cannot be connected and used as one room."
+    },
+    {
+      "label": "Private use",
+      "value": "Unavailable"
+    },
+    {
+      "label": "Non-smoking/smoking",
+      "value": "Non smoking\nThere is a designated smoking area on the terrace."
+    },
+    {
+      "label": "Parking",
+      "value": "Available\nWe have 4 parking spaces available. Please be sure to inform us at the time of your reservation if you will be using them."
+    },
+    {
+      "label": "Space/facilities",
+      "value": "Stylish space, Relaxing space, Counter seating, Free Wi-Fi available"
+    },
+    {
+      "label": "Drink",
+      "value": "Sake (Nihonshu), Shochu (Japanese spirits), Wine"
+    },
+    {
+      "label": "Food",
+      "value": "Particular about fish"
+    },
+    {
+      "label": "Location",
+      "value": "Beautiful view, A house restaurant"
+    },
+    {
+      "label": "Service",
+      "value": "Sommelier available, Multilingual staff available（English）"
+    },
+    {
+      "label": "Family friendly",
+      "value": "For those aged 12 and over, you may order the same course meal as adults. Please refrain from stepping outside the private room or into the outdoor area, as it may disturb other customers. We do not provide facilities for breastfeeding, diaper changing, or children's chairs."
+    },
+    {
+      "label": "Dress code",
+      "value": "Please refrain from wearing extremely casual clothing and fragrances."
+    },
+    {
+      "label": "Website",
+      "value": "https://ebitei-bekkan.com/"
+    },
+    {
+      "label": "Phone number",
+      "value": "076-432-3181"
+    }
+  ],
+  "awards": [],
+  "reservation_policy": [
+    {
+      "label": "Phone number (for reservation and inquiry)",
+      "value": "050-5456-8870"
+    },
+    {
+      "label": "Reservation availability",
+      "value": "Reservation only\nWe kindly ask everyone to start their meal at the same time. It would be helpful if you could arrive about 10 minutes before your reservation time. The estimated dining time is between 2.5 to 3 hours.\nChildren aged 12 and over are requested to order the same course meal as adults. Due to the structure of the building, we ask that you refrain from moving seats or stepping outside during your meal. Please note that we do not have facilities for breastfeeding, diaper changing, or children's chairs."
+    }
+  ],
+  "data_source": "server-rendered HTML and Restaurant JSON-LD; no verified standalone detail API"
+}

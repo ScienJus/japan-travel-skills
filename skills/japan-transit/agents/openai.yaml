@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Transit"
+  short_description: "Find dated rail and bus routes and scoped line reports"
+  default_prompt: "Use $japan-transit to find a route for my Japanese stops, date and departure time."

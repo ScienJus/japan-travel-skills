@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if [ -n "${TABLECHECK_PYTHON:-}" ]; then
+  PYTHON=$TABLECHECK_PYTHON
+elif [ -x "$ROOT/.venv/bin/python" ]; then
+  PYTHON=$ROOT/.venv/bin/python
+else
+  PYTHON=python3
+fi
+exec "$PYTHON" "$ROOT/skills/tablecheck/scripts/tablecheck.py" "$@"

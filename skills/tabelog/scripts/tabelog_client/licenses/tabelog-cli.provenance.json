@@ -1,0 +1,19 @@
+{
+  "upstream": "https://github.com/krisamin/tabelog-cli",
+  "commit": "0dd2b3763c102aa5d129962632fb534cab831e69",
+  "license": "MIT",
+  "changes": [
+    "Ported field selectors, HTML info extraction and hour/review semantics into Python with Beautiful Soup.",
+    "Removed copied TypeScript files and upstream runtime; retained MIT license and fixed source commit for attribution.",
+    "HTTPX transport, validation, filters, error handling, pacing and CLI are maintained locally."
+  ],
+  "upstream_files": [
+    "src/html.ts",
+    "src/time.ts",
+    "src/hour.ts",
+    "src/command/card.ts",
+    "src/command/detail.ts",
+    "src/command/review.ts"
+  ],
+  "local_implementation": "../parsers.py"
+}
