@@ -21,6 +21,6 @@ All network operations use the unified CLI and Python HTTPX. Frontend endpoints 
 - 401/403, challenges, 429/503, and server-requested cooldowns stop subsequent reads. Honor `retry_not_before` across commands. Do not rotate clients, identities, sessions, or proxies to continue after a denial.
 - Keep the stable tool User-Agent, endpoint-appropriate headers, and HTTPS verification. Delays do not guarantee access or protection from blocking.
 - Access failures and unrecognized responses mean unknown data, not empty results. Preserve `error`, `trace`, and coverage.
-- Extend CLI code before using a new source or transport. Desktop-browser/CUA use requires explicit confirmation for the specific purpose; account access requires separate scoped consent as described in [README.md](../README.md#responsible-use-and-account-risk).
+- Extend CLI code before using a new source or transport. Desktop-browser/CUA use requires explicit confirmation for the specific purpose. Account access is outside scope; see [responsible use](../README.md#responsible-use).
 
 `source URL [--prime URL]` is bounded GET diagnostics on supported public endpoints. It never executes downloaded code and redacts form verification values and Google API keys, not every personal/public field. Keep captures and session data out of commits and shared reports.

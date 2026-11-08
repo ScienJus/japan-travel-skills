@@ -51,7 +51,7 @@ Replace example dates with current trip dates and `COURSE_ID` with an observed I
 
 ## Request policy and interpretation
 
-Use the CLI for all requests. It permits only known consumer read routes, including the two read-only POST queries for menus and calendars. Do not fill forms, hold seats, create reservations, join waitlists or pay. Never import login cookies, browser profiles, credentials or authenticated sessions. Any future account workflow needs separate scoped consent before identity access; restaurant queries do not grant it. Desktop-browser/CUA use requires explicit confirmation for that specific use.
+Use the CLI for all requests. It permits only known consumer read routes, including the two read-only POST queries for menus and calendars. Do not fill forms, hold seats, create reservations, join waitlists or pay. Never import login cookies, browser profiles, credentials or authenticated sessions. Account access is outside scope. Desktop-browser/CUA use requires explicit confirmation for that specific use.
 
 Requests are serial, with default 1–2.5 second delays across both TableCheck hosts, per-command memory caching, 15-second timeouts, an 8 MiB response limit and a default 20-attempt budget. Shared flags are `--timeout`, `--max-requests` (maximum 80), `--delay-min-ms` and `--delay-max-ms`. Stop on denials, challenges, throttling or service-unavailable responses; honor `retry_not_before`. Do not switch clients or identities to continue. Separate commands share no cooldown state and must be coordinated.
 
@@ -91,6 +91,6 @@ These are research references, not installed runtime tools. This CLI uses Python
 
 ## Responsible use and license
 
-Provided for learning, research and reference. Follow applicable laws, platform terms and privacy/data-use requirements; do not bulk harvest, disrupt services or bypass access restrictions. This project is independent of TableCheck and grants no rights to third-party services or data. Anonymous operation does not imply platform approval. For any future account workflow, obtain the scoped consent described above; users decide whether to accept account and privacy risks.
+Provided for learning, research and reference. Follow applicable laws, platform terms and privacy/data-use requirements; do not bulk harvest, disrupt services or bypass access restrictions. This project is independent of TableCheck and grants no rights to third-party services or data. Anonymous operation does not imply platform approval.
 
 The [MIT License](../LICENSE) is included for standalone redistribution, with its warranty and liability disclaimers. Results and continued access are not guaranteed; verify important restaurant and booking conditions with the platform or restaurant. This notice does not add restrictions to the MIT software license.

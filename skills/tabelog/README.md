@@ -116,14 +116,13 @@ Start with [SKILL.md](SKILL.md). Read only the relevant reference:
 - [Sources and request policy](references/access.md): transport and stopping rules.
 - [Costs](references/costs.md): dependencies and request accounting.
 
-## Responsible use and account risk
-
+## Responsible use
 
 This skill is provided for learning, research, and reference. Follow applicable laws, platform terms, published crawling rules, and privacy and intellectual-property requirements. Do not use it for bulk harvesting, disruptive traffic, or bypassing access restrictions. Serial requests, pacing, per-command caching and request limits, early search stopping, and calendar screening are designed to reduce unnecessary traffic; they do not guarantee zero service impact or protection from blocking. Coordinate separate commands as described in the [request policy](references/access.md#request-policy).
 
-All current CLI queries work without personal account credentials and do not import login cookies or browser profiles. Any future account-based feature or browser-assisted workflow must explain the platform/account, purpose, actions, credentials or session data involved, and account/privacy risks, and obtain explicit consent for that scope before accessing or using the identity. General restaurant-search permission is not account authorization. Do not include credentials or session data in logs, reports, commits, or shared captures.
+Only anonymous, read-only queries are supported. Account access, credential/session imports and reservation transactions are outside scope. Do not include credentials or session data in logs, reports, commits or shared captures.
 
-Users choose whether to authorize account-based access and accept associated risks, including additional verification, account restrictions or suspension, and exposure of personal data. Authorization does not guarantee platform permission or account safety. Software and results are provided as is, without guarantees of accuracy, completeness, availability, or suitability. Verify important information with the platform or restaurant. To the extent permitted by applicable law, the MIT License's warranty and liability disclaimers apply, including to account-related losses. This notice does not add restrictions to the MIT software license or grant rights to third-party services or data.
+Verify important information with the platform or restaurant. Software and results are provided as is, under the MIT License's warranty and liability disclaimers. This notice does not add license restrictions or grant rights to third-party services or data.
 
 ## References and acknowledgments
 
