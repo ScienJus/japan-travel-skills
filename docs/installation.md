@@ -13,7 +13,7 @@ public marketplace listing.
 | Three restaurant CLIs | Python 3.10+; each skill's pinned `scripts/requirements.txt`; Python 3.12 recommended |
 | Nationwide JAPAN RAIL PASS source | System `curl` in addition to Python |
 | City guide | An available anonymous web search/fetch tool; no Python or CLI |
-| Travel planner | The relevant available specialist skills or source-reading tools; no CLI |
+| Travel planner | Relevant specialists/source-reading tools; Python 3.9+ standard library only for the optional local HTML/presentation-brief helper; actual PPTX creation needs host authoring tools |
 
 No provider API key, login, Node.js, GUI browser or background service is required. Python packages
 must be installed into the interpreter used to run restaurant commands; installing the plugin does

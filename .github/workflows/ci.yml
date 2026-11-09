@@ -101,3 +101,4 @@ jobs:
           test_transit test_rail_operations test_ir_operations
           test_holidays test_daylight test_seasons test_fuji
           test_hotels test_hotel_geo test_hotel_viewport test_passes
+          test_plan_rendering

@@ -6,7 +6,7 @@ This project provides Japanese travel-planning skills and anonymous, read-only q
 
 | Task | Instructions | Checkout CLI |
 | --- | --- | --- |
-| Build, review or revise itineraries; multi-part research and destination/date comparisons | [japan-travel-planner](skills/japan-travel-planner/SKILL.md) | Planning guidance; no CLI |
+| Build, review or revise itineraries; requested map/web and presentation handoffs | [japan-travel-planner](skills/japan-travel-planner/SKILL.md) | Planning guidance; optional offline visual helper, no query CLI |
 | Official attractions, events, city/prefecture sources and facility verification | [japan-city-guide](skills/japan-city-guide/SKILL.md) | Source guidance; no CLI |
 | Tabelog restaurant discovery, reviews and anonymous availability | [tabelog](skills/tabelog/SKILL.md) | `bin/tabelog` |
 | TableCheck discovery, courses and anonymous venue/course/seat availability | [tablecheck](skills/tablecheck/SKILL.md) | `bin/tablecheck` |

@@ -2,7 +2,9 @@
 
 Read this when the user wants a presentation, a map or another structured travel-plan handoff.
 Choose the format that serves the request; a normal planning answer needs neither slides nor a map.
-This is a content and handoff guide, not a bundled presentation renderer, map service or publishing CLI.
+For a reusable local HTML/map template or a structured handoff to presentation tools, read
+[shared plan records and generation](plan-data.md). The HTML helper uses Python's standard library;
+presentation rendering uses the host's tools. Neither output requires hosting or publishing.
 
 ## One plan, several views
 
@@ -20,6 +22,26 @@ Keep these dimensions separate:
 
 Do not invent missing choices, prices, routes or coordinates to make a deliverable look complete.
 Keep useful pending decisions visible. A reviewed plan retains unresolved findings in its handoff.
+
+## Check content before styling
+
+First determine whether the task is to build a plan and deliver it, or only to visualize supplied
+content. For the first, apply [the planning loop's coverage guidance](planning-loop.md) before
+authoring; for the second, retain the supplied choices and disclose material gaps without silently
+expanding the research scope. A new output format does not make an incomplete plan complete.
+
+Make a compact content outline against the brief, using actual place/choice IDs when structured
+records are used. For each city, connect its relevant sights, lodging/base and food to the daily
+plan. Food coverage should explain the local experience and useful venue choices, not merely include
+a restaurant marker. Show why candidates fit and retain consequential conditions. Omit categories
+the brief excludes; a day-trip city does not need an overnight property or a dedicated slide for
+every category. This outline is an authoring aid, not another required user-facing report.
+
+If a material section contains only placeholders, return to targeted research when authorized.
+If the source fails or the user has asked to defer a choice, retain a specific unresolved decision and
+state the delivery's limited scope. Do not invent choices or require live inventory to provide
+useful candidates. Only then choose layouts and imagery. Data validation and rendered-page checks
+cannot establish content adequacy; a hand-enriched demo cannot establish improved skill behavior.
 
 ## Information hierarchy
 
@@ -47,14 +69,24 @@ specialist for live verification instead of turning the deliverable into a new s
 Use an available presentation-authoring skill/tool when requested; follow its creation and visual
 verification workflow. Do not assume that this travel plugin includes that capability.
 
-A useful sequence is a trip overview, a compact intercity travel table, city sections and remaining
-decisions. Each city section can combine its hotel/base, daily areas, attractions, food and selected
-restaurants; split pages where density harms readability. Add a local map only when it explains
-location or movement. Adapt the number of pages to the trip rather than enforcing one slide per day.
+A useful sequence is a trip overview, city sections and practical connections/remaining decisions.
+Develop city sections as an illustrated guide to the stay: hotel/base, sights, food and relevant
+restaurants, tied back to dates or a short daily sequence. Use real place/property/dish photographs
+to explain the experience, rather than making the whole deck a series of schedule bullet lists.
+Alternate large-photo features, paired sights, lodging and food pages where the plan supports them;
+traffic and decision pages can remain text-led. The on-demand
+[presentation brief](../assets/presentation.md) supplies page patterns and the asset-provenance
+workflow. Inspect a supplied reference deck before choosing the design. Split dense pages; do not
+enforce one slide per day. Add a local map only when it explains location or movement.
 
 Keep source links beside changing or consequential facts, with readable qualifications. Identify
 historical or illustrative images and preserve their usage rights and attribution. Do not let a
 polished layout hide tentative choices or imply that weather, seasonal viewing or admission is assured.
+Official publication alone does not grant image reuse permission. Keep media source/creator/license
+records alongside the output, and distinguish a licensed third-party illustration from official
+travel evidence. Do not invent a hotel or restaurant to complete a page; label area or cuisine
+references and preserve the unselected choice. Keep downloaded photos and personal reference decks
+outside the public checkout and release bundle.
 Keep the critical boarding/transfer instructions visible on the slides; speaker notes can add detail
 but must not be the only place containing them. Make source links clickable in the exported file.
 Use a simplified map suited to slide size rather than a screenshot of crowded interactive controls.

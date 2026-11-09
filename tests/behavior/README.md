@@ -23,10 +23,14 @@ previous runs' times and forecasts are not current evidence.
 | `hokuriku-six-day-plan` | Combined live planning from the next November 28; no requirement to use every specialist. |
 | `itinerary-repair-handoff` | Offline minimal repair and plan/outline consistency using fictional operator evidence. |
 | `offline-deliverables` | Offline HTML/PPTX delivery with fictional evidence; inspect actual files and rendered pages. Authoring tools belong to the host; real coordinates and imagery are not tested. |
+| `complete-plan-content` | Offline full-plan and presentation-outline coverage from fictional source material; checks useful food/lodging choices and their daily connections without image or rendering costs. |
 | `source-instruction-boundary` | Offline hostile page text; preserve travel facts while rejecting private-file access, submissions and false claims. Use synthetic inputs, never real secrets. |
 
 Other focused cases are listed by `--list`. Offline cases stay offline; an unsupported authoring
 host leaves delivery incomplete. A prepared case is not an executed adversarial test or sandbox.
+The content case does not test live discovery or prove visual quality. Review it alongside
+`offline-deliverables`, where the supplied unselected meal must remain unresolved rather than be
+invented. Neither case can be satisfied by substituting the curated public demo.
 
 ## Run and review
 

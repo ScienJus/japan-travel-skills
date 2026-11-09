@@ -1,0 +1,500 @@
+{
+  "schema_version": 1,
+  "title": "京都・奈良，三日旅行手记",
+  "language": "zh-CN",
+  "revision": "public-demo-2026-11-09",
+  "demo": true,
+  "notice": "公开示例：2027年4月10—12日京都、奈良三日，两位成人，京都住两晚。静态介绍于2026-11-09查询；酒店和餐厅均为候选，未核对未来库存或营业例外。活动时段为策划估计，不是列车时刻。",
+  "cities": [
+    {
+      "id": "kyoto",
+      "name": "京都",
+      "summary": "京都住两晚；清水寺与祇园晚餐，次日往返奈良，最后一天近站留白。"
+    },
+    {
+      "id": "nara",
+      "name": "奈良",
+      "summary": "东大寺、奈良町午餐与可选艾草麻薯；当天返回京都，不另住奈良。"
+    }
+  ],
+  "places": [
+    {
+      "id": "kyoto-station",
+      "city_id": "kyoto",
+      "kind": "transport",
+      "name": "京都駅",
+      "role": "selected",
+      "evidence": "unverified",
+      "notes": "実在する駅の位置参考。利用列車・乗車時刻・入口・運行状況はこのデモでは未確認。",
+      "sources": [
+        {
+          "title": "国土地理院 地名・住所検索",
+          "url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E4%BA%AC%E9%83%BD%E9%A7%85",
+          "checked_on": "2026-11-08",
+          "scope": "駅名と地名代表点のみ。時刻表・徒歩経路の確認ではありません。"
+        }
+      ],
+      "coordinates": {
+        "lat": 34.9853068888889,
+        "lon": 135.758484111111,
+        "source_url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E4%BA%AC%E9%83%BD%E9%A7%85",
+        "checked_on": "2026-11-08",
+        "precision": "地名代表点。入口・ホーム位置は未確認。"
+      }
+    },
+    {
+      "id": "nara-station",
+      "city_id": "nara",
+      "kind": "transport",
+      "name": "近鉄奈良駅",
+      "role": "selected",
+      "evidence": "unverified",
+      "notes": "実在する駅の位置参考。利用列車・乗車時刻・入口・運行状況はこのデモでは未確認。",
+      "sources": [
+        {
+          "title": "国土地理院 地名・住所検索",
+          "url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E8%BF%91%E9%89%84%E5%A5%88%E8%89%AF%E9%A7%85",
+          "checked_on": "2026-11-08",
+          "scope": "駅名と地名代表点のみ。時刻表・徒歩経路の確認ではありません。"
+        }
+      ],
+      "coordinates": {
+        "lat": 34.6841364794444,
+        "lon": 135.827636444722,
+        "source_url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E8%BF%91%E9%89%84%E5%A5%88%E8%89%AF%E9%A7%85",
+        "checked_on": "2026-11-08",
+        "precision": "地名代表点。入口・ホーム位置は未確認。"
+      }
+    },
+    {
+      "id": "kiyomizu",
+      "city_id": "kyoto",
+      "kind": "attraction",
+      "name": "清水寺",
+      "role": "candidate",
+      "evidence": "unverified",
+      "notes": "京都第一天下午的游览候选：木造舞台、寺院建筑和东山散步。官网已读寺院构成介绍；2027-04-10的开放、门票、夜间特别活动仍需另查。计划预留约90分钟参观，属于策划估计；不保证樱花或特别夜间开放。",
+      "sources": [
+        {
+          "title": "清水寺 公式 参拝案内",
+          "url": "https://www.kiyomizudera.or.jp/en/visit/",
+          "checked_on": "2026-11-09",
+          "scope": "寺院构成与景点介绍；没有确认2027-04-10的入场条件。"
+        }
+      ],
+      "coordinates": {
+        "lat": 34.99588,
+        "lon": 135.783142,
+        "source_url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E4%BA%AC%E9%83%BD%E5%BA%9C%E4%BA%AC%E9%83%BD%E5%B8%82%E6%9D%B1%E5%B1%B1%E5%8C%BA%E6%B8%85%E6%B0%B41%E4%B8%81%E7%9B%AE294",
+        "checked_on": "2026-11-09",
+        "precision": "来源门牌地址的街区代表点；非设施入口、山门或精确建筑点。"
+      }
+    },
+    {
+      "id": "todaiji",
+      "city_id": "nara",
+      "kind": "attraction",
+      "name": "東大寺",
+      "role": "candidate",
+      "evidence": "unverified",
+      "notes": "奈良上午的游览候选：以南大门和大仏殿为主，预留约90分钟，属于策划估计。官网当前常规表列4—10月大仏殿7:30—17:30，成人800日元、入堂费现金；不同堂舍另收费，特别行事或紧急情况有例外。这是2026-11-09读取的常规规则，不能保证2027-04-11当天照常。",
+      "sources": [
+        {
+          "title": "東大寺 公式 拝観時間・拝観料",
+          "url": "https://www.todaiji.or.jp/information/haikan/",
+          "checked_on": "2026-11-09",
+          "scope": "当前大仏殿常规时间、个人成人入场费、现金及例外；不是未来日期开门保证。"
+        }
+      ],
+      "coordinates": {
+        "lat": 34.686146,
+        "lon": 135.838135,
+        "source_url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E5%A5%88%E8%89%AF%E7%9C%8C%E5%A5%88%E8%89%AF%E5%B8%82%E9%9B%91%E5%8F%B8%E7%94%BA406-1",
+        "checked_on": "2026-11-09",
+        "precision": "来源门牌地址的街区代表点；非设施入口、山门或精确建筑点。"
+      }
+    },
+    {
+      "id": "kyoto-hotel",
+      "city_id": "kyoto",
+      "kind": "hotel",
+      "name": "ホテルグランヴィア京都",
+      "role": "candidate",
+      "evidence": "verified",
+      "notes": "住宿候选 A：位于京都站楼内，适合京都—奈良往返并减少搬行李。Jalan 房型页列标准双床 26—32㎡，仅为静态房型；不代表空房或本次分配。Jalan 标准入住15:00、退房12:00，具体住宿方案优先；寄存行李需按最终住宿条件确认。尚无房价、早餐方案或库存结果。",
+      "sources": [
+        {
+          "title": "Jalan 酒店资料与房型",
+          "url": "https://www.jalan.net/yad319032/",
+          "checked_on": "2026-11-09",
+          "scope": "仅酒店身份、站楼连接、常规入住与静态房型；不是2027-04-10入住报价或库存。"
+        },
+        {
+          "title": "Jalan Granvia 静态房型页",
+          "url": "https://www.jalan.net/yad319032/room/",
+          "checked_on": "2026-11-09",
+          "scope": "标准双床房型26—32㎡的原始标签页；与资料页的汇总范围分开，不代表库存。"
+        },
+        {
+          "title": "ホテルグランヴィア京都 公式",
+          "url": "https://jrwest-hotels.jp/granvia-kyoto/",
+          "checked_on": "2026-11-09",
+          "scope": "官网确认京都站直结酒店身份；具体房间、寄存服务和住宿方案另查。"
+        }
+      ]
+    },
+    {
+      "id": "kyoto-dinner",
+      "city_id": "kyoto",
+      "kind": "restaurant",
+      "name": "総本家にしんそば 松葉 本店",
+      "role": "candidate",
+      "evidence": "verified",
+      "notes": "第一天晚餐候选，清水寺后转往祇园四条、南座一侧。京都的にしんそば是在热荞麦面上配甘辛煮鲱鱼。京都市观光页列10:30—21:00、水曜休（祝日例外、季节可变）；Tabelog 列结束20:30，并标注不可预约，两源结束时间不同。示例安排18:00用餐，但未来当日营业和排队仍待核对。套餐资料未取得；未核对日期席位。",
+      "sources": [
+        {
+          "title": "京都市公式観光Navi 松葉",
+          "url": "https://ja.kyoto.travel/tourism/single01.php?category_id=4&tourism_id=1291",
+          "checked_on": "2026-11-09",
+          "scope": "本店身份、所在地和当前常规营业；季节可变。"
+        },
+        {
+          "title": "Tabelog 松葉 本店",
+          "url": "https://tabelog.com/en/kyoto/A2601/A260301/26001629/",
+          "checked_on": "2026-11-09",
+          "scope": "店铺资料、不可预约说明和来源坐标；套餐资料未取得，未查席位。"
+        },
+        {
+          "title": "京都市観光協会 京の食文化",
+          "url": "https://plus.kyoto.travel/entry/kyotofoodculture1_kihon",
+          "checked_on": "2026-11-09",
+          "scope": "にしんそば、豆腐、汤叶的京都饮食文化背景；不是餐厅当日菜单。"
+        }
+      ],
+      "coordinates": {
+        "lat": 35.003689297874345,
+        "lon": 135.7722866403404,
+        "source_url": "https://tabelog.com/en/kyoto/A2601/A260301/26001629/",
+        "checked_on": "2026-11-09",
+        "precision": "Tabelog 店铺位置点；不是入口或步行路径。"
+      }
+    },
+    {
+      "id": "nara-lunch",
+      "city_id": "nara",
+      "kind": "restaurant",
+      "name": "平宗 奈良店 本館／はなれ",
+      "role": "candidate",
+      "evidence": "verified",
+      "notes": "奈良午餐候选，猿泽池附近的奈良町，东大寺游览后留出移动时间。柿の葉ずし是柿叶包裹的小份寿司；以它为地方料理线索，具体堂食菜单待核对。官网当前区分本馆销售与はなれ饮食，饮食11:30—20:00 L.O.，周一休、季节可变；普通散客午餐预约10人起受理。两位成人的示例不把午餐写成已预约，也不把预约限制写成不能入店；保留排队余量。",
+      "sources": [
+        {
+          "title": "平宗 奈良店 官方",
+          "url": "https://hiraso.jp/shop/shop-nara/",
+          "checked_on": "2026-11-09",
+          "scope": "店铺身份、地址、堂食与零售区别、当前常规时间和午餐预约人数门槛；未查2027-04-11。"
+        }
+      ],
+      "coordinates": {
+        "lat": 34.680099,
+        "lon": 135.830322,
+        "source_url": "https://msearch.gsi.go.jp/address-search/AddressSearch?q=%E5%A5%88%E8%89%AF%E7%9C%8C%E5%A5%88%E8%89%AF%E5%B8%82%E4%BB%8A%E5%BE%A1%E9%96%80%E7%94%BA30-1",
+        "checked_on": "2026-11-09",
+        "precision": "来源门牌地址的街区代表点；非设施入口、山门或精确建筑点。"
+      }
+    },
+    {
+      "id": "rain-backup",
+      "city_id": "kyoto",
+      "kind": "attraction",
+      "name": "雨天改为休息或另选室内场所",
+      "role": "backup",
+      "evidence": "unverified",
+      "notes": "仅为条件分支，不与主方案叠加。具体室内场所仍需日期核对。",
+      "sources": []
+    },
+    {
+      "id": "miyako",
+      "city_id": "kyoto",
+      "kind": "hotel",
+      "name": "都ホテル 京都八条",
+      "role": "candidate",
+      "evidence": "verified",
+      "notes": "住宿候选 B：酒店官网称京都站八条口步行约2分钟；这是来源的步行说明，不是本工具按直线计算。官网列常规入住14:00、退房11:00。可与站楼内的 Granvia 比较南口/站楼位置和最终房价。房型资料未取得，因此不列房型；未来库存、早餐和价格仍待用户核对。",
+      "sources": [
+        {
+          "title": "Jalan 酒店资料",
+          "url": "https://www.jalan.net/yad310077/",
+          "checked_on": "2026-11-09",
+          "scope": "仅身份和酒店资料；本例未取得房型资料，不代表无房。"
+        },
+        {
+          "title": "都ホテル 京都八条 公式アクセス",
+          "url": "https://www.miyakohotels.ne.jp/kyoto-hachijo/access/",
+          "checked_on": "2026-11-09",
+          "scope": "八条口步行约2分钟、地址和常规入住14:00/退房11:00；不是住宿报价。"
+        }
+      ]
+    },
+    {
+      "id": "fujino",
+      "city_id": "kyoto",
+      "kind": "restaurant",
+      "name": "京豆冨 不二乃（ジェイアール京都伊勢丹）",
+      "role": "candidate",
+      "evidence": "verified",
+      "notes": "第二天回京都后的晚餐候选，京都伊势丹11楼。店铺经营豆腐、汤叶、豆乳与时令食材的创作料理；汤豆腐只是京都地方料理介绍，不代表这家店保证供应某款汤豆腐套餐。伊势丹当前列11:00—22:00、L.O.21:15、晚餐平均预算4000日元/人；预算不是本次报价。百货可能临时调整营业，2027-04-11菜单、营业与席位未查；不可推断全素或无过敏原。",
+      "sources": [
+        {
+          "title": "JR京都伊勢丹 店铺官方资料",
+          "url": "https://www.mistore.jp/store/kyoto/shops/restaurant/kyotofufujino.html",
+          "checked_on": "2026-11-09",
+          "scope": "当前楼层、经营内容、常规营业和平均预算；不是未来套餐或库存。"
+        },
+        {
+          "title": "京とうふ藤野 店舗情報",
+          "url": "https://www.kyotofu.co.jp/shoplist/isetan/isetan-access",
+          "checked_on": "2026-11-09",
+          "scope": "京都站相连的伊势丹11楼、按百货休业；不保证靠窗席。"
+        }
+      ]
+    },
+    {
+      "id": "nakatanido",
+      "city_id": "nara",
+      "kind": "restaurant",
+      "name": "中谷堂",
+      "role": "candidate",
+      "evidence": "verified",
+      "notes": "奈良午餐后的可选小吃：よもぎ餅（艾草麻薯），不是额外一顿正餐。官网说明会按销量制作用饼，没有固定捣饼表演时刻；不承诺能观看。若排队长或时间不足，直接跳过并按原方向返回近铁奈良站。示例不列未核对的价格和营业时段。",
+      "sources": [
+        {
+          "title": "中谷堂 官方来店说明",
+          "url": "https://nakatanidou.jp/visit/",
+          "checked_on": "2026-11-09",
+          "scope": "现售艾草麻薯及捣饼无固定时刻；不是未来营业保证。"
+        }
+      ]
+    }
+  ],
+  "days": [
+    {
+      "id": "day-1",
+      "date": "2027-04-10",
+      "title": "京都到达、清水寺与祇园晚餐",
+      "city_ids": [
+        "kyoto"
+      ],
+      "base_city_id": "kyoto",
+      "base_place_id": "kyoto-hotel",
+      "summary": "中午到京都，先处理行李，下午只放清水寺一处重点，随后转往祇园用餐。时段均为策划估计。",
+      "visits": [
+        {
+          "place_id": "kyoto-station",
+          "time": "12:00左右（估计）",
+          "notes": "到达时间为示例假设，非实际车次。"
+        },
+        {
+          "place_id": "kyoto-hotel",
+          "time": "12:30左右（估计）",
+          "notes": "Granvia 是拟选基地；常规入住15:00前先询问寄存，未确认寄存条件。"
+        },
+        {
+          "place_id": "kiyomizu",
+          "time": "15:00—16:30（估计）",
+          "notes": "约90分钟参观；入场条件与上下坡路线待复核。"
+        },
+        {
+          "place_id": "kyoto-dinner",
+          "time": "18:00左右（估计）",
+          "notes": "祇园四条的松葉本店，非新干线付费区内的京都站分店；等候时间未知。"
+        }
+      ],
+      "leg_ids": [
+        "kyoto-local",
+        "higashiyama-dinner"
+      ]
+    },
+    {
+      "id": "day-2",
+      "date": "2027-04-11",
+      "title": "奈良寺院、柿叶寿司与京都豆腐料理",
+      "city_ids": [
+        "kyoto",
+        "nara"
+      ],
+      "base_city_id": "kyoto",
+      "base_place_id": "kyoto-hotel",
+      "summary": "上午到奈良，东大寺后转往奈良町午餐；麻薯可跳过，傍晚回京都吃豆腐料理。不给尚未查询的列车编造时刻。",
+      "visits": [
+        {
+          "place_id": "nara-station",
+          "time": "上午抵达（时刻待定）",
+          "notes": "按实际列车与站内时间再定；京都与近铁奈良往返。"
+        },
+        {
+          "place_id": "todaiji",
+          "time": "10:00—11:30（估计）",
+          "notes": "大仏殿为重点；按实际到达调整，另留移动与排队时间。"
+        },
+        {
+          "place_id": "nara-lunch",
+          "time": "13:00左右（估计）",
+          "notes": "散客堂食候选，普通午餐预约10人起；本例两人不假定已订座。"
+        },
+        {
+          "place_id": "nakatanido",
+          "time": "午餐后可选",
+          "notes": "买艾草麻薯；无固定捣饼时刻，排队长就跳过。"
+        },
+        {
+          "place_id": "nara-station",
+          "time": "16:30左右返回站点（估计）",
+          "notes": "这不是列车发车时间；先按实际车次和站内余量再定回程。"
+        },
+        {
+          "place_id": "fujino",
+          "time": "18:30左右（估计）",
+          "notes": "回京都后的豆腐、汤叶料理候选；保留延误与等位余量，营业与菜单仍需复核。"
+        }
+      ],
+      "leg_ids": [
+        "outbound",
+        "nara-temple",
+        "temple-lunch",
+        "return",
+        "kyoto-return-meal"
+      ]
+    },
+    {
+      "id": "day-3",
+      "date": "2027-04-12",
+      "title": "京都近站留白与离开",
+      "city_ids": [
+        "kyoto"
+      ],
+      "base_city_id": null,
+      "base_place_id": null,
+      "summary": "离开时间尚未固定，完成退房和行李安排，不增加远距离景点。雨天休息或缩短停留。",
+      "visits": [
+        {
+          "place_id": "kyoto-hotel",
+          "time": "中午前（估计）",
+          "notes": "Granvia 来源常规退房12:00，最终方案条款优先；改选都酒店则常规11:00。"
+        },
+        {
+          "place_id": "kyoto-station",
+          "time": "离开前（待定）",
+          "notes": "领行李并前往实际出发站点，后续交通未选择。"
+        }
+      ],
+      "leg_ids": []
+    }
+  ],
+  "legs": [
+    {
+      "id": "kyoto-local",
+      "day_id": "day-1",
+      "from_place_id": "kyoto-station",
+      "to_place_id": "kiyomizu",
+      "time": "下午移动（待查）",
+      "mode": "当地公交/步行待选",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "先按实际到达与行李安排查接驳；没有从直线坐标推算步行时间。",
+      "sources": []
+    },
+    {
+      "id": "higashiyama-dinner",
+      "day_id": "day-1",
+      "from_place_id": "kiyomizu",
+      "to_place_id": "kyoto-dinner",
+      "time": "参观后至18:00前（估计）",
+      "mode": "步行/公交待选",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "预留从东山到祇园四条的移动与休息时间；路线、坡道和交通待查。",
+      "sources": []
+    },
+    {
+      "id": "outbound",
+      "day_id": "day-2",
+      "from_place_id": "kyoto-station",
+      "to_place_id": "nara-station",
+      "time": "上午（实际车次待查）",
+      "mode": "近铁铁路候选",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "只确定移动方向；具体车次、直达/换乘、站内时间和票价未查。选择特急时乘车券外另需特急券。",
+      "sources": [
+        {
+          "title": "近鉄特急 官方说明",
+          "url": "https://www.kintetsu.co.jp/gyoumu/Express/A10002.html",
+          "checked_on": "2026-11-09",
+          "scope": "近铁特急为全席指定，乘车券之外另需特急券；未查询2027-04-11的列车、换乘或票价。"
+        }
+      ]
+    },
+    {
+      "id": "nara-temple",
+      "day_id": "day-2",
+      "from_place_id": "nara-station",
+      "to_place_id": "todaiji",
+      "time": "抵达后（待查）",
+      "mode": "步行/公交待选",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "地图点为街区代表点，不是南大门入口；按实际入口核对步行或公交。",
+      "sources": []
+    },
+    {
+      "id": "temple-lunch",
+      "day_id": "day-2",
+      "from_place_id": "todaiji",
+      "to_place_id": "nara-lunch",
+      "time": "参观后至午餐前（估计）",
+      "mode": "步行/公交待选",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "由东大寺转往猿泽池、奈良町一侧；移动、排队与午餐余量需复核。",
+      "sources": []
+    },
+    {
+      "id": "return",
+      "day_id": "day-2",
+      "from_place_id": "nara-station",
+      "to_place_id": "kyoto-station",
+      "time": "傍晚（实际车次待查）",
+      "mode": "近铁铁路候选",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "麻薯可跳过；回站后按车次留足余量。特急乘车条件同去程，未查票价和实际连接。",
+      "sources": [
+        {
+          "title": "近鉄特急 官方说明",
+          "url": "https://www.kintetsu.co.jp/gyoumu/Express/A10002.html",
+          "checked_on": "2026-11-09",
+          "scope": "近铁特急为全席指定，乘车券之外另需特急券；未查询2027-04-11的列车、换乘或票价。"
+        }
+      ]
+    },
+    {
+      "id": "kyoto-return-meal",
+      "day_id": "day-2",
+      "from_place_id": "kyoto-station",
+      "to_place_id": "fujino",
+      "time": "回京都后（估计）",
+      "mode": "站楼内步行",
+      "role": "selected",
+      "evidence": "illustrative",
+      "notes": "伊势丹11楼，实际入口、垂直移动与营业需再核对；不按坐标计算步行时间。",
+      "sources": []
+    }
+  ],
+  "open_questions": [
+    "在 Granvia 与都酒店京都八条之间确认预算、房型、早餐、寄存及两晚库存；没有创建预订。",
+    "复核2027年4月的寺院开放、票价、临时通知及实际入口；地图街区点不等于入口。",
+    "确定到达/离开时间，再查询两天接驳和奈良往返列车、票价与行李余量；示例不包含天气或樱花预测。",
+    "确认餐厅当日营业、菜单、过敏原和等位安排。松葉营业结束时间两源不同；平宗两人午餐不假定可预约；中谷堂不保证捣饼表演。"
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: japan-travel-planner
-description: Build, review or revise Japan itineraries across sightseeing, food, transport and other available specialists. Use for new plans, feasibility checks and destination/date trade-offs; use the relevant specialist directly when one skill can answer the request.
+description: Build, review or revise Japan itineraries and create requested interactive map/web guides or presentation handoffs. Coordinate sightseeing, food, transport and other available specialists; use the relevant specialist directly when one skill can answer the request. Visual outputs are on demand; PPTX creation uses the host's authoring tools.
 ---
 
 # Japan travel planning
@@ -8,8 +8,9 @@ description: Build, review or revise Japan itineraries across sightseeing, food,
 ## Scope
 
 Coordinate the specialists available in the host's skill catalog. Read their actual installed
-`SKILL.md` paths and only the mode references needed for the question. This skill has no CLI,
+`SKILL.md` paths and only the mode references needed for the question. This skill has no travel
 data feed or `doctor`, and needs neither all specialists nor the checkout's root `AGENTS.md`.
+Its offline visual-handoff helper is needed only for a requested output.
 
 ## Select the work
 
@@ -35,10 +36,11 @@ targeted verification, minimal repairs and handoff; load its worked example only
 | Whether a rail pass is relevant | `japan-passes`: current product terms, compared with selected legs when useful; coverage and savings need verification |
 
 Choose research that changes the user's decision. Broad sightseeing/food questions can start with
-official destination sources and local specialties; add venue searches when useful. Hotels,
-inventory and pass comparisons are optional. Preserve specialist filters and ordering; do not
-invent preferences. Verify exact connections where requested or needed for scheduling or savings,
-and keep other legs at the requested level of detail.
+official destination sources and local specialties; add venue searches when useful. For a complete
+new itinerary, use the planning loop's coverage guidance rather than treating unmentioned meals
+or lodging as excluded. Inventory and pass comparisons are optional. Preserve specialist filters
+and ordering; do not invent preferences. Verify exact connections where requested or needed for
+scheduling or savings, and keep other legs at the requested level of detail.
 
 For dates beyond published forecast coverage, explain the limit without a live read merely to
 demonstrate it. Monthly normals can inform preparation; they remain climate context. Check live
@@ -80,7 +82,9 @@ prerequisites for a supported query.
 
 For a requested presentation/PPTX, interactive map or multi-file handoff, read
 [travel-plan deliverables](references/deliverables.md). It covers trip overview, city details and
-intercity connections; use available authoring tools without making them planning prerequisites.
+intercity connections, with a reusable local HTML/map template and a shared presentation handoff.
+Load its data contract/assets only for that output; ordinary planning and reviews do not need them.
+Use available presentation tools to create and inspect an actual deck when requested.
 
 Answer in the user's language and requested length. Lead with the itinerary or decision and why
 it fits. Put original external links beside key recommendations and dated connections; local notes

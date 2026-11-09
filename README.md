@@ -1,6 +1,6 @@
 # Japan Travel Skills
 
-Source guidance and lightweight CLI tools for agents planning travel in Japan. One **Japan Travel** plugin contains thirteen skills, loaded as needed: eleven independent CLI-backed skills, one destination-source guide and one optional planning coordinator. Specialists work independently; the planner coordinates whichever are available.
+Source-backed travel planning, itinerary review and visual handoffs for Japan. One **Japan Travel** plugin contains thirteen skills, loaded as needed: eleven independent query tools, one destination-source guide and one planner for combining research and creating requested map/web or presentation outputs. Specialists work independently.
 
 The project supports discovery, introductions, prices, availability, conditions and original booking links. Users complete reservations and purchases manually or with another agent. Transactions, holds, waitlists and payments are outside the project scope. Source uncertainty is preserved in planning results.
 
@@ -8,7 +8,7 @@ The project supports discovery, introductions, prices, availability, conditions 
 
 | Skill | Capability and source scope |
 | --- | --- |
-| [Travel planning](skills/japan-travel-planner/SKILL.md) | Build, review or revise itineraries; combine available specialists for destination/date comparisons and multi-part research; no dedicated CLI |
+| [Travel planning and visual guides](skills/japan-travel-planner/SKILL.md) | Build, review or revise itineraries; create requested interactive HTML/map guides and coordinate PPTX handoffs using host authoring tools |
 | [City guides](skills/japan-city-guide/SKILL.md) | Official attraction, event, food and route sources for Tokyo, Osaka, Kyoto, Sapporo, Fukuoka, Nagoya, Yokohama, Kobe, Nara and Naha, plus Kanazawa, Takaoka, Toyama City and Nagano City; prefectural discovery and facility verification; no dedicated CLI |
 | [Tabelog](skills/tabelog/SKILL.md) | Restaurant search, details/courses, reviews, awards and anonymous date/party/time availability |
 | [TableCheck](skills/tablecheck/SKILL.md) | Restaurant discovery, courses and anonymous date/time availability; course/seat checks on supported public v1 forms |
@@ -26,6 +26,45 @@ Each linked skill documents its workflow, supported locations, source policy and
 
 Weathernews sakura forecast output still awaits in-season live validation; the seasonal skill retains this qualification separately from JMC and foliage coverage.
 
+## Turn a plan into a travel guide
+
+Visual delivery is a core capability, loaded only when requested. Ordinary planning or plan review
+does not load templates or require a visual output. Ask, for example:
+
+> Turn this itinerary into a mobile-friendly local HTML guide with a map. Include the city order,
+> overnight bases, daily attractions, food and intercity connections. Keep candidates and unresolved
+> checks visible. Also create a PPTX for discussing the plan with my travel companions. Do not publish it.
+
+| Output | How it helps |
+| --- | --- |
+| Interactive guide | Switch days to see the matching schedule and transport; filter hotels, attractions, restaurants and stations; inspect source links and coordinate provenance. |
+| Presentation/PPTX | An illustrated guide to cities, lodging, sights and food, with dates, connections and decisions. Includes photo-page patterns and source/credit guidance; actual slide creation uses the host's authoring tools. |
+| Shared plan records | Keep dates, choices, conditions and sources consistent across outputs and subsequent revisions. |
+
+The [delivery guide](skills/japan-travel-planner/references/deliverables.md) links a reusable,
+dependency-free local HTML template and a presentation handoff brief. The page works without a
+server or external requests by default; users can explicitly load official GSI basemap tiles.
+Unknown coordinates stay in the list. Neither plotted locations nor schematic connections are
+walking routes or live navigation. Hosting is separate and requires the user's request covering it.
+
+Try the public [Kyoto–Nara demo records](skills/japan-travel-planner/examples/kyoto-nara-demo.json)
+using the [generation instructions](skills/japan-travel-planner/references/plan-data.md).
+It shows a Kyoto overnight base and Nara day trip, two named hotel candidates, local-food and
+restaurant candidates, scoped source checks and unresolved decisions. Static introductions were
+researched for this dated example; its future dates, activity times and transport remain planning
+estimates, without stay inventory or a verified timetable. Recheck sources for a real trip.
+Generate a guide and a presentation brief from the same records; the brief is not a PPTX file.
+This curated example demonstrates the data format and rendering, not an independently generated
+plan or a measured improvement in agent planning quality.
+
+```mermaid
+flowchart LR
+    D1["Apr 10 · Kyoto<br/>Arrival and Higashiyama<br/>Overnight: Kyoto"] --> D2["Apr 11 · Nara day trip<br/>Return to Kyoto overnight"] --> D3["Apr 12 · Kyoto<br/>Departure arrangements pending"]
+```
+
+This schematic matches the illustrative demo snapshot; it is not a physical rail route or a
+verified timetable. The generated page adds day selection, transport records and place filters.
+
 ## Use from this checkout
 
 Clone the source repository:
@@ -35,7 +74,7 @@ git clone https://github.com/ScienJus/japan-travel-skills.git
 cd japan-travel-skills
 ```
 
-Travel CLIs require **Python 3.9+** and use the standard library. The nationwide JAPAN RAIL PASS (`jr-group`) source additionally requires system **curl**. Restaurant tools require **Python 3.10+** (3.12+ recommended) and the dependencies in their own `scripts/requirements.txt`. The city-guide skill needs an available web search/fetch tool and has no Python dependency or CLI. The planner needs only the relevant available specialists or source-reading tools and has no CLI. None requires an API key, account, GUI browser or background service.
+Travel CLIs require **Python 3.9+** and use the standard library. The nationwide JAPAN RAIL PASS (`jr-group`) source additionally requires system **curl**. Restaurant tools require **Python 3.10+** (3.12+ recommended) and the dependencies in their own `scripts/requirements.txt`. The city-guide skill needs an available web search/fetch tool and has no Python dependency or CLI. Planning needs only the relevant specialists or source-reading tools; the optional local visual helper uses Python 3.9+ without packages. None requires an API key, account, GUI browser or background service.
 
 For all eleven tools, use a suitable Python environment and install the combined pinned dependencies. No wheel or editable project installation is needed:
 
@@ -82,12 +121,6 @@ The planner's [planning loop](skills/japan-travel-planner/references/planning-lo
 becomes a city/base outline, how admission/closure conflicts change the schedule, and what remains
 for the user to decide. The example is a dated teaching snapshot, not live travel advice or evidence
 of a measured improvement across models.
-
-For a presentation/PPTX or an interactive map, the planner's optional
-[deliverable guide](skills/japan-travel-planner/references/deliverables.md) organizes the trip
-overview, city hotels/attractions/restaurants and intercity connections. It preserves sources,
-fixed choices and unresolved checks across formats. Actual rendering or hosting uses the agent's
-available tools; this plugin does not include a presentation renderer or map-hosting service.
 
 Commands emit JSON with source metadata and measured request usage. Inspect status, coverage and unknown fields even when the process exits successfully. Use the relevant skill's native lookup and source checks before interpreting results. Detailed examples and provider-specific qualifications live with each skill.
 
@@ -137,6 +170,10 @@ Use a source checkout for these commands. The shareable ZIP omits tests, develop
 For fresh-agent behavior checks, use `scripts/prepare_behavior_check.py` and the procedure in `tests/behavior/README.md` from a source checkout. Reusable tasks cover routing, source interpretation and stopping rules. Run records and scores stay outside the repository; these optional checks are separate from offline CI.
 
 Tests are offline, including distribution relocation and independent-skill checks. `requirements-dev.txt` adds only the YAML parser for developer metadata/link checks and behavior-test preparation; installed skills do not depend on it. GitHub Actions runs the full suite on Python 3.10/3.12 on Ubuntu and 3.12 on macOS, with a separate dependency-free Python 3.9 travel-tools job. CI does not query providers or publish artifacts. Source refresh and request policies are documented in the relevant skills; for weather metadata maintenance, see [JMA](skills/japan-weather/references/jma.md) and [Weathernews](skills/japan-weather/references/weathernews.md). Store captures, investigations and acceptance records outside the repository, even when ignored. Keep version metadata stable during unpublished development.
+
+From a source checkout, `tests/browser/README.md` describes optional headless checks for filters,
+date/transport synchronization, JSON export, offline fallback and phone layouts. Node and
+Playwright are development-only; they are not needed to generate or open the guide.
 
 The restaurant skills are copied from [Japan Restaurant Skills](https://github.com/ScienJus/japan-restaurant-skills), with their licenses and upstream attribution retained. They run independently here; the original repository is not a runtime dependency. HTTP clients follow the [development contract](docs/http-client.md) and one offline behavior matrix, while keeping implementations and source policies local to each skill. No cross-skill HTTP runtime library or generated copies are required. Restaurant commands retain their native exit codes: 0 for ok, 3 for partial, 1 for error; read each travel skill for its own status/exit-code rules.
 

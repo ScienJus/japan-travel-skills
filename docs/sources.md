@@ -6,7 +6,7 @@ feed. Source identity is separate from accuracy, freshness, geographic fit and u
 
 | Class | Integrated sources and use | Boundary |
 | --- | --- | --- |
-| Public institutions | JMA forecasts, warnings and climate; Cabinet Office holidays; NAOJ daylight; GSI geocoding | Preserve each product's location, dates and meaning; official status does not extend its forecast horizon |
+| Public institutions | JMA forecasts, warnings and climate; Cabinet Office holidays; NAOJ daylight; GSI geocoding and explicitly loaded guide basemaps | Preserve each product's scope and dates; official status does not extend forecasts or turn a basemap into routing/live travel evidence |
 | Responsible operators and official tourism bodies | JR/IR reports and pass catalogs; municipal/prefectural tourism portals and linked facility operators | A tourism listing is discovery evidence, not proof of dated opening, admission or a particular train's operation |
 | Commercial first-party products | Weathernews and JMC seasons/weather, AMECS Fuji index, Yahoo transit, Jalan hotels, Tabelog, TableCheck and Pocket Concierge | These are their publishers' own products or platform records, not government or independent facility verification; platform reviews remain user opinions |
 | Community data | Photon geocoding using OpenStreetMap | Explicit `--provider photon` only; retain attribution and candidate ambiguity; never call it official or entrance-accurate |
@@ -19,6 +19,11 @@ for name/address discovery when appropriate; choosing it does not certify a resu
 empty result nor a failed read triggers automatic provider rotation. Check names, locality and
 point type before using coordinates. Hotel coordinates continue to come from Jalan or explicitly
 labelled caller input, not from an implicit geocoding fallback.
+
+The optional local visual guide starts without external requests. Only the user's basemap control
+loads GSI pale-map tiles for the visible area, retaining [GSI attribution and use guidance](https://maps.gsi.go.jp/development/ichiran.html).
+It makes no geocoding or routing query. Unknown point coordinates remain unknown; generated files
+are not bundled map caches or copied source feeds.
 
 The holiday CLI reads the Cabinet Office CSV online. Tabelog's independent opening-hours checks
 instead use the pinned `jpholiday` package so that the restaurant skill remains self-contained.
@@ -43,6 +48,13 @@ reviews or maps. Preserve applicable attribution, including OpenStreetMap's ODbL
 AMECS's [use notice](https://www.amecs.co.jp/index.html#contact) restricts secondary use without
 permission. Do not distribute copied feeds, forecasts, images or capture archives as open data;
 assess the applicable source terms for any separately proposed reuse.
+
+For a requested illustrated presentation, separately sourced photographs may include clearly
+licensed third-party media, such as Wikimedia Commons files. Identify them as illustrations,
+retain creator/source/license and any crop/change disclosure, and verify the depicted identity.
+They are not integrated travel-data providers or official evidence of dated conditions. A facility's
+official photo also needs suitable reuse permission. Keep downloaded media and private reference
+decks with the user's outputs outside the checkout; the plugin does not bundle them under MIT.
 
 Validation claims must identify what ran: offline tests, a dated live read, installation checks
 and agent output reviews are different evidence. A manually polished itinerary, map or PPTX is not

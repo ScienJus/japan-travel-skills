@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-@@SCRIPT_HASH@@'; style-src 'unsafe-inline'; img-src https://cyberjapandata.gsi.go.jp; base-uri 'none'; form-action 'none'">
+<title>Travel guide</title>
+<style>@@STYLE@@</style>
+</head>
+<body>
+<a class="skip" href="#schedule">Skip to itinerary</a>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">JAPAN / TRAVEL NOTEBOOK</p>
+  <div class="title-row"><h1 id="title"></h1><span id="demo" class="demo"></span></div>
+  <p id="notice" class="notice"></p>
+  <div id="stats" class="stats"></div>
+  <div id="bases" class="bases"></div>
+  <p id="revision" class="revision"></p>
+</div></header>
+<main>
+  <nav id="days" class="day-tabs" aria-label="Days"></nav>
+  <section id="schedule" aria-labelledby="schedule-heading">
+    <div class="section-head"><div><p class="eyebrow" id="schedule-kicker"></p><h2 id="schedule-heading"></h2></div>
+      <button id="export" type="button"></button></div>
+    <div id="day-plans" class="day-plans"></div>
+  </section>
+  <section aria-labelledby="places-heading" class="places-section">
+    <div class="section-head"><div><p class="eyebrow">PLACES / ORIENTATION</p><h2 id="places-heading"></h2></div><p id="filter-scope" class="muted"></p></div>
+    <div class="filters"><label><span id="city-label"></span><select id="city"></select></label>
+      <label><span id="kind-label"></span><select id="kind"></select></label><span id="place-count" role="status"></span></div>
+    <div class="map-list">
+      <div class="map-wrap">
+        <div class="map-toolbar"><span id="map-label"></span><div><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="fit" type="button"></button></div></div>
+        <svg id="map" viewBox="0 0 900 500" role="group" aria-label="Place locations"></svg>
+        <div class="map-footer"><button id="basemap" type="button"></button><p id="map-status" role="status"></p>
+          <p id="network-note" class="muted"></p><a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener noreferrer">地理院タイル / GSI</a></div>
+      </div>
+      <div id="places" class="place-list" aria-live="polite"></div>
+    </div>
+  </section>
+  <section class="questions" aria-labelledby="questions-heading"><p class="eyebrow">BEFORE YOU GO</p><h2 id="questions-heading"></h2><ul id="questions"></ul></section>
+  <footer id="footer"></footer>
+</main>
+<noscript>This guide needs JavaScript for its day views and place list. Keep the original plan JSON as a companion file.</noscript>
+<script id="plan-data" type="application/json">@@PLAN@@</script>
+<script>@@SCRIPT@@</script>
+</body>
+</html>

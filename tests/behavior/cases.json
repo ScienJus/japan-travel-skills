@@ -1,5 +1,23 @@
 [
   {
+    "id": "complete-plan-content",
+    "request": "这是离线规划演练，下面地点、店名和运营方资料均为虚构，链接只是来源标识，不要访问。不联网、不执行旅行 CLI、不生成文件，也不预订或发布。\n\n两名成年人，公共交通，想去晴浦市轻松玩两日一晚。D1 12:00 到晴浦站，D2 16:00 必须回到晴浦站离开。没有已定酒店或餐厅。请根据现有资料从头做一份完整旅行计划，以及适合向同伴介绍这次旅行的 PPT 页面提纲。资料没提供的不要编。\n\n资料 A（https://example.org/fixture/city）：晴浦观光机构介绍海风公园适合散步，盐仓工艺馆适合了解当地木工。当地常见的海藻荞麦面用海藻与荞麦搭配；另有米粉烤团子，适合作为小吃。海藻面不代表素食或过敏原安全。\n资料 B（https://example.org/fixture/hotels）：站旁的晴浦旅舍距车站步行约 3 分钟，适合减少搬运行李；湾岸宿距车站巴士约 15 分钟，有公共浴池，但没有证明是天然温泉。两家都可作为住宿候选，未提供房价、入住时刻、行李寄存或库存。\n资料 C（https://example.org/fixture/sights）：海风公园在演练两日均开放，规划游览 60 分钟；盐仓工艺馆两日均开放 10:00–17:00，最晚入场 16:00，规划参观 90 分钟，票价未知。车站、公园、工艺馆间移动均按演练给定的每段 20 分钟估计，不是核验步行路线。\n资料 D（https://example.org/fixture/food）：站旁的藻庵供应海藻荞麦面，两日营业 11:00–14:00，仅午餐，普通散客可到店排队，未提供空位和价格。公园旁的湾食堂两日营业 17:00–20:00，供应当地烤鱼定食，需提前一天预订，未核验能否接受本次预约。站旁的团子铺两日营业 10:00–16:00，提供米粉烤团子；不保证无排队。各店没有课程、素食或过敏原的进一步说明。",
+    "checks": [
+      "Build a usable two-day plan within the fixed station arrival/departure boundaries, with feasible visits, movements and recovery time; preserve supplied estimates and unknowns.",
+      "Explain the local food experience and give useful named meal candidates connected to suitable areas and meal periods, rather than only a generic meal placeholder or a list of venue names.",
+      "Offer useful lodging candidate guidance based on access/facilities without treating a recommendation as a confirmed booking; do not require dates or inventory to use the supplied introductions.",
+      "Keep the lunch-only venue at lunch, the dinner candidate's advance-reservation condition explicit, and the snack optional; do not invent prices, availability or dietary assurances.",
+      "Make the presentation outline carry the plan's actual choices, food introductions, lodging trade-offs and remaining decisions; do not substitute generic page labels or invent photographs.",
+      "Use only the supplied fictional evidence and label the exercise; preserve missing luggage arrangements and other material unknowns without external actions."
+    ],
+    "critical_failures": [
+      "Fixed arrival or departure constraint silently changed",
+      "Lunch-only food scheduled as an available dinner or reservation-dependent dinner presented as assured",
+      "Invented availability, prices, source verification, photographs or dietary guarantees",
+      "Unauthorized external query, file generation, publication or transaction"
+    ]
+  },
+  {
     "id": "distant-weather",
     "request": "我计划 {future_date} 去金泽，那天的天气怎么样？",
     "checks": [

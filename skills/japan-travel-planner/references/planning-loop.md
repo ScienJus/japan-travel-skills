@@ -11,6 +11,12 @@ interests/pace, budget where relevant, must-visits, fixed commitments and flexib
 about missing information that materially changes feasibility; otherwise state useful assumptions.
 Do not require a form or force the user to approve an outline before completing a requested plan.
 
+Distinguish building a complete trip from reviewing or formatting an existing one. For a new leisure
+itinerary, normally cover sights, local food and practical meal options, overnight bases and suitable
+lodging candidates, and movement between them. Respect exclusions, fixed accommodation and stated
+preferences; a day trip needs no hotel search. Formatting supplied content alone does not authorize
+new venue research. Do not apply full-trip coverage to a narrow question.
+
 Start with city order, overnight bases and daily areas. Explain the important trade-offs: fewer hotel
 moves, luggage handling, daylight or admission windows, and travel versus visit time. Separate day
 trips from overnight bases. Keep attractive alternatives outside the main schedule unless there is
@@ -24,8 +30,13 @@ user-reported reservations as constraints, without accessing or claiming to veri
 ## Research the decisions that matter
 
 Prioritize claims whose failure would break the plan: fixed arrival/departure deadlines, admission
-windows, required connections, eligibility and meal conditions. Then refine the choices requested by
-the user. Do not query every tool or every alternative as a completeness ritual.
+windows, required connections, eligibility and meal conditions. Then develop the choices needed for
+the agreed plan. Explain local food experiences and identify suitable named venues where this makes
+the plan actionable; a dish introduction and a restaurant recommendation answer different questions.
+Connect meal candidates to feasible areas and meal periods, without assigning every meal or treating
+every candidate as a commitment. For overnight bases needing lodging advice, give useful property
+choices and relevant access/facility trade-offs. Discovery does not require live inventory or a stay
+quote. Do not query every tool or every alternative as a completeness ritual.
 
 For a timed chain, work forward from actual readiness, including visits, walking, luggage and
 transfer allowances, and backward from fixed deadlines. A later train is not a fix unless the
@@ -72,13 +83,18 @@ the day, give a decision point and a feasible alternative; do not promise an alt
 ## Handoff and completion
 
 Lead with the usable result. A full plan usually needs a date/base overview, daily priorities and
-movements, key dated connections, requested hotel/meal choices and the remaining decisions. A review
-usually needs findings and the corrected affected days; do not rewrite unaffected days unnecessarily.
+movements, key dated connections, local food and meal options, lodging choices where needed, and the
+remaining decisions. A review usually needs findings and the corrected affected days; do not rewrite
+unaffected days unnecessarily.
 Use [the deliverable guide](deliverables.md) only for requested slides, maps or coordinated files.
 Plain text/Markdown can be the complete deliverable.
 
 Before finishing, reconcile dates and nights, forward connections, fixed commitments and source
-conditions. Check that the output actually contains the requested choices and original links, that
+conditions. Check coverage against the agreed brief: a generic 'hotel/restaurant to be chosen' is an
+open decision, not a useful recommendation. Resolve material gaps through targeted research when in
+scope; otherwise explain the exclusion, source limitation or remaining decision. A future inventory
+or opening-hours check can remain unresolved without omitting supported introductions and candidates.
+Check that the output actually contains the requested choices and original links, that
 backups fit their proposed dates, and that optional stops are not counted as mandatory visits.
 Describe the verified scope: selected checks with no detected conflict do not certify the whole trip.
 Leave the next user decisions specific, such as choosing between two hotel candidates or checking

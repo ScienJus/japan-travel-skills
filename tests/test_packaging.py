@@ -154,6 +154,16 @@ class PackagingTests(unittest.TestCase):
                             target.write_bytes(archive.read(member))
                     self.assertEqual((isolated / "LICENSE").read_bytes(), (ROOT / "LICENSE").read_bytes())
                     self.assertTrue((isolated / "SKILL.md").is_file())
+                    if name == "japan-travel-planner":
+                        for format, suffix in (("html", ".html"), ("brief", ".md")):
+                            output = temporary / ("guide" + suffix)
+                            result = subprocess.run([sys.executable, str(isolated / "scripts/render_plan.py"),
+                                                     "--input", str(isolated / "examples/kyoto-nara-demo.json"),
+                                                     "--output", str(output), "--format", format],
+                                                    cwd=temporary, capture_output=True, text=True, timeout=10)
+                            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                            self.assertTrue(output.is_file())
+                            self.assertNotIn(str(ROOT), output.read_text(encoding="utf-8"))
                     for document in isolated.rglob("*.md"):
                         for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", document.read_text()):
                             if "://" not in target and not target.startswith("#"):
