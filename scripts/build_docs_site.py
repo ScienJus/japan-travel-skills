@@ -20,7 +20,7 @@ from check_privacy import check_root
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 REPOSITORY = "https://github.com/ScienJus/japan-travel-skills"
-DEFAULT_URL = "https://scienjus.github.io/japan-travel-skills/"
+DEFAULT_URL = "https://www.scienjus.com/japan-travel-skills/"
 PLANNER = ROOT / "skills/japan-travel-planner"
 DEMO = "assets/kyoto-nara-demo.html"
 ARTICLES = {
