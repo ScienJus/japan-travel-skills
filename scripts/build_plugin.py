@@ -13,7 +13,8 @@ from check_privacy import scan_bytes
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = ("plugin.json", "README.md", "AGENTS.md", "CONTRIBUTING.md", "SECURITY.md", "LICENSE",
               ".agents/plugins/marketplace.json", "requirements.lock", "docs/http-client.md",
-              "docs/installation.md", "docs/releasing.md", "docs/sources.md")
+              "docs/installation.md", "docs/releasing.md", "docs/sources.md",
+              "docs/check-japan-itinerary.md", "docs/japan-itinerary-map-and-powerpoint.md")
 GUIDANCE_ONLY_SKILLS = {"japan-city-guide", "japan-travel-planner"}
 
 # Exact release contents. Adding a runtime resource requires an explicit entry;

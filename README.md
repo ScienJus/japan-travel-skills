@@ -1,8 +1,19 @@
 # Japan Travel Skills
 
-Source-backed travel planning, itinerary review and visual handoffs for Japan. One **Japan Travel** plugin contains thirteen skills, loaded as needed: eleven independent query tools, one destination-source guide and one planner for combining research and creating requested map/web or presentation outputs. Specialists work independently.
+**Japan Travel Skills** is an open-source Japan itinerary planner and checker for Codex. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive HTML travel map and a PowerPoint handoff. The plugin combines thirteen Agent Skills, including independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
 
 The project supports discovery, introductions, prices, availability, conditions and original booking links. Users complete reservations and purchases manually or with another agent. Transactions, holds, waitlists and payments are outside the project scope. Source uncertainty is preserved in planning results.
+
+## Start with a Japan travel planning task
+
+| I want to… | Start here |
+| --- | --- |
+| Plan a Japan trip with trains, hotels and local food | [Build a sourced itinerary](skills/japan-travel-planner/examples/hokuriku-six-days.md) from a dated worked example. |
+| Check an existing Japan itinerary for closures, last entry and tight connections | [Check a Japan travel itinerary](docs/check-japan-itinerary.md), with an example request and the evidence to retain. |
+| Create a Japan itinerary map or PowerPoint for my travel companions | [Turn an itinerary into a map and PowerPoint](docs/japan-itinerary-map-and-powerpoint.md), with an offline HTML demo and a shared presentation brief. |
+| Use one tool, such as Japanese rail timetables or hotel discovery | Choose the relevant specialist below. |
+
+See [installation](docs/installation.md) for the complete Codex plugin and individual skills.
 
 ## Available capabilities
 
