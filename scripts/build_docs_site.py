@@ -80,11 +80,16 @@ def render_article(source):
     if len(tokens) < 3 or tokens[0].type != "heading_open" or tokens[0].tag != "h1":
         raise ValueError("Article needs an opening H1: {}".format(source.name))
     title = tokens[1].content
-    for token in tokens[3:]:
+    sections = []
+    for index, token in enumerate(tokens[3:], start=3):
+        if token.type == "heading_open" and token.tag == "h2":
+            anchor = "section-{}".format(len(sections) + 1)
+            token.attrSet("id", anchor)
+            sections.append((anchor, tokens[index + 1].content))
         for child in token.children or ():
             if child.type == "link_open":
                 child.attrSet("href", article_link(child.attrGet("href"), source))
-    return title, md.renderer.render(tokens[3:], md.options, {})
+    return title, md.renderer.render(tokens[3:], md.options, {}), sections
 
 
 def render_page(page, title, description, canonical, content):
@@ -120,7 +125,8 @@ def build(output, site_url):
         raise ValueError("Build output must stay outside the source checkout")
     output.mkdir(parents=True, exist_ok=False)
     (output / "assets").mkdir()
-    shutil.copyfile(SITE / "assets/site.css", output / "assets/site.css")
+    for asset in ("site.css", "kyoto-evening.jpg"):
+        shutil.copyfile(SITE / "assets" / asset, output / "assets" / asset)
     (output / "index.html").write_text(render_page(
         "index.html", "Japan Travel Skills — Japan itinerary planning for Codex",
         "Plan and check Japan itineraries with read-only Agent Skills. Look up rail and bus routes, hotels and food, and share an interactive map or presentation brief.",
@@ -128,16 +134,24 @@ def build(output, site_url):
     ), encoding="utf-8")
 
     for page, (source, kicker, description) in ARTICLES.items():
-        title, body = render_article(ROOT / source)
+        title, body, sections = render_article(ROOT / source)
         demo = page == "japan-itinerary-map-and-powerpoint.html"
         button = '<a class="button primary" href="#demo">Try the Kyoto–Nara demo</a>' if demo else ""
+        if demo:
+            sections.append(("demo", "Explore Kyoto and Nara"))
+        links = "".join('<a href="#{}">{}</a>'.format(anchor, escape(label))
+                        for anchor, label in sections)
+        theme = "share-task" if demo else "review-task"
         content = (
-            '<header class="article-head"><p class="kicker">{}</p><h1>{}</h1>{}</header>'
-            '<article class="prose">{}</article>'
-        ).format(escape(kicker), escape(title), button, body)
+            '<header class="shell article-head {}"><p class="kicker">{}</p><h1>{}</h1>{}</header>'
+            '<div class="shell article-layout">'
+            '<aside class="article-index"><p class="kicker">On this page</p>'
+            '<nav aria-label="Article sections">{}</nav></aside>'
+            '<article class="prose">{}</article></div>'
+        ).format(theme, escape(kicker), escape(title), button, links, body)
         if demo:
             content += (
-                '<section class="demo-section" id="demo" aria-labelledby="demo-title">'
+                '<section class="shell demo-section" id="demo" aria-labelledby="demo-title">'
                 '<p class="kicker">Public example / 01</p><h2 id="demo-title">Explore Kyoto and Nara</h2>'
                 '<p>Switch dates to follow the stops and connections, then filter hotels, sights or food. '
                 'This illustrative plan includes candidate choices and checks still to make.</p>'

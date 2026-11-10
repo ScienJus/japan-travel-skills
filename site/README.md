@@ -41,3 +41,12 @@ After the task pages appear in the index, repeat the original queries without a 
 Record whether public web results and fresh agents without the installed plugin return or cite
 the project or its task pages. Keep the dated queries, results and raw traces outside the checkout.
 Deployment and a submitted sitemap do not establish indexing or ranking.
+
+## Site photography
+
+`assets/kyoto-evening.jpg` is a resized copy of
+[Kiyomizudera-Niomon-2017-Luka-Peternel.jpg](https://commons.wikimedia.org/wiki/File:Kiyomizudera-Niomon-2017-Luka-Peternel.jpg)
+by Luka Peternel, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+The homepage crops the image to fit the display and applies a contrast overlay. The photograph
+retains its own license. The privacy checker recognizes its reviewed checksum at the source and
+Pages asset paths. Review the source, license and metadata again if replacing the image.
