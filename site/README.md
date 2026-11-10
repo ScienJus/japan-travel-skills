@@ -1,7 +1,7 @@
-# Documentation site
+# Product site
 
-The GitHub Pages build reuses the two task guides in `docs/` and renders the public Kyoto–Nara
-example with the planner's existing helper. Site build dependencies are separate from the plugin.
+The GitHub Pages build combines a product homepage, the two task guides in `docs/`, and the
+public Kyoto–Nara example rendered with the planner's existing helper. Site build dependencies are separate from the plugin.
 
 ## Build and review
 
@@ -49,3 +49,12 @@ webfont under the [SIL Open Font License](assets/manrope-OFL.txt). The original 
 [v23 WOFF2 subset](https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSvfedN4.woff2)
 is distributed with its license. The privacy checker accepts only the reviewed bytes at the
 source and Pages asset paths. The font and website are separate from the skill bundle.
+
+The display typeface is [Fraunces](https://github.com/undercasetype/Fraunces), served as two
+Google Fonts v38 Latin WOFF2 subsets under the [SIL Open Font License](assets/fraunces-OFL.txt).
+
+## Homepage artwork
+
+`assets/railway-poster.jpg` is a generated screenprint-style illustration of an imagined rail
+journey in Japan. Only the reviewed,
+metadata-stripped web asset is published. The illustration is separate from the skill bundle.

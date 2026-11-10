@@ -10,7 +10,7 @@ from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from check_privacy import check_archive, check_root, scan_bytes
+from check_privacy import REVIEWED_SITE_MEDIA, check_archive, check_root, scan_bytes
 
 
 class PrivacyTests(unittest.TestCase):
@@ -18,16 +18,18 @@ class PrivacyTests(unittest.TestCase):
         content = b"fixture@example.org https://github.com/public-project /home/runner/work/project"
         self.assertEqual(scan_bytes("README.md", content), [])
 
-    def test_reviewed_pages_font_requires_the_exact_path_and_bytes(self):
-        source_path = "site/assets/manrope.woff2"
-        font = (ROOT / source_path).read_bytes()
-        self.assertEqual(scan_bytes(source_path, font), [])
-        self.assertEqual(scan_bytes("assets/manrope.woff2", font), [])
-        self.assertEqual([item["rule"] for item in scan_bytes("other/manrope.woff2", font)],
-                         ["non_text_requires_review"])
-        for data in (font + b"changed", b"replacement text"):
-            self.assertEqual([item["rule"] for item in scan_bytes(source_path, data)],
-                             ["reviewed_media_checksum_mismatch"])
+    def test_reviewed_pages_media_requires_the_exact_path_and_bytes(self):
+        for build_path in REVIEWED_SITE_MEDIA:
+            with self.subTest(asset=build_path):
+                source_path = "site/" + build_path
+                content = (ROOT / source_path).read_bytes()
+                self.assertEqual(scan_bytes(source_path, content), [])
+                self.assertEqual(scan_bytes(build_path, content), [])
+                self.assertEqual([item["rule"] for item in scan_bytes("other/" + build_path, content)],
+                                 ["non_text_requires_review"])
+                for data in (content + b"changed", b"replacement text"):
+                    self.assertEqual([item["rule"] for item in scan_bytes(source_path, data)],
+                                     ["reviewed_media_checksum_mismatch"])
 
     def test_private_paths_and_emails_are_detected_without_the_value(self):
         email = "fixture-recipient" + "@" + "mail-provider.com"

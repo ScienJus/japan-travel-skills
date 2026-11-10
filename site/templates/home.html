@@ -1,36 +1,42 @@
-<section class="shell intro" aria-labelledby="hero-title">
-  <div class="intro-copy">
-    <p class="eyebrow"><span class="signal"></span> Open-source Agent Skills</p>
-    <h1 id="hero-title">Plan a trip<br>to Japan<span class="title-period">.</span></h1>
-    <p class="lead">Give your AI agent the tools to research a Japan itinerary, check whether it works, and turn it into a map or presentation.</p>
-    <div class="actions">
-      <a class="button primary" href="#start">Find your starting point <span aria-hidden="true">↓</span></a>
-      <a class="text-link" href="#install">Install the skills <span aria-hidden="true">→</span></a>
+<section class="masthead" aria-labelledby="hero-title">
+  <div class="shell masthead-grid">
+    <div class="masthead-copy">
+      <p class="eyebrow"><span class="signal"></span> Open-source Agent Skills</p>
+      <h1 id="hero-title">Japan, <em>well planned.</em></h1>
+      <p class="lead">Give your AI agent the tools to plan a Japan trip, check the details, and turn the itinerary into a guide you can share.</p>
+      <div class="actions">
+        <a class="button primary" href="#example">Explore the demo <span aria-hidden="true">↘</span></a>
+        <a class="text-link" href="#install">Get the skills <span aria-hidden="true">→</span></a>
+      </div>
     </div>
-    <p class="intro-note">Read-only travel research with original source links.</p>
+
+    <figure class="poster">
+      <div class="poster-top"><span>Japan Travel Skills</span><span lang="ja">日本の旅</span></div>
+      <img src="assets/railway-poster.jpg" width="1440" height="1080" alt="Screenprint-style illustration of a train crossing a viaduct below a vermilion sun" fetchpriority="high">
+      <figcaption><span>Through the mountains</span><span>Illustration 01</span></figcaption>
+    </figure>
   </div>
 
-  <section class="trip" id="example" aria-labelledby="trip-title">
-    <header class="trip-head">
-      <div>
-        <p class="eyebrow">Sample itinerary</p>
-        <h2 id="trip-title">Kyoto &amp; Nara</h2>
-      </div>
-      <span class="tag">3 days · 2 nights</span>
-    </header>
-    <figure class="trip-map">
-      <svg viewBox="0 0 500 174" aria-hidden="true" focusable="false">
-        <path class="map-water" d="M0 87c58-19 102-15 134-25s40-33 93-29 69-25 107-33h166v174H0Z"/>
-        <path class="map-contours" d="M0 44c40-15 73 1 116-15 26-9 32-24 58-29M0 60c41-15 74 1 117-14 42-15 49-39 99-38 16 0 28-4 38-8M287 174c31-35 64-36 106-50 40-13 40-38 107-38m-183 88c24-21 55-27 84-36 45-15 49-39 99-39m-151 75c25-11 41-14 59-21 46-16 54-40 92-40"/>
-        <path class="rail" d="M145 55h49a32 32 0 0 1 23 9l39 41a32 32 0 0 0 23 9h62"/>
-        <circle class="map-pin kyoto-pin" cx="145" cy="55" r="7"/>
-        <circle class="map-pin nara-pin" cx="341" cy="114" r="7"/>
-        <text x="145" y="34" text-anchor="middle">Kyoto</text>
-        <text x="341" y="145" text-anchor="middle">Nara</text>
-      </svg>
-      <figcaption>Schematic route</figcaption>
-    </figure>
+  <div class="shell masthead-foot">
+    <p>Plan <span></span> Check <span></span> Share</p>
+    <p>Read-only research · Original source links</p>
+  </div>
+</section>
+
+<section class="shell experience" id="example" aria-labelledby="trip-title">
+  <div class="section-intro">
+    <div>
+      <p class="eyebrow"><span class="signal"></span> Try a sample trip</p>
+      <h2 id="trip-title">A few days <em>in Kansai.</em></h2>
+    </div>
+    <p>Two nights in Kyoto, a day trip to Nara, and time for local food. Pick a day to see how the pieces fit.</p>
+  </div>
+  <div class="trip">
     <div class="trip-body">
+      <header class="trip-head">
+        <h3>Kyoto &amp; Nara</h3>
+        <span class="tag">3 days · 2 nights</span>
+      </header>
       <div class="day-buttons" role="group" aria-label="Choose a sample day" hidden>
         <button type="button" aria-pressed="true" aria-controls="sample-day-1">Day 1</button>
         <button type="button" aria-pressed="false" aria-controls="sample-day-2">Day 2</button>
@@ -38,44 +44,73 @@
       </div>
       <div class="day-details" aria-live="polite">
         <section id="sample-day-1" class="day-detail">
-          <h3>Arrival in Kyoto</h3>
-          <p>Kyoto Station → Kiyomizu-dera → dinner in Gion.</p>
+          <h4>Arrival in Kyoto</h4>
+          <ol>
+            <li><span>Arrival</span> Kyoto Station and luggage</li>
+            <li><span>Afternoon</span> Kiyomizu-dera</li>
+            <li><span>Dinner</span> Soba in Gion</li>
+          </ol>
         </section>
         <section id="sample-day-2" class="day-detail">
-          <h3>A day trip to Nara</h3>
-          <p>Tōdai-ji and persimmon-leaf sushi, then back to Kyoto for tofu and yuba.</p>
+          <h4>A day trip to Nara</h4>
+          <ol>
+            <li><span>Morning</span> Train to Nara and Tōdai-ji</li>
+            <li><span>Lunch</span> Persimmon-leaf sushi in Naramachi</li>
+            <li><span>Dinner</span> Tofu and yuba back in Kyoto</li>
+          </ol>
         </section>
         <section id="sample-day-3" class="day-detail">
-          <h3>Departure from Kyoto</h3>
-          <p>Check out, collect luggage and keep the morning flexible near the station.</p>
+          <h4>Departure from Kyoto</h4>
+          <ol>
+            <li><span>Morning</span> Check out and collect luggage</li>
+            <li><span>Departure</span> Keep departure time flexible</li>
+          </ol>
         </section>
       </div>
       <a class="text-link demo-link" href="assets/kyoto-nara-demo.html">Open the interactive map <span aria-hidden="true">↗</span></a>
     </div>
-  </section>
+    <figure class="trip-map">
+      <div class="map-caption"><span>Route sketch</span><span lang="ja">京都・奈良</span></div>
+      <svg viewBox="0 0 540 288" aria-hidden="true" focusable="false">
+        <g class="map-grid">
+          <path d="M0 48h540M0 96h540M0 144h540M0 192h540M0 240h540M54 0v288M108 0v288M162 0v288M216 0v288M270 0v288M324 0v288M378 0v288M432 0v288M486 0v288"/>
+        </g>
+        <path class="map-contours" d="M0 22c36-5 75 21 116 18 42-3 55-34 100-40M0 43c36-5 74 17 119 14 51-3 62-42 119-57M0 64c47-5 64 16 120 11 57-5 71-46 129-60 22-6 44-8 61-15M0 83c46-3 79 16 127 8 62-10 75-45 134-61 25-7 56-10 81-30M193 288c67-6 91-59 133-81s72-2 104-25c31-22 36-49 110-61m-312 167c49-15 76-55 109-70 41-19 71-2 103-22 37-23 46-47 100-59m-273 151c37-17 59-51 90-59 28-8 69-2 100-24 32-22 45-35 83-45m-243 128c44-24 50-45 87-49 31-4 53-3 85-25 34-23 43-27 71-34m-200 108c30-18 43-32 74-36 49-6 61-36 126-51"/>
+        <path class="rail" d="M140 86h61c28 0 48 16 60 42l9 21c12 29 31 45 62 45h66"/>
+        <circle class="map-pin-halo kyoto-halo" cx="140" cy="86" r="17"/>
+        <circle class="map-pin-halo nara-halo" cx="398" cy="194" r="17"/>
+        <circle class="map-pin kyoto-pin" cx="140" cy="86" r="7"/>
+        <circle class="map-pin nara-pin" cx="398" cy="194" r="7"/>
+        <text x="140" y="55" text-anchor="middle">Kyoto</text>
+        <text x="398" y="232" text-anchor="middle">Nara</text>
+        <path class="compass" d="M485 58v31m-6-24 6-7 6 7m-14 12h16"/>
+      </svg>
+      <figcaption>Illustrative route · Not to scale</figcaption>
+    </figure>
+  </div>
 </section>
 
 <section class="workflow-band" id="start" aria-labelledby="start-title">
   <div class="shell">
-    <p class="eyebrow">Choose a workflow</p>
-    <h2 id="start-title">Where are you in the planning process?</h2>
+    <p class="eyebrow"><span class="signal"></span> Three ways to use it</p>
+    <h2 id="start-title">From idea <em>to itinerary.</em></h2>
     <div class="workflow-grid">
       <article class="workflow">
-        <p class="step">01 <span>Build</span></p>
-        <h3>Start with an idea</h3>
-        <p>Give your agent the dates, places and priorities. Build a route with overnight bases and time for local food.</p>
+        <p class="step">01 <span>Plan</span></p>
+        <h3>Build the trip.</h3>
+        <p>Connect cities, find a place to stay, and leave time for the food and sights you came for.</p>
         <a class="text-link" href="$repository/blob/main/skills/japan-travel-planner/examples/hokuriku-six-days.md">See a worked example <span aria-hidden="true">↗</span></a>
       </article>
       <article class="workflow">
-        <p class="step">02 <span>Review</span></p>
-        <h3>Check an itinerary</h3>
-        <p>Check closures, last admission and transfers. Keep fixed bookings and flag what still needs a source.</p>
+        <p class="step">02 <span>Check</span></p>
+        <h3>Make it work.</h3>
+        <p>Check the last train, opening hours and transfer time. Keep your bookings and flag what needs another look.</p>
         <a class="text-link" href="check-japan-itinerary.html">Read the review guide <span aria-hidden="true">→</span></a>
       </article>
       <article class="workflow">
         <p class="step">03 <span>Share</span></p>
-        <h3>Make the trip visual</h3>
-        <p>Turn one plan into an interactive HTML map and a PowerPoint brief, with the same stops, transport and food.</p>
+        <h3>Bring it to life.</h3>
+        <p>Share the same trip as an interactive map or a presentation brief for your travel companions.</p>
         <a class="text-link" href="japan-itinerary-map-and-powerpoint.html">Read the delivery guide <span aria-hidden="true">→</span></a>
       </article>
     </div>
@@ -83,8 +118,8 @@
 </section>
 
 <section class="shell toolkit" id="tools" aria-labelledby="tools-title">
-  <p class="eyebrow">Travel toolkit</p>
-  <h2 id="tools-title">Look up one detail at a time</h2>
+  <p class="eyebrow">The collection</p>
+  <h2 id="tools-title">Tools for the details.</h2>
   <div class="tool-grid">
     <details>
       <summary>Getting around <span>Train, bus and passes</span></summary>
@@ -121,11 +156,12 @@
   </div>
 </section>
 
+
 <section class="shell setup" id="install" aria-labelledby="setup-title">
   <div>
-    <p class="eyebrow">Installation</p>
-    <h2 id="setup-title">Set up your agent</h2>
-    <p>Use individual Agent Skills in a compatible host, or install the full set as a Codex plugin. Check the runtime requirements for the tools you need.</p>
+    <p class="eyebrow">Open source · MIT</p>
+    <h2 id="setup-title">Start with <em>your agent.</em></h2>
+    <p>Install the individual skills your trip needs in a compatible host. The complete set is also available as a Codex plugin.</p>
   </div>
   <div class="setup-actions">
     <a class="button primary" href="$repository/blob/main/docs/installation.md#one-skill-in-codex-or-another-compatible-host">Install individual skills <span aria-hidden="true">↗</span></a>

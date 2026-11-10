@@ -36,9 +36,14 @@ EXAMPLE_USERS = {"user", "runner", "username", "example"}
 SKIP_DIRS = {".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache",
              ".mypy_cache", ".ruff_cache", ".tox", ".nox", "node_modules"}
 MAX_FILE_BYTES = 8 * 1024 * 1024
-# Public Manrope font reviewed for the Pages source and build. See site/README.md.
-SITE_FONT_PATHS = {"site/assets/manrope.woff2", "assets/manrope.woff2"}
-SITE_FONT_SHA256 = "8bd97e6bbbc1f602a8f791530eed1064c9a357d5731bbc76e3fc587fb068728f"
+# Reviewed Pages artwork and fonts, served unchanged from the source assets.
+# Each entry covers the build path and the same path under site/. See site/README.md.
+REVIEWED_SITE_MEDIA = {
+    "assets/manrope.woff2": "8bd97e6bbbc1f602a8f791530eed1064c9a357d5731bbc76e3fc587fb068728f",
+    "assets/fraunces-normal.woff2": "e0c3b077573963b1176d35a37311a7b1485d0a2729a9f926c66b4141c8bbcc7f",
+    "assets/fraunces-italic.woff2": "9e3a947e6ff04da3259dc36c0f08f49a158db4fb9b9016234daad1bc57651873",
+    "assets/railway-poster.jpg": "9cf1d38e29cdd4e37470351b23ea3f0d1ed1d54e84e98d9a51962411b8d07494",
+}
 
 
 def example_domain(domain):
@@ -81,8 +86,9 @@ def scan_bytes(path, data):
         findings.append(finding(path, 1, "sensitive_filename_content"))
     if len(data) > MAX_FILE_BYTES:
         return findings + [finding(path, 1, "oversized_file_requires_review")]
-    if str(path) in SITE_FONT_PATHS:
-        if sha256(data).hexdigest() != SITE_FONT_SHA256:
+    expected_digest = REVIEWED_SITE_MEDIA.get(str(path).removeprefix("site/"))
+    if expected_digest is not None:
+        if sha256(data).hexdigest() != expected_digest:
             findings.append(finding(path, 1, "reviewed_media_checksum_mismatch"))
         return findings
     try:

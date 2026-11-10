@@ -34,10 +34,10 @@ ARTICLES = {
     ),
 }
 NAVIGATION = (
-    ("start", "Workflows"),
-    ("tools", "Toolkit"),
-    ("example", "Sample trip"),
-    ("install", "Install"),
+    ("example", "Try the demo"),
+    ("start", "How it works"),
+    ("tools", "Tools"),
+    ("install", "Get the skills"),
 )
 
 
@@ -102,6 +102,7 @@ def render_page(page, title, description, canonical, content):
     return template("page.html").substitute(
         title=escape(title), description=escape(description), canonical=escape(canonical),
         repository=REPOSITORY, navigation=navigation, content=content, script=script,
+        page_class="home" if home else "guide",
     )
 
 
@@ -127,7 +128,12 @@ def build(output, site_url):
         raise ValueError("Build output must stay outside the source checkout")
     output.mkdir(parents=True, exist_ok=False)
     (output / "assets").mkdir()
-    for asset in ("travel.css", "trip.js", "manrope.woff2", "manrope-OFL.txt"):
+    assets = (
+        "journey.css", "trip.js", "railway-poster.jpg",
+        "manrope.woff2", "manrope-OFL.txt",
+        "fraunces-normal.woff2", "fraunces-italic.woff2", "fraunces-OFL.txt",
+    )
+    for asset in assets:
         shutil.copyfile(SITE / "assets" / asset, output / "assets" / asset)
     (output / "index.html").write_text(render_page(
         "index.html", "Japan Travel Skills — Japan itinerary planning for AI agents",
