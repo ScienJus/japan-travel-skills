@@ -1,0 +1,3 @@
+# Documentation build only; not part of the plugin runtime.
+markdown-it-py==4.0.0
+mdurl==0.1.2
