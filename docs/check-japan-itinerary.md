@@ -1,4 +1,4 @@
-# How to check a Japan travel itinerary with Codex
+# How to check a Japan travel itinerary with an AI agent
 
 Use the Japan Travel Planner skill to check an existing itinerary for opening and last-entry times,
 dated train and bus connections, and enough time for walking, luggage and transfers. Keep booked
@@ -6,10 +6,10 @@ hotels, fixed departures and must-visit places in the plan unless the user asks 
 
 ## Give the planner the itinerary and fixed dates
 
-[Install the Japan Travel plugin](installation.md) for a review that combines multiple sources.
+[Set up the Japan Travel Skills](installation.md) for a review that combines multiple sources.
 For a single train, restaurant or hotel question, use the relevant specialist directly.
 
-> Use $japan-travel-planner to check my Japan itinerary below. Keep my booked hotels and fixed
+> Use the japan-travel-planner skill to check my Japan itinerary below. Keep my booked hotels and fixed
 > departure times. Check the attraction's last entry for the actual visit date and whether I can
 > get from the preceding stop to the platform in time. Keep the original links. Separate confirmed
 > conflicts, suggested changes and things you could not check. Show the revised days if needed.

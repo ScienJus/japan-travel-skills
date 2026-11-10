@@ -36,9 +36,9 @@ EXAMPLE_USERS = {"user", "runner", "username", "example"}
 SKIP_DIRS = {".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache",
              ".mypy_cache", ".ruff_cache", ".tox", ".nox", "node_modules"}
 MAX_FILE_BYTES = 8 * 1024 * 1024
-# Public Kyoto photograph reviewed for the Pages source and build. See site/README.md.
-KYOTO_PHOTO_PATHS = {"site/assets/kyoto-evening.jpg", "assets/kyoto-evening.jpg"}
-KYOTO_PHOTO_SHA256 = "0b15e79899984c28ead01d338888be161672b3da2ed15d79d9f4ff91c016f141"
+# Public Manrope font reviewed for the Pages source and build. See site/README.md.
+SITE_FONT_PATHS = {"site/assets/manrope.woff2", "assets/manrope.woff2"}
+SITE_FONT_SHA256 = "8bd97e6bbbc1f602a8f791530eed1064c9a357d5731bbc76e3fc587fb068728f"
 
 
 def example_domain(domain):
@@ -81,8 +81,8 @@ def scan_bytes(path, data):
         findings.append(finding(path, 1, "sensitive_filename_content"))
     if len(data) > MAX_FILE_BYTES:
         return findings + [finding(path, 1, "oversized_file_requires_review")]
-    if str(path) in KYOTO_PHOTO_PATHS:
-        if sha256(data).hexdigest() != KYOTO_PHOTO_SHA256:
+    if str(path) in SITE_FONT_PATHS:
+        if sha256(data).hexdigest() != SITE_FONT_SHA256:
             findings.append(finding(path, 1, "reviewed_media_checksum_mismatch"))
         return findings
     try:

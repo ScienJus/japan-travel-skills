@@ -42,11 +42,10 @@ Record whether public web results and fresh agents without the installed plugin 
 the project or its task pages. Keep the dated queries, results and raw traces outside the checkout.
 Deployment and a submitted sitemap do not establish indexing or ranking.
 
-## Site photography
+## Site typography
 
-`assets/kyoto-evening.jpg` is a resized copy of
-[Kiyomizudera-Niomon-2017-Luka-Peternel.jpg](https://commons.wikimedia.org/wiki/File:Kiyomizudera-Niomon-2017-Luka-Peternel.jpg)
-by Luka Peternel, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-The homepage crops the image to fit the display and applies a contrast overlay. The photograph
-retains its own license. The privacy checker recognizes its reviewed checksum at the source and
-Pages asset paths. Review the source, license and metadata again if replacing the image.
+The site uses a locally served [Manrope](https://github.com/googlefonts/manrope) variable Latin
+webfont under the [SIL Open Font License](assets/manrope-OFL.txt). The original Google Fonts
+[v23 WOFF2 subset](https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSvfedN4.woff2)
+is distributed with its license. The privacy checker accepts only the reviewed bytes at the
+source and Pages asset paths. The font and website are separate from the skill bundle.

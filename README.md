@@ -1,6 +1,6 @@
 # Japan Travel Skills
 
-**Japan Travel Skills** is an open-source Japan itinerary planner and checker for Codex. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive HTML travel map and a PowerPoint handoff. The plugin combines thirteen Agent Skills, including independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
+**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive HTML travel map and a PowerPoint handoff. The project includes thirteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
 
 The project supports discovery, introductions, prices, availability, conditions and original booking links. Users complete reservations and purchases manually or with another agent. Transactions, holds, waitlists and payments are outside the project scope. Source uncertainty is preserved in planning results.
 
@@ -13,7 +13,7 @@ The project supports discovery, introductions, prices, availability, conditions 
 | Create a Japan itinerary map or PowerPoint for my travel companions | [Turn an itinerary into a map and PowerPoint](docs/japan-itinerary-map-and-powerpoint.md), with an offline HTML demo and a shared presentation brief. |
 | Use one tool, such as Japanese rail timetables or hotel discovery | Choose the relevant specialist below. |
 
-See [installation](docs/installation.md) for the complete Codex plugin and individual skills.
+See [installation](docs/installation.md) to use individual skills in a compatible host or install the full Codex plugin.
 
 ## Available capabilities
 

@@ -26,7 +26,7 @@ DEMO = "assets/kyoto-nara-demo.html"
 ARTICLES = {
     "check-japan-itinerary.html": (
         "docs/check-japan-itinerary.md", "01 / Review",
-        "Check a Japan itinerary with Codex for closures, last admission and tight rail or bus connections. Keep fixed bookings and source links.",
+        "Check a Japan itinerary with an AI agent for closures, last admission and tight rail or bus connections. Keep fixed bookings and source links.",
     ),
     "japan-itinerary-map-and-powerpoint.html": (
         "docs/japan-itinerary-map-and-powerpoint.md", "02 / Share",
@@ -34,9 +34,10 @@ ARTICLES = {
     ),
 }
 NAVIGATION = (
-    ("index.html", "Overview"),
-    ("check-japan-itinerary.html", "Check an itinerary"),
-    ("japan-itinerary-map-and-powerpoint.html", "Map & PowerPoint"),
+    ("start", "Workflows"),
+    ("tools", "Toolkit"),
+    ("example", "Sample trip"),
+    ("install", "Install"),
 )
 
 
@@ -93,13 +94,14 @@ def render_article(source):
 
 
 def render_page(page, title, description, canonical, content):
-    navigation = []
-    for href, label in NAVIGATION:
-        current = ' aria-current="page"' if href == page else ""
-        navigation.append('<a href="{}"{}>{}</a>'.format(href, current, escape(label)))
+    home = page == "index.html"
+    prefix = "" if home else "index.html"
+    navigation = "".join('<a href="{}#{}">{}</a>'.format(prefix, anchor, label)
+                         for anchor, label in NAVIGATION)
+    script = '\n  <script src="assets/trip.js" defer></script>' if home else ""
     return template("page.html").substitute(
         title=escape(title), description=escape(description), canonical=escape(canonical),
-        repository=REPOSITORY, navigation="".join(navigation), content=content,
+        repository=REPOSITORY, navigation=navigation, content=content, script=script,
     )
 
 
@@ -125,10 +127,10 @@ def build(output, site_url):
         raise ValueError("Build output must stay outside the source checkout")
     output.mkdir(parents=True, exist_ok=False)
     (output / "assets").mkdir()
-    for asset in ("site.css", "kyoto-evening.jpg"):
+    for asset in ("travel.css", "trip.js", "manrope.woff2", "manrope-OFL.txt"):
         shutil.copyfile(SITE / "assets" / asset, output / "assets" / asset)
     (output / "index.html").write_text(render_page(
-        "index.html", "Japan Travel Skills — Japan itinerary planning for Codex",
+        "index.html", "Japan Travel Skills — Japan itinerary planning for AI agents",
         "Plan and check Japan itineraries with read-only Agent Skills. Look up rail and bus routes, hotels and food, and share an interactive map or presentation brief.",
         base, template("home.html").substitute(repository=REPOSITORY),
     ), encoding="utf-8")
@@ -141,18 +143,17 @@ def build(output, site_url):
             sections.append(("demo", "Explore Kyoto and Nara"))
         links = "".join('<a href="#{}">{}</a>'.format(anchor, escape(label))
                         for anchor, label in sections)
-        theme = "share-task" if demo else "review-task"
         content = (
-            '<header class="shell article-head {}"><p class="kicker">{}</p><h1>{}</h1>{}</header>'
+            '<header class="shell article-head"><p class="eyebrow">{}</p><h1>{}</h1>{}</header>'
             '<div class="shell article-layout">'
-            '<aside class="article-index"><p class="kicker">On this page</p>'
+            '<aside class="article-index"><p class="eyebrow">On this page</p>'
             '<nav aria-label="Article sections">{}</nav></aside>'
             '<article class="prose">{}</article></div>'
-        ).format(theme, escape(kicker), escape(title), button, links, body)
+        ).format(escape(kicker), escape(title), button, links, body)
         if demo:
             content += (
                 '<section class="shell demo-section" id="demo" aria-labelledby="demo-title">'
-                '<p class="kicker">Public example / 01</p><h2 id="demo-title">Explore Kyoto and Nara</h2>'
+                '<p class="eyebrow">Public example / 01</p><h2 id="demo-title">Explore Kyoto and Nara</h2>'
                 '<p>Switch dates to follow the stops and connections, then filter hotels, sights or food. '
                 'This illustrative plan includes candidate choices and checks still to make.</p>'
                 '<a class="button" href="{0}">Open the full interactive guide</a>'

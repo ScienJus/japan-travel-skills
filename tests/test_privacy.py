@@ -18,14 +18,14 @@ class PrivacyTests(unittest.TestCase):
         content = b"fixture@example.org https://github.com/public-project /home/runner/work/project"
         self.assertEqual(scan_bytes("README.md", content), [])
 
-    def test_reviewed_pages_photo_requires_the_exact_path_and_bytes(self):
-        source_path = "site/assets/kyoto-evening.jpg"
-        photo = (ROOT / source_path).read_bytes()
-        self.assertEqual(scan_bytes(source_path, photo), [])
-        self.assertEqual(scan_bytes("assets/kyoto-evening.jpg", photo), [])
-        self.assertEqual([item["rule"] for item in scan_bytes("other/kyoto-evening.jpg", photo)],
+    def test_reviewed_pages_font_requires_the_exact_path_and_bytes(self):
+        source_path = "site/assets/manrope.woff2"
+        font = (ROOT / source_path).read_bytes()
+        self.assertEqual(scan_bytes(source_path, font), [])
+        self.assertEqual(scan_bytes("assets/manrope.woff2", font), [])
+        self.assertEqual([item["rule"] for item in scan_bytes("other/manrope.woff2", font)],
                          ["non_text_requires_review"])
-        for data in (photo + b"changed", b"replacement text"):
+        for data in (font + b"changed", b"replacement text"):
             self.assertEqual([item["rule"] for item in scan_bytes(source_path, data)],
                              ["reviewed_media_checksum_mismatch"])
 

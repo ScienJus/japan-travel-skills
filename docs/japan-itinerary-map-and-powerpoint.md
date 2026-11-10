@@ -5,12 +5,12 @@ brief. The guide switches dates to show the corresponding stops and transport. I
 attractions and restaurants, and keeps places without sourced coordinates in the list. An actual
 PowerPoint file requires presentation tools available in the agent's host.
 
-## Ask Codex to visualize a trip
+## Ask your agent to visualize a trip
 
-[Install the Japan Travel plugin](installation.md) and give the planner a trip brief or an existing
+[Set up the Japan Travel Skills](installation.md) and give the planner a trip brief or an existing
 itinerary. Say whether to research the trip or only reformat your supplied content.
 
-> Use $japan-travel-planner to turn my Japan itinerary into a mobile-friendly local HTML guide with
+> Use the japan-travel-planner skill to turn my Japan itinerary into a mobile-friendly local HTML guide with
 > a map, and an illustrated PPTX if presentation tools are available. Include overnight bases,
 > intercity travel, sights, local dishes and restaurant candidates from my plan. Preserve fixed
 > choices, source links and unresolved checks. Do not publish the files.
