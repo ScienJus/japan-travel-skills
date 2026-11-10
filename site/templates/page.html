@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="$lang">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,29 +8,32 @@
   <title>$title</title>
   <meta name="description" content="$description">
   <link rel="canonical" href="$canonical">
+  $alternates
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Japan Travel Skills">
   <meta property="og:title" content="$title">
   <meta property="og:description" content="$description">
   <meta property="og:url" content="$canonical">
-  <link rel="stylesheet" href="assets/journey.css">$script
+  <link rel="stylesheet" href="$assets/field-guide.css">
+  <script src="$assets/navigation.js" defer></script>$script
 </head>
-<body class="$page_class">
-  <a class="skip" href="#main">Skip to content</a>
+<body id="top">
+  <a class="skip" href="#main">$skip</a>
   <header class="topbar">
     <div class="shell topbar-inner">
-      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">旅</span><span>Japan Travel Skills</span></a>
-      <nav aria-label="Main navigation">$navigation</nav>
+      <a class="brand" href="$brand_href"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M7 23h4a5 5 0 0 0 5-5v-4a5 5 0 0 1 5-5h4"/><circle cx="7" cy="23" r="3"/><circle cx="25" cy="9" r="3"/></svg><span>Japan Travel Skills</span></a>
+      <nav aria-label="$nav_label">$navigation</nav>
+      $language_nav
       <a class="repo-link" href="$repository">GitHub <span aria-hidden="true">↗</span></a>
     </div>
   </header>
   <main id="main">$content</main>
   <footer class="shell footer">
     <span>Japan Travel Skills · MIT</span>
-    <nav aria-label="Project resources">
+    <nav aria-label="$resources_label">
       <a href="$repository">GitHub</a>
-      <a href="$repository/blob/main/docs/sources.md">Source policy</a>
-      <a href="$repository/blob/main/SECURITY.md">Privacy</a>
+      <a href="$repository/blob/main/docs/sources.md">$sources_label</a>
+      <a href="$repository/blob/main/SECURITY.md">$privacy_label</a>
     </nav>
   </footer>
 </body>

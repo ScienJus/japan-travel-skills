@@ -32,6 +32,21 @@
       footer: "只读旅行规划。此文件包含完整行程，筛选不会删除或脱敏记录；分享前请检查私人信息。",
       related: "相关地点", pointCount: "个有来源坐标", noPoints: "当前视图没有可靠坐标", scope: "核对范围", checked: "核对日期",
     },
+    ja: {
+      demo: "モデルコース", days: "日間", cities: "都市", places: "か所", nights: "泊", dayTrip: "日帰り",
+      revision: "旅程スナップショット", all: "すべて", itinerary: "日ごとの旅程", itineraryKicker: "日付 / 宿泊 / 移動",
+      export: "旅程JSONをダウンロード", locations: "訪問先と地図", filterScope: "都市と種類は訪問先の絞り込みに使います。日付を切り替えると旅程と交通も連動します。",
+      city: "都市", kind: "種類", hotel: "ホテル", attraction: "観光", restaurant: "飲食店", transport: "駅・停留所",
+      fixed: "確定済み", selected: "選択済み", candidate: "候補", backup: "代替案", verified: "確認済み（出典の範囲内）", unverified: "未確認", illustrative: "参考情報",
+      overnight: "宿泊", noBase: "宿泊なし", hotelPending: "ホテル未定", empty: "条件に合う訪問先がありません。",
+      missing: "出典のある座標は未取得。一覧に掲載しています。", position: "座標の出典と精度", questions: "出発前の確認事項", none: "未確認事項の記録はありません。旅程全体の確認を示すものではありません。",
+      map: "位置の目安 · 経路案内とは異なります", fit: "全体表示", basemap: "地理院地図を表示", hideMap: "背景地図を閉じる", zoomFirst: "拡大すると背景地図を表示できます",
+      mapOff: "地点の位置を表示しています。道路や徒歩ルート、所要時間は別途確認してください。", mapOn: "地理院地図 · ズーム9〜16。マーカーは位置の目安で、入口の位置は要確認です。",
+      mapFailed: "背景地図を取得できません。訪問先やリンクは引き続き表示できます。",
+      network: "初期表示では外部と通信しません。地理院地図を表示すると、表示範囲のタイルを通常の通信情報とともに取得します。旅程データは送信されません。",
+      footer: "読み取り専用の旅行計画です。ファイルには旅程全体が含まれます。共有する前に個人情報をご確認ください。",
+      related: "関連する訪問先", pointCount: "か所に出典付きの座標あり", noPoints: "この表示範囲に出典付きの座標がありません", scope: "確認範囲", checked: "確認日",
+    },
   };
   const t = words[plan.language];
   const $ = id => document.getElementById(id);
@@ -217,7 +232,7 @@
   }
   for (const city of plan.cities) {
     const nights = plan.days.filter(day => day.base_city_id === city.id).length;
-    const item = make("div", `${city.name} · ${nights ? `${nights} ${t.nights}` : t.dayTrip}`, "base"); item.title = city.summary; $("bases").append(item);
+    const item = make("div", `${city.name} · ${nights ? `${nights}${plan.language === "en" ? " " : ""}${t.nights}` : t.dayTrip}`, "base"); item.title = city.summary; $("bases").append(item);
   }
   for (const [id, label] of Object.entries({"schedule-heading": t.itinerary, "schedule-kicker": t.itineraryKicker, export: t.export,
     "places-heading": t.locations, "filter-scope": t.filterScope, "city-label": t.city, "kind-label": t.kind,

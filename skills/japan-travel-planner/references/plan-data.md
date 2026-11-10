@@ -50,7 +50,7 @@ Free text is limited to 2,000 characters per field; names/labels should remain c
 | Field | Content |
 | --- | --- |
 | `schema_version` | Integer `1`; a data-format marker, separate from plugin version. |
-| `title`, `language`, `revision` | Title, UI language (`en` or `zh-CN`) and exact plan snapshot label. Never use a local path as a revision. |
+| `title`, `language`, `revision` | Title, UI language (`en`, `zh-CN`, or `ja`) and exact plan snapshot label. Never use a local path as a revision. |
 | `demo`, `notice` | Boolean demo flag and a visible scope/uncertainty notice. A demo must disclose fictional planning data. |
 | `cities` | `{id, name, summary}`. Include day-trip cities; overnight counts derive from days, not city membership. |
 | `places` | `{id, city_id, kind, name, role, evidence, notes, sources, coordinates?}`. Kind is `hotel`, `attraction`, `restaurant` or `transport`. |

@@ -55,6 +55,16 @@ class PlanRenderingTests(unittest.TestCase):
         self.assertEqual(EmbeddedData(html).plan(), plan)
         self.assertEqual(json.loads(records), plan)
 
+    def test_html_language_and_accessibility_labels_are_available_before_javascript(self):
+        plan = fixture()
+        for lang, label in (("en", "Zoom in"), ("zh-CN", "放大"), ("ja", "拡大")):
+            with self.subTest(language=lang):
+                plan["language"] = lang
+                html = RENDERER.render_html(plan)
+                self.assertIn('<html lang="{}">'.format(lang), html)
+                self.assertIn('aria-label="{}"'.format(label), html)
+                self.assertEqual(EmbeddedData(html).plan(), plan)
+
     def test_external_text_cannot_break_out_of_embedded_data_or_replace_template_slots(self):
         plan = fixture()
         hostile = '</script><script>alert("fixture")</script> @@SCRIPT@@ & \u2028'

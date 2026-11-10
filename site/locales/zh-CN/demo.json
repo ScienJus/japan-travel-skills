@@ -1,0 +1,12 @@
+{
+  "/places/kyoto-station/name": "京都站",
+  "/places/kyoto-station/notes": "实际车站的位置参考。车次、乘车时刻、入口和运营状态待查。",
+  "/places/kyoto-station/sources/https%3A%2F%2Fmsearch.gsi.go.jp%2Faddress-search%2FAddressSearch%3Fq%3D%25E4%25BA%25AC%25E9%2583%25BD%25E9%25A7%2585/title": "日本国土地理院地名与地址查询",
+  "/places/kyoto-station/sources/https%3A%2F%2Fmsearch.gsi.go.jp%2Faddress-search%2FAddressSearch%3Fq%3D%25E4%25BA%25AC%25E9%2583%25BD%25E9%25A7%2585/scope": "站名和地名代表点。时刻表与步行路线另查。",
+  "/places/kyoto-station/coordinates/precision": "地名代表点。入口和站台位置待查。",
+  "/places/nara-station/name": "近铁奈良站",
+  "/places/nara-station/notes": "实际车站的位置参考。车次、乘车时刻、入口和运营状态待查。",
+  "/places/nara-station/sources/https%3A%2F%2Fmsearch.gsi.go.jp%2Faddress-search%2FAddressSearch%3Fq%3D%25E8%25BF%2591%25E9%2589%2584%25E5%25A5%2588%25E8%2589%25AF%25E9%25A7%2585/title": "日本国土地理院地名与地址查询",
+  "/places/nara-station/sources/https%3A%2F%2Fmsearch.gsi.go.jp%2Faddress-search%2FAddressSearch%3Fq%3D%25E8%25BF%2591%25E9%2589%2584%25E5%25A5%2588%25E8%2589%25AF%25E9%25A7%2585/scope": "站名和地名代表点。时刻表与步行路线另查。",
+  "/places/nara-station/coordinates/precision": "地名代表点。入口和站台位置待查。"
+}

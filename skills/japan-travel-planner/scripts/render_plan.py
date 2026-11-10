@@ -4,6 +4,7 @@
 import argparse
 import datetime as dt
 import hashlib
+from html import escape
 import base64
 import json
 import math
@@ -19,6 +20,27 @@ ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\Z")
 ROLES = {"fixed", "selected", "candidate", "backup"}
 EVIDENCE = {"verified", "unverified", "illustrative"}
 KINDS = {"hotel", "attraction", "restaurant", "transport"}
+
+GUIDE_LABELS = {
+    "en": {
+        "SKIP": "Skip to itinerary", "NOTEBOOK": "JAPAN / TRAVEL NOTEBOOK", "DAYS": "Days",
+        "PLACES": "PLACES / ORIENTATION", "ZOOM_IN": "Zoom in", "ZOOM_OUT": "Zoom out",
+        "MAP": "Place locations", "BEFORE": "BEFORE YOU GO",
+        "NOSCRIPT": "Enable JavaScript to use the day views and place list. Keep the original plan JSON as a companion file.",
+    },
+    "zh-CN": {
+        "SKIP": "跳到行程", "NOTEBOOK": "日本 / 旅行手记", "DAYS": "行程日期",
+        "PLACES": "地点 / 位置参考", "ZOOM_IN": "放大", "ZOOM_OUT": "缩小",
+        "MAP": "地点位置", "BEFORE": "出发之前",
+        "NOSCRIPT": "启用 JavaScript 即可查看每日行程和地点清单。请保留原始行程 JSON 作为配套文件。",
+    },
+    "ja": {
+        "SKIP": "旅程へ移動", "NOTEBOOK": "日本 / 旅のしおり", "DAYS": "旅行日",
+        "PLACES": "訪問先 / 位置の目安", "ZOOM_IN": "拡大", "ZOOM_OUT": "縮小",
+        "MAP": "訪問先の位置", "BEFORE": "出発前に",
+        "NOSCRIPT": "日ごとの旅程と訪問先の一覧を使うにはJavaScriptを有効にしてください。元の旅程JSONも一緒に保管してください。",
+    },
+}
 
 
 class PlanError(ValueError):
@@ -101,7 +123,7 @@ def validate(plan):
     obj(plan, required, required, "plan")
     require(type(plan["schema_version"]) is int and plan["schema_version"] == 1, "schema_version",
             "unsupported schema version")
-    require(plan["language"] in ("en", "zh-CN"), "language", "supported languages: en, zh-CN")
+    require(plan["language"] in tuple(GUIDE_LABELS), "language", "supported languages: en, zh-CN, ja")
     require(type(plan["demo"]) is bool, "demo", "expected a boolean")
     for field in ("title", "revision", "notice"):
         text(plan[field], field, 200 if field != "notice" else 2000)
@@ -209,7 +231,9 @@ def render_html(plan):
     # A callable substitution prevents replacements inside user-supplied content.
     slots = {"PLAN": payload, "SCRIPT": script, "SCRIPT_HASH": digest,
              "STYLE": (ASSETS / "guide.css").read_text(encoding="utf-8")}
-    return re.sub(r"@@(PLAN|SCRIPT|SCRIPT_HASH|STYLE)@@", lambda m: slots[m[1]], template)
+    slots.update({key: escape(label) for key, label in GUIDE_LABELS[plan["language"]].items()})
+    slots.update(LANG=plan["language"], TITLE=escape(plan["title"]))
+    return re.sub(r"@@([A-Z_]+)@@", lambda m: slots[m[1]], template)
 
 
 def presentation_brief(plan):

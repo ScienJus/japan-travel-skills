@@ -37,7 +37,8 @@ printf 'Example files: %s\n' "$demo_dir"
 Open `guide.html` locally. Switch between the Kyoto stay and the Nara day trip, then use the place
 filters or download the shared JSON. This curated demo has sample dates and candidate choices;
 it is not a verified future itinerary. The Markdown brief contains editable plan records and
-page patterns for a presentation tool. It is not a PPTX.
+page patterns for a presentation tool. The commands use the repository's Chinese sample. The
+product site also offers English and Japanese versions of the same example.
 
 ## Keep the map and presentation in agreement
 

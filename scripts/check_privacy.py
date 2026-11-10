@@ -36,13 +36,12 @@ EXAMPLE_USERS = {"user", "runner", "username", "example"}
 SKIP_DIRS = {".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache",
              ".mypy_cache", ".ruff_cache", ".tox", ".nox", "node_modules"}
 MAX_FILE_BYTES = 8 * 1024 * 1024
-# Reviewed Pages artwork and fonts, served unchanged from the source assets.
+# Reviewed Pages photographs and font, served unchanged from the source assets.
 # Each entry covers the build path and the same path under site/. See site/README.md.
 REVIEWED_SITE_MEDIA = {
     "assets/manrope.woff2": "8bd97e6bbbc1f602a8f791530eed1064c9a357d5731bbc76e3fc587fb068728f",
-    "assets/fraunces-normal.woff2": "e0c3b077573963b1176d35a37311a7b1485d0a2729a9f926c66b4141c8bbcc7f",
-    "assets/fraunces-italic.woff2": "9e3a947e6ff04da3259dc36c0f08f49a158db4fb9b9016234daad1bc57651873",
-    "assets/railway-poster.jpg": "9cf1d38e29cdd4e37470351b23ea3f0d1ed1d54e84e98d9a51962411b8d07494",
+    "assets/kyoto-kiyomizu.jpg": "523562554735076d26b79244ad22e258d64c43da5c7d6ffd3e77c6dddee2bdec",
+    "assets/nara-park.jpg": "c9f1183a723248ad24c44843b0aa7fa1aed34b4e58f82f24c6e628bf182a6532",
 }
 
 

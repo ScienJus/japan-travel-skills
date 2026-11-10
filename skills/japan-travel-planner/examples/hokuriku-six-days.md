@@ -1,4 +1,4 @@
-# Worked example: plan, review, revise and hand off
+# Six days from Nagano through Hokuriku
 
 This teaching example uses an invented brief and real Japanese places. Selected source facts were
 checked on **2026-11-07 JST** for **2026-11-28 to 2026-12-03**. It is a dated illustration, not a
