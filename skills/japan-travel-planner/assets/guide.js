@@ -11,8 +11,8 @@
       overnight: "Overnight", noBase: "No overnight stay", hotelPending: "Hotel not selected", empty: "No places match these filters.",
       missing: "No sourced coordinates; retained in the list", position: "Coordinate provenance", questions: "Open decisions", none: "No open decisions recorded; this does not certify the trip.",
       map: "Location overview · not navigation", fit: "Fit", basemap: "Load GSI basemap", hideMap: "Hide basemap", zoomFirst: "Zoom in to load a basemap",
-      mapOff: "Locations only. No road or walking route is inferred.", mapOn: "GSI basemap · zoom 9–16. Markers are reference points, not confirmed entrances.",
-      mapFailed: "Basemap unavailable. Place details and links remain usable; no automatic retry.",
+      mapOff: "Road map not loaded. Click ‘Load GSI basemap’ to show it. Markers show locations, not walking routes.", mapOn: "GSI basemap · zoom 9–16. Markers are reference points, not confirmed entrances.",
+      mapFailed: "Basemap could not load; the network or browser may be blocking it. Place details and links remain usable; no automatic retry.", basemapUnavailable: "Basemap unavailable",
       network: "No external requests by default. Loading the basemap sends the visible tile area and normal network metadata to GSI, not the plan records.",
       footer: "Read-only travel planning. This file contains the complete plan; filters do not remove records. Review private details before sharing.",
       related: "Related places", pointCount: "with sourced coordinates", noPoints: "No sourced coordinates in this view", scope: "Scope", checked: "Checked",
@@ -26,8 +26,8 @@
       overnight: "住宿", noBase: "当天无住宿安排", hotelPending: "酒店待选", empty: "此筛选下没有地点。",
       missing: "无可靠坐标，保留在清单中", position: "坐标来源与精度", questions: "出发前待确认", none: "未记录待办，不代表整段旅程已获核实。",
       map: "位置关系 · 非导航路线", fit: "适应范围", basemap: "加载地理院底图", hideMap: "关闭底图", zoomFirst: "放大到城市范围后可加载底图",
-      mapOff: "当前仅展示地点位置，不推断道路、步行路线或耗时。", mapOn: "地理院底图 · 缩放 9–16 级。坐标是参考点，不保证是入口。",
-      mapFailed: "底图暂不可用。地点与链接仍可查看，不自动重试。",
+      mapOff: "尚未加载道路底图。点击「加载地理院底图」查看；圆点仅表示地点位置，不是步行路线。", mapOn: "地理院底图 · 缩放 9–16 级。坐标是参考点，不保证是入口。",
+      mapFailed: "底图加载失败，可能受网络或浏览器限制。地点与链接仍可查看，不自动重试。", basemapUnavailable: "底图不可用",
       network: "默认不发出外部请求。加载底图会向国土地理院发送可见区域的瓦片请求和常规网络信息，不上传行程记录。",
       footer: "只读旅行规划。此文件包含完整行程，筛选不会删除或脱敏记录；分享前请检查私人信息。",
       related: "相关地点", pointCount: "个有来源坐标", noPoints: "当前视图没有可靠坐标", scope: "核对范围", checked: "核对日期",
@@ -41,8 +41,8 @@
       overnight: "宿泊", noBase: "宿泊なし", hotelPending: "ホテル未定", empty: "条件に合う訪問先がありません。",
       missing: "出典のある座標は未取得。一覧に掲載しています。", position: "座標の出典と精度", questions: "出発前の確認事項", none: "未確認事項の記録はありません。旅程全体の確認を示すものではありません。",
       map: "位置の目安 · 経路案内とは異なります", fit: "全体表示", basemap: "地理院地図を表示", hideMap: "背景地図を閉じる", zoomFirst: "拡大すると背景地図を表示できます",
-      mapOff: "地点の位置を表示しています。道路や徒歩ルート、所要時間は別途確認してください。", mapOn: "地理院地図 · ズーム9〜16。マーカーは位置の目安で、入口の位置は要確認です。",
-      mapFailed: "背景地図を取得できません。訪問先やリンクは引き続き表示できます。",
+      mapOff: "背景地図は未表示です。「地理院地図を表示」を押すと道路を確認できます。マーカーは地点の位置で、徒歩ルートではありません。", mapOn: "地理院地図 · ズーム9〜16。マーカーは位置の目安で、入口の位置は要確認です。",
+      mapFailed: "背景地図を取得できません。通信やブラウザーで制限されている可能性があります。訪問先やリンクは引き続き表示でき、自動再試行はしません。", basemapUnavailable: "背景地図を取得できません",
       network: "初期表示では外部と通信しません。地理院地図を表示すると、表示範囲のタイルを通常の通信情報とともに取得します。旅程データは送信されません。",
       footer: "読み取り専用の旅行計画です。ファイルには旅程全体が含まれます。共有する前に個人情報をご確認ください。",
       related: "関連する訪問先", pointCount: "か所に出典付きの座標あり", noPoints: "この表示範囲に出典付きの座標がありません", scope: "確認範囲", checked: "確認日",
@@ -157,8 +157,9 @@
   }
 
   function updateMapStatus(count) {
-    $("map-status").textContent = state.tileFailed ? t.mapFailed : (state.tiles && state.zoom >= 9 ? t.mapOn : t.mapOff);
-    $("basemap").textContent = state.tileFailed ? t.mapFailed : (state.tiles ? t.hideMap : state.zoom < 9 ? t.zoomFirst : t.basemap);
+    $("map-status").textContent = state.tileFailed ? t.mapFailed : !count ? t.noPoints
+      : state.zoom < 9 ? t.zoomFirst : state.tiles ? t.mapOn : t.mapOff;
+    $("basemap").textContent = state.tileFailed ? t.basemapUnavailable : (state.tiles ? t.hideMap : state.zoom < 9 ? t.zoomFirst : t.basemap);
     $("basemap").disabled = state.tileFailed || !count || (!state.tiles && state.zoom < 9);
     $("zoom-in").disabled = state.zoom >= 16;
     $("zoom-out").disabled = state.zoom <= 1;

@@ -45,6 +45,9 @@ async function main() {
     assert.equal(network.length, 0, "Default view must not contact providers");
     assert.equal(await page.locator(".day-plan").count(), plan.days.length);
     assert.equal(await page.locator(".place-card").count(), plan.places.length);
+    assert(await page.locator("#basemap").evaluate(button =>
+      button.getBoundingClientRect().bottom <= document.getElementById("map").getBoundingClientRect().top),
+    "Basemap control must be visible before the location-only plot");
     const candidateBase = plan.days.find(day => plan.places.some(place => place.id === day.base_place_id && place.role === "candidate"));
     assert(candidateBase, "The demo must exercise a proposed hotel base");
     assert.match(await page.locator(`.day-plan[data-day-id="${candidateBase.id}"] .overnight`).textContent(), /候选/);
@@ -81,6 +84,23 @@ async function main() {
     await download.saveAs(downloadPath);
     assert.deepEqual(JSON.parse(await fs.readFile(downloadPath, "utf8")), plan);
     assert.equal(network.length, 0);
+    phase = "basemap-success";
+    // A synthetic image verifies rendering without contacting the tile provider.
+    const tiles = "https://cyberjapandata.gsi.go.jp/**";
+    await page.route(tiles, route => route.fulfill({status: 200, contentType: "image/png",
+      body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64")}));
+    await page.locator("#fit").click();
+    await page.locator("#basemap").click();
+    await page.waitForLoadState("networkidle");
+    const loaded = await page.locator("#map image").count();
+    assert(loaded > 0 && loaded <= 12, "One bounded viewport must render the supplied tiles");
+    assert.equal(await page.locator("#basemap").isDisabled(), false);
+    await page.locator("#basemap").click();
+    assert.equal(await page.locator("#map image").count(), 0, "Basemap can be hidden again");
+    await page.unroute(tiles);
+    await page.reload();
+    await page.locator(".day-plan").first().waitFor();
+    network.length = 0;
     phase = "basemap-failure";
     await page.locator("#basemap").click();
     await page.waitForFunction(() => document.getElementById("basemap").disabled);
@@ -137,7 +157,7 @@ async function main() {
     assert.equal(await page.locator(".map-marker").last().getAttribute("data-place-id"), "kyoto-station");
     assert.deepEqual(errors, []);
     await fs.writeFile(path.join(output, "result.json"), JSON.stringify({status: "pass", externalRequestsBeforeConsent: 0,
-      basemapFailure: "mocked; no provider contacted", browserErrors: 0, phoneWidths: [390, 320]}, null, 2) + "\n");
+      basemapSuccess: "synthetic image; no provider contacted", basemapFailure: "mocked; no provider contacted", browserErrors: 0, phoneWidths: [390, 320]}, null, 2) + "\n");
     console.log("PASS: day/transport sync, filters, missing coordinates, JSON export, offline fallback and phone layout");
   } finally {
     await browser.close();

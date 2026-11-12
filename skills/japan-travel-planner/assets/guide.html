@@ -32,8 +32,9 @@
     <div class="map-list">
       <div class="map-wrap">
         <div class="map-toolbar"><span id="map-label"></span><div><button id="zoom-in" type="button" aria-label="@@ZOOM_IN@@">+</button><button id="zoom-out" type="button" aria-label="@@ZOOM_OUT@@">−</button><button id="fit" type="button"></button></div></div>
+        <div class="map-controls"><button id="basemap" type="button"></button><p id="map-status" role="status"></p></div>
         <svg id="map" viewBox="0 0 900 500" role="group" aria-label="@@MAP@@"></svg>
-        <div class="map-footer"><button id="basemap" type="button"></button><p id="map-status" role="status"></p>
+        <div class="map-footer">
           <p id="network-note" class="muted"></p><a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener noreferrer">地理院タイル / GSI</a></div>
       </div>
       <div id="places" class="place-list" aria-live="polite"></div>
