@@ -69,15 +69,29 @@ specialist for live verification instead of turning the deliverable into a new s
 Use an available presentation-authoring skill/tool when requested; follow its creation and visual
 verification workflow. Do not assume that this travel plugin includes that capability.
 
-A useful sequence is a trip overview, city sections and practical connections/remaining decisions.
-Develop city sections as an illustrated guide to the stay: hotel/base, sights, food and relevant
-restaurants, tied back to dates or a short daily sequence. Use real place/property/dish photographs
-to explain the experience, rather than making the whole deck a series of schedule bullet lists.
-Alternate large-photo features, paired sights, lodging and food pages where the plan supports them;
-traffic and decision pages can remain text-led. The on-demand
-[presentation brief](../assets/presentation.md) supplies page patterns and the asset-provenance
-workflow. Inspect a supplied reference deck before choosing the design. Split dense pages; do not
-enforce one slide per day. Add a local map only when it explains location or movement.
+Choose the structure for the audience and the plan's maturity, following the user's requested format:
+
+| Purpose | Useful structure |
+| --- | --- |
+| Explore and compare | Trip overview, city/area introductions, sights, local food, lodging options and decisions still to make. Keep alternatives distinct from the proposed itinerary. |
+| Guide travel companions through an agreed plan | Trip overview, then city chapters beginning with the relevant hotel/base, followed by daily route overviews and sights, activities and meals in visiting order. Split a cross-city day at the city handoff; a day-trip city needs no hotel page. |
+
+These structures can be combined. Use real place/property/dish photographs to explain the experience.
+For sights, pair an introduction to the place, its cultural/historical context and concrete highlights
+with practical visit advice. A duration and access note alone do not introduce a destination.
+For meals, show how shortlisted choices fit the day's location, appetite and timing; retain existing
+cuisine/rating evidence and its date without making a rating the sole selection rule.
+
+Keep daily overviews readable through morning, lunch, afternoon and evening blocks. Exact appointment
+times, last admission and critical boarding/transfer instructions remain visible where needed;
+detailed timetable comparisons can go on transport pages or in an appendix. Show conditional choices
+and their triggers, such as weather, queues or energy, rather than presenting every candidate as a visit.
+Use route maps to check backtracking and meal/access connections. If a map exposes a planning problem,
+return to the plan before changing the illustrated route; depiction alone does not verify feasibility.
+
+The on-demand [presentation brief](../assets/presentation.md) supplies page patterns, route-map design
+and the asset-provenance workflow. Inspect a supplied reference deck before choosing the design.
+Split dense pages; neither slide counts nor numbers of restaurant candidates are fixed quotas.
 
 Keep source links beside changing or consequential facts, with readable qualifications. Identify
 historical or illustrative images and preserve their usage rights and attribution. Do not let a
