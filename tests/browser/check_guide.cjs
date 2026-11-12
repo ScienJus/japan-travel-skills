@@ -33,6 +33,10 @@ async function main() {
     const context = await browser.newContext({viewport: {width: 1440, height: 1100}, acceptDownloads: true});
     // All external traffic is blocked. Basemap failure is intentional, never a provider query.
     await context.route("https://**/*", route => route.abort());
+    // Exercise automatic loading using synthetic tiles; never contact the provider.
+    const tiles = "https://cyberjapandata.gsi.go.jp/**";
+    await context.route(tiles, route => route.fulfill({status: 200, contentType: "image/png",
+      body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64")}));
     const page = await context.newPage();
     page.on("pageerror", error => errors.push(error.message));
     page.on("request", request => {if (request.url().startsWith("https:")) network.push(request.url());});
@@ -42,7 +46,9 @@ async function main() {
     const plan = JSON.parse(await page.locator("#plan-data").textContent());
     phase = "day-and-place-views";
     assert(plan.demo && plan.days.length === 3, "Use the generated three-day public demo");
-    assert.equal(network.length, 0, "Default view must not contact providers");
+    await page.waitForLoadState("networkidle");
+    assert(network.length > 0 && network.length <= 12, "Default view loads one bounded tile viewport");
+    assert(await page.locator("#map image").count() > 0, "Basemap must appear without a click");
     assert.equal(await page.locator(".day-plan").count(), plan.days.length);
     assert.equal(await page.locator(".place-card").count(), plan.places.length);
     assert(await page.locator("#basemap").evaluate(button =>
@@ -83,26 +89,25 @@ async function main() {
     const downloadPath = path.join(output, "downloaded-plan.json");
     await download.saveAs(downloadPath);
     assert.deepEqual(JSON.parse(await fs.readFile(downloadPath, "utf8")), plan);
-    assert.equal(network.length, 0);
+    assert(network.every(url => /^https:\/\/cyberjapandata\.gsi\.go\.jp\/xyz\/pale\/\d+\/\d+\/\d+\.png$/.test(url)),
+      "Only visible-area tile coordinates may be sent; no plan records");
     phase = "basemap-success";
-    // A synthetic image verifies rendering without contacting the tile provider.
-    const tiles = "https://cyberjapandata.gsi.go.jp/**";
-    await page.route(tiles, route => route.fulfill({status: 200, contentType: "image/png",
-      body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64")}));
     await page.locator("#fit").click();
-    await page.locator("#basemap").click();
     await page.waitForLoadState("networkidle");
     const loaded = await page.locator("#map image").count();
     assert(loaded > 0 && loaded <= 12, "One bounded viewport must render the supplied tiles");
     assert.equal(await page.locator("#basemap").isDisabled(), false);
     await page.locator("#basemap").click();
     assert.equal(await page.locator("#map image").count(), 0, "Basemap can be hidden again");
-    await page.unroute(tiles);
+    const hiddenRequests = network.length;
+    await page.locator("#fit").click();
+    await page.waitForTimeout(100);
+    assert.equal(network.length, hiddenRequests, "Hiding the basemap stops new tile requests");
+    await context.unroute(tiles);
+    network.length = 0;
     await page.reload();
     await page.locator(".day-plan").first().waitFor();
-    network.length = 0;
     phase = "basemap-failure";
-    await page.locator("#basemap").click();
     await page.waitForFunction(() => document.getElementById("basemap").disabled);
     assert(network.length > 0 && network.length <= 12, "One bounded viewport load only");
     const requests = network.length;
@@ -156,7 +161,7 @@ async function main() {
     await page.locator('.place-card[data-place-id="kyoto-station"] button').click();
     assert.equal(await page.locator(".map-marker").last().getAttribute("data-place-id"), "kyoto-station");
     assert.deepEqual(errors, []);
-    await fs.writeFile(path.join(output, "result.json"), JSON.stringify({status: "pass", externalRequestsBeforeConsent: 0,
+    await fs.writeFile(path.join(output, "result.json"), JSON.stringify({status: "pass", realProviderRequests: 0,
       basemapSuccess: "synthetic image; no provider contacted", basemapFailure: "mocked; no provider contacted", browserErrors: 0, phoneWidths: [390, 320]}, null, 2) + "\n");
     console.log("PASS: day/transport sync, filters, missing coordinates, JSON export, offline fallback and phone layout");
   } finally {

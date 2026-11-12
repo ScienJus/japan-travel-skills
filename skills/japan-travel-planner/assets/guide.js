@@ -13,7 +13,7 @@
       map: "Location overview · not navigation", fit: "Fit", basemap: "Load GSI basemap", hideMap: "Hide basemap", zoomFirst: "Zoom in to load a basemap",
       mapOff: "Road map not loaded. Click ‘Load GSI basemap’ to show it. Markers show locations, not walking routes.", mapOn: "GSI basemap · zoom 9–16. Markers are reference points, not confirmed entrances.",
       mapFailed: "Basemap could not load; the network or browser may be blocking it. Place details and links remain usable; no automatic retry.", basemapUnavailable: "Basemap unavailable",
-      network: "No external requests by default. Loading the basemap sends the visible tile area and normal network metadata to GSI, not the plan records.",
+      network: "The basemap loads automatically from GSI. Requests send the visible tile area and normal network metadata, not the plan records. You can hide the basemap to stop further tile requests.",
       footer: "Read-only travel planning. This file contains the complete plan; filters do not remove records. Review private details before sharing.",
       related: "Related places", pointCount: "with sourced coordinates", noPoints: "No sourced coordinates in this view", scope: "Scope", checked: "Checked",
     },
@@ -28,7 +28,7 @@
       map: "位置关系 · 非导航路线", fit: "适应范围", basemap: "加载地理院底图", hideMap: "关闭底图", zoomFirst: "放大到城市范围后可加载底图",
       mapOff: "尚未加载道路底图。点击「加载地理院底图」查看；圆点仅表示地点位置，不是步行路线。", mapOn: "地理院底图 · 缩放 9–16 级。坐标是参考点，不保证是入口。",
       mapFailed: "底图加载失败，可能受网络或浏览器限制。地点与链接仍可查看，不自动重试。", basemapUnavailable: "底图不可用",
-      network: "默认不发出外部请求。加载底图会向国土地理院发送可见区域的瓦片请求和常规网络信息，不上传行程记录。",
+      network: "默认从国土地理院加载底图，仅发送可见区域的瓦片请求和常规网络信息，不上传行程记录。关闭底图后不再请求新的瓦片。",
       footer: "只读旅行规划。此文件包含完整行程，筛选不会删除或脱敏记录；分享前请检查私人信息。",
       related: "相关地点", pointCount: "个有来源坐标", noPoints: "当前视图没有可靠坐标", scope: "核对范围", checked: "核对日期",
     },
@@ -43,7 +43,7 @@
       map: "位置の目安 · 経路案内とは異なります", fit: "全体表示", basemap: "地理院地図を表示", hideMap: "背景地図を閉じる", zoomFirst: "拡大すると背景地図を表示できます",
       mapOff: "背景地図は未表示です。「地理院地図を表示」を押すと道路を確認できます。マーカーは地点の位置で、徒歩ルートではありません。", mapOn: "地理院地図 · ズーム9〜16。マーカーは位置の目安で、入口の位置は要確認です。",
       mapFailed: "背景地図を取得できません。通信やブラウザーで制限されている可能性があります。訪問先やリンクは引き続き表示でき、自動再試行はしません。", basemapUnavailable: "背景地図を取得できません",
-      network: "初期表示では外部と通信しません。地理院地図を表示すると、表示範囲のタイルを通常の通信情報とともに取得します。旅程データは送信されません。",
+      network: "背景地図は地理院から自動取得します。表示範囲のタイルと通常の通信情報のみを送信し、旅程データは送信しません。背景地図を閉じると、新たなタイルの取得を停止します。",
       footer: "読み取り専用の旅行計画です。ファイルには旅程全体が含まれます。共有する前に個人情報をご確認ください。",
       related: "関連する訪問先", pointCount: "か所に出典付きの座標あり", noPoints: "この表示範囲に出典付きの座標がありません", scope: "確認範囲", checked: "確認日",
     },
@@ -53,7 +53,7 @@
   const byId = rows => new Map(rows.map(row => [row.id, row]));
   const cities = byId(plan.cities), places = byId(plan.places), legs = byId(plan.legs);
   // Empty filter values cannot collide with validated nonempty record identifiers.
-  const state = {day: "", city: "", kind: "", selected: null, zoom: 10, center: null, tiles: false, tileFailed: false};
+  const state = {day: "", city: "", kind: "", selected: null, zoom: 10, center: null, tiles: true, tileFailed: false};
   const colors = {hotel: "#4c6452", attraction: "#b26243", restaurant: "#9a6b27", transport: "#477489"};
   const make = (tag, text, className) => {
     const node = document.createElement(tag);
@@ -87,6 +87,7 @@
       && (state.kind === "" || place.kind === state.kind));
   };
   const map = $("map"), ns = "http://www.w3.org/2000/svg";
+  let mapWidth = 0;
   const svg = (tag, attributes) => {
     const node = document.createElementNS(ns, tag);
     for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, String(value));
@@ -100,6 +101,7 @@
   function drawMap(fit = false) {
     const rows = visiblePlaces(), located = rows.filter(place => place.coordinates);
     const w = Math.max(280, Math.round(map.getBoundingClientRect().width)), h = w < 500 ? 320 : 420;
+    mapWidth = w;
     map.setAttribute("viewBox", `0 0 ${w} ${h}`); map.setAttribute("height", h);
     map.replaceChildren();
     if (fit || !state.center) {
@@ -120,6 +122,7 @@
           const image = svg("image", {x: x * 256 - left, y: y * 256 - top, width: 256, height: 256,
             href: `https://cyberjapandata.gsi.go.jp/xyz/pale/${state.zoom}/${x}/${y}.png`});
           image.addEventListener("error", () => {
+            if (!image.isConnected) return;
             state.tileFailed = true; state.tiles = false; tileLayer.replaceChildren(); updateMapStatus(located.length);
           }, {once: true});
           tileLayer.append(image);
@@ -261,5 +264,7 @@
     const a = make("a"); a.href = url; a.download = "plan.json"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
   renderSchedule(); renderPlaces();
-  new ResizeObserver(() => drawMap(true)).observe(map.parentElement);
+  new ResizeObserver(() => {
+    if (Math.max(280, Math.round(map.getBoundingClientRect().width)) !== mapWidth) drawMap(true);
+  }).observe(map.parentElement);
 })();

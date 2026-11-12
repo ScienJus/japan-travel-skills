@@ -47,7 +47,7 @@ For a deck, use illustrations with suitable reuse rights, retain their credits a
 scope beside the relevant choice. After a change to the itinerary, regenerate or revise the affected
 views.
 
-The local guide makes no external requests by default. The optional GSI basemap loads only when
-requested in the page; mapped points do not establish routes or walking times. The HTML embeds
+The local guide automatically loads GSI basemap tiles for the visible area at supported zoom levels.
+You can hide the basemap; if loading fails, places remain visible. Mapped points do not establish routes or walking times. The HTML embeds
 the full plan, so review all records before sharing. See the [data contract](../skills/japan-travel-planner/references/plan-data.md)
 and [delivery workflow](../skills/japan-travel-planner/references/deliverables.md) for details.

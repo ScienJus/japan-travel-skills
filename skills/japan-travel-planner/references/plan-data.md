@@ -31,10 +31,11 @@ retains places without sourced coordinates; shared coordinates remain individual
 in the list. The default map is a coordinate-based location view, not road routing or navigation.
 Selecting a place recenters it; zoom and fit controls change the visible area.
 
-Only clicking **Load GSI basemap** makes external requests: live pale-map image tiles at zoom
+Opening the guide automatically loads live GSI pale-map image tiles at zoom
 9–16 from `cyberjapandata.gsi.go.jp`. Broader views retain the offline location plot; choose a city
 or zoom in for a basemap. The source receives the visible tile area and network metadata, not
-the plan JSON. A failed image stops basemap loading without automatic retry; the list and links
+the plan JSON. **Hide basemap** stops new tile requests; requests already started may finish.
+A failed image stops basemap loading without automatic retry; the location plot, list and links
 remain usable. No tile caching, prefetching, geocoding or route service is bundled. Retain the
 [GSI attribution and tile-use guidance](https://maps.gsi.go.jp/development/ichiran.html).
 External source links and user-downloaded JSON are separate from the basemap.

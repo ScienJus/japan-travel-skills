@@ -6,7 +6,7 @@ feed. Source identity is separate from accuracy, freshness, geographic fit and u
 
 | Class | Integrated sources and use | Boundary |
 | --- | --- | --- |
-| Public institutions | JMA forecasts, warnings and climate; Cabinet Office holidays; NAOJ daylight; GSI geocoding and explicitly loaded guide basemaps | Preserve each product's scope and dates; official status does not extend forecasts or turn a basemap into routing/live travel evidence |
+| Public institutions | JMA forecasts, warnings and climate; Cabinet Office holidays; NAOJ daylight; GSI geocoding and guide basemaps | Preserve each product's scope and dates; official status does not extend forecasts or turn a basemap into routing/live travel evidence |
 | Responsible operators and official tourism bodies | JR/IR reports and pass catalogs; municipal/prefectural tourism portals and linked facility operators | A tourism listing is discovery evidence, not proof of dated opening, admission or a particular train's operation |
 | Commercial first-party products | Weathernews and JMC seasons/weather, AMECS Fuji index, Yahoo transit, Jalan hotels, Tabelog, TableCheck and Pocket Concierge | These are their publishers' own products or platform records, not government or independent facility verification; platform reviews remain user opinions |
 | Community data | Photon geocoding using OpenStreetMap | Explicit `--provider photon` only; retain attribution and candidate ambiguity; never call it official or entrance-accurate |
@@ -20,8 +20,9 @@ empty result nor a failed read triggers automatic provider rotation. Check names
 point type before using coordinates. Hotel coordinates continue to come from Jalan or explicitly
 labelled caller input, not from an implicit geocoding fallback.
 
-The optional local visual guide starts without external requests. Only the user's basemap control
-loads GSI pale-map tiles for the visible area, retaining [GSI attribution and use guidance](https://maps.gsi.go.jp/development/ichiran.html).
+Opening the optional local visual guide automatically loads GSI pale-map tiles for the visible area
+at supported zoom levels, retaining [GSI attribution and use guidance](https://maps.gsi.go.jp/development/ichiran.html).
+The basemap can be hidden to stop new tile requests. Failed loads retain the location plot and list.
 It makes no geocoding or routing query. Unknown point coordinates remain unknown; generated files
 are not bundled map caches or copied source feeds.
 
