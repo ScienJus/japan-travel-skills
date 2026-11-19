@@ -9,7 +9,8 @@ use a source checkout or extract the shareable ZIP into a stable directory, incl
 | Component | Requirements |
 | --- | --- |
 | Eight travel CLIs | Python 3.9+ standard library; outbound HTTPS for live queries |
-| Three restaurant CLIs | Python 3.10+; each skill's pinned `scripts/requirements.txt`; Python 3.12 recommended |
+| Tabelog and TableCheck | Python 3.11.5+ and the skill's pinned `scripts/requirements.txt` |
+| Pocket Concierge | Python 3.10+ and its pinned `scripts/requirements.txt` |
 | Nationwide JAPAN RAIL PASS source | System `curl` in addition to Python |
 | City guide | An available anonymous web search/fetch tool; no Python or CLI |
 | Travel planner | Relevant specialists/source-reading tools; Python 3.9+ standard library only for the optional local HTML/presentation-brief helper; actual PPTX creation needs host authoring tools |
@@ -155,8 +156,8 @@ Claude Code CLI `2.1.37` was checked with an isolated local marketplace install 
 discovery from an unrelated directory. These checks cover packaging and discovery. Automatic
 selection and the quality of a generated itinerary need a model session. The checks do not install into a user's ordinary Codex profile.
 
-The CI matrix covers full offline tests on Python 3.10/3.12 on Ubuntu and Python 3.12 on macOS,
-plus the standard-library travel tests on Python 3.9 without third-party packages. A configured
+The CI matrix covers full offline tests on Python 3.11/3.12 on Ubuntu and Python 3.12 on macOS,
+plus Pocket Concierge on Python 3.10 and the standard-library travel tests on Python 3.9 without third-party packages. A configured
 matrix is not a successful hosted run; inspect repository checks after pushing. Windows execution
 is unverified. Other agents need local script execution and outbound HTTPS for CLI-backed skills;
 there is no claim that every host can run this plugin unchanged.

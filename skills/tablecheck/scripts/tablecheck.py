@@ -2,8 +2,8 @@
 """Source-tree and standalone skill launcher."""
 import sys
 
-if sys.version_info < (3, 10):
-    raise SystemExit('Python >=3.10 required; Python 3.12+ is recommended.')
+if sys.version_info < (3, 11, 5):
+    raise SystemExit('Python >=3.11.5 required; Python 3.12+ is recommended.')
 try:
     from tablecheck_client.cli import main
 except ModuleNotFoundError as error:

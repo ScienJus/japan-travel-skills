@@ -114,8 +114,8 @@ def run(argv, create_client=Client):
 
 
 def main():
-    if sys.version_info < (3, 10):
-        print('Python >=3.10 is required; use Python 3.12+ and install the project with pip.', file=sys.stderr)
+    if sys.version_info < (3, 11, 5):
+        print('Python >=3.11.5 is required; use Python 3.12+ and install the project with pip.', file=sys.stderr)
         return 1
     result = run(sys.argv[1:])
     print(result.get('help') or json.dumps(result['output'], ensure_ascii=False, indent=2, allow_nan=False))

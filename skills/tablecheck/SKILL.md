@@ -11,7 +11,7 @@ Find restaurants by native area or coordinates, read details/courses and check a
 
 ## Runtime
 
-Requires Python 3.10+ (3.12+ recommended), HTTPX, Beautiful Soup and outbound HTTPS. Reuse a suitable existing environment, or install this skill's `scripts/requirements.txt` in a virtual environment. No API key, login, Node.js or browser is needed.
+Requires Python 3.11.5+ (3.12+ recommended), HTTPX, Beautiful Soup and outbound HTTPS. Reuse a suitable existing environment, or install this skill's `scripts/requirements.txt` in a virtual environment. No API key, login, Node.js or browser is needed.
 
 Resolve `<skill-dir>` to this installed skill's absolute directory and use its absolute script path regardless of the current working directory:
 

@@ -11,7 +11,7 @@ Find restaurants by area/station/coordinates, compare published details/courses,
 
 ## Runtime
 
-Requires Python 3.10+ (3.12+ recommended), HTTPX, Beautiful Soup, jpholiday and outbound HTTPS. Reuse a suitable environment or install `scripts/requirements.txt` in a virtual environment. Read [README.md](README.md) only when setup help or the broader command overview is needed. No API key, login, Node.js or browser is required.
+Requires Python 3.11.5+ (3.12+ recommended), HTTPX, Beautiful Soup, jpholiday and outbound HTTPS. Reuse a suitable environment or install `scripts/requirements.txt` in a virtual environment. Read [README.md](README.md) only when setup help or the broader command overview is needed. No API key, login, Node.js or browser is required.
 
 Resolve `<skill-dir>` to this installed skill's absolute directory. Use the chosen environment's Python executable and the absolute script path regardless of the current working directory:
 

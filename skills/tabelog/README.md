@@ -5,7 +5,7 @@ Find Japanese restaurants, read details and reviews, and check online reservatio
 ## Installation
 
 
-Requires **Python 3.10+; 3.12+ recommended**. Do not assume a suitable interpreter is preinstalled. Use the [official Python installer](https://www.python.org/downloads/) or an existing package manager.
+Requires **Python 3.11.5+; 3.12+ recommended**. Do not assume a suitable interpreter is preinstalled. Use the [official Python installer](https://www.python.org/downloads/) or an existing package manager.
 
 For a standalone or installed skill, resolve `<skill-dir>` to its absolute directory, then install its requirements into a suitable virtual environment:
 

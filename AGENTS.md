@@ -20,7 +20,7 @@ This project provides Japanese travel-planning skills and anonymous, read-only q
 | Hotel discovery, facilities and static room information | [japan-hotels](skills/japan-hotels/SKILL.md) | `bin/japan-hotels` |
 | Official rail-pass catalogs, prices and conditions | [japan-passes](skills/japan-passes/SKILL.md) | `bin/japan-passes` |
 
-Use absolute installed skill paths when the working directory is unrelated to this checkout. CLIs require Python 3.9+ and outbound HTTPS; `jr-group` pass queries additionally require system curl. Restaurant skills require Python 3.10+ and their declared dependencies; use the root setup or each skill's requirements. Run the selected CLI's offline `doctor` before first use. The city-guide skill uses web search/fetch directly and has no CLI or `doctor`.
+Use absolute installed skill paths when the working directory is unrelated to this checkout. CLIs require Python 3.9+ and outbound HTTPS; `jr-group` pass queries additionally require system curl. Tabelog and TableCheck require Python 3.11.5+, and Pocket Concierge requires Python 3.10+. Install their declared dependencies; use the root setup or each skill's requirements. Run the selected CLI's offline `doctor` before first use. The city-guide skill uses web search/fetch directly and has no CLI or `doctor`.
 
 Use the planner for questions spanning specialist capabilities; otherwise use the specialist directly. Load only
 the skills and mode references needed for the user's decision. Broad sightseeing/food exploration
