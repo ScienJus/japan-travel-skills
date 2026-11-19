@@ -134,7 +134,8 @@
   "home_fuji_visibility": "富士山の見えやすさ",
   "home_open_source_mit": "オープンソース · MIT",
   "home_start_with_your_agent": "お使いのエージェントに導入",
-  "home_install_the_individual_skills_your_tri": "対応環境に、旅に必要な個別スキルを導入できます。全スキルをまとめたCodexプラグインも用意しています。",
+  "home_install_the_individual_skills_your_tri": "Claude Code と Codex では全スキルをまとめて導入できます。旅に必要なスキルだけを選ぶこともできます。",
   "home_install_individual_skills": "個別スキルを導入",
-  "home_codex_plugin_setup": "Codexプラグインを導入"
+  "home_codex_plugin_setup": "Codexプラグインを導入",
+  "home_claude_plugin_setup": "Claude Code プラグインを導入"
 }

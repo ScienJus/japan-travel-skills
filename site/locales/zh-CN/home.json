@@ -134,7 +134,8 @@
   "home_fuji_visibility": "富士山可见度",
   "home_open_source_mit": "开源 · MIT",
   "home_start_with_your_agent": "接入你的智能体",
-  "home_install_the_individual_skills_your_tri": "在兼容的宿主中安装旅行所需的独立技能。完整技能集也可作为 Codex 插件安装。",
+  "home_install_the_individual_skills_your_tri": "可以在 Claude Code 或 Codex 中一次安装全部技能，也可以只选这次旅行需要的技能。",
   "home_install_individual_skills": "安装独立技能",
-  "home_codex_plugin_setup": "安装 Codex 插件"
+  "home_codex_plugin_setup": "安装 Codex 插件",
+  "home_claude_plugin_setup": "安装 Claude Code 插件"
 }

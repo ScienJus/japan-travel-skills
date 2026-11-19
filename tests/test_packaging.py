@@ -100,6 +100,13 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(entry["name"], manifest["name"])
             self.assertTrue(manifest["extensions"]["com.openai"]["requires_local_executor"])
             self.assertEqual({p.parent.name for p in (plugin / "skills").glob("*/SKILL.md")}, SKILLS)
+            claude = extracted / ".claude-plugin"
+            catalog = json.loads((claude / "marketplace.json").read_text())
+            self.assertEqual(catalog["name"], "japan-travel-skills")
+            claude_entry, = catalog["plugins"]
+            self.assertEqual((extracted / claude_entry["source"]).resolve(), plugin)
+            self.assertEqual(claude_entry["name"], manifest["name"])
+            self.assertEqual(json.loads((claude / "plugin.json").read_text())["name"], manifest["name"])
             for skill in SKILLS:
                 self.assertTrue((plugin / "skills" / skill / "agents/openai.yaml").is_file())
             for name, script in COMMANDS.items():

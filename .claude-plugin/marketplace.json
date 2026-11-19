@@ -1,0 +1,8 @@
+{
+  "name": "japan-travel-skills",
+  "owner": { "name": "ScienJus" },
+  "metadata": { "description": "Japan travel planning skills for Claude Code." },
+  "plugins": [
+    { "name": "japan-travel", "source": "./" }
+  ]
+}

@@ -134,7 +134,8 @@
   "home_fuji_visibility": "Fuji visibility",
   "home_open_source_mit": "Open source · MIT",
   "home_start_with_your_agent": "Start with your agent",
-  "home_install_the_individual_skills_your_tri": "Install the individual skills your trip needs in a compatible host. The complete set is also available as a Codex plugin.",
+  "home_install_the_individual_skills_your_tri": "Install the full toolkit in Claude Code or Codex, or choose the individual skills your trip needs.",
   "home_install_individual_skills": "Install individual skills",
-  "home_codex_plugin_setup": "Codex plugin setup"
+  "home_codex_plugin_setup": "Codex plugin setup",
+  "home_claude_plugin_setup": "Claude Code plugin setup"
 }

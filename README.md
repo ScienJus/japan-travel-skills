@@ -13,7 +13,7 @@ The project supports discovery, introductions, prices, availability, conditions 
 | Create a Japan itinerary map or PowerPoint for my travel companions | [Turn an itinerary into a map and PowerPoint](docs/japan-itinerary-map-and-powerpoint.md), with an offline HTML demo and a shared presentation brief. |
 | Use one tool, such as Japanese rail timetables or hotel discovery | Choose the relevant specialist below. |
 
-See [installation](docs/installation.md) to use individual skills in a compatible host or install the full Codex plugin.
+See [installation](docs/installation.md) to install the full plugin in Claude Code or Codex, or choose individual skills for a compatible host.
 
 ## Available capabilities
 
@@ -115,10 +115,10 @@ For travel questions spanning specialist capabilities, invoke `japan-travel-plan
 
 Two starting points for the planner:
 
-- **Build a plan:** "Use $japan-travel-planner to plan six days around Kanazawa, Takaoka, Toyama and
+- **Build a plan:** "Use the Japan travel planner to plan six days around Kanazawa, Takaoka, Toyama and
   Nagano in late November. I enjoy gardens and local food, prefer a relaxed pace and will use public
   transport. Start with the city order, overnight bases and daily areas so we can refine the details."
-- **Review a plan:** "Use $japan-travel-planner to check the itinerary below for my specified dates.
+- **Review a plan:** "Use the Japan travel planner to check the itinerary below for my specified dates.
   My hotels and departure flight are fixed. Check opening conditions, transport connections and
   realistic time allowances; distinguish confirmed conflicts, suggested adjustments and unknowns.
   Preserve my choices and suggest the smallest changes needed. [Paste the itinerary here.]"
@@ -139,9 +139,7 @@ Commands emit JSON with source metadata and measured request usage. Inspect stat
 
 Follow [installation and runtime compatibility](docs/installation.md) for complete-plugin or single-skill installation, Python dependencies, updates and validation boundaries. That guide is the maintained source for host-specific install commands.
 
-The [plugin manifest](plugin.json) and [local marketplace entry](.agents/plugins/marketplace.json) expose one `japan-travel` plugin containing all thirteen skills. It needs a local executor. Installing the plugin does not install Python dependencies; client support varies. Individual specialist folders can also be installed independently in a compatible skill host.
-
-This project is a local distribution and has not been published to a public marketplace. Building a ZIP does not install or publish it.
+Claude Code and Codex each expose the same thirteen skills as one `japan-travel` plugin. CLI-backed skills need a local Python interpreter. Restaurant skills also need their declared Python packages.
 
 For publication, follow the [release preparation guide](docs/releasing.md). It covers source checks,
 bundle inspection, checksums and the separate repository/release and plugin-directory steps.

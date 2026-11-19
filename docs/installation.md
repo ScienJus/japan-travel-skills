@@ -1,9 +1,8 @@
 # Installation and runtime compatibility
 
 Choose the complete plugin for combined travel planning, or copy individual skill directories for
-selected capabilities. Both contain the same specialist implementations. Obtain a source checkout
-or extract the shareable ZIP into a stable directory first; this project does not yet publish a
-public marketplace listing.
+selected capabilities. Both contain the same specialist implementations. For directory-based installation,
+use a source checkout or extract the shareable ZIP into a stable directory, including its hidden manifest directories.
 
 ## Runtime requirements
 
@@ -20,17 +19,44 @@ must be installed into the interpreter used to run restaurant commands; installi
 not install Python or pip dependencies. These are local-execution tools, not a hosted weather or
 booking service.
 
-## Complete plugin in Codex
-
-Use a Codex version with `plugin` commands. From the checkout or extracted bundle, install runtime
-dependencies into a suitable virtual environment:
+For the three restaurant tools, create a virtual environment using a checkout or extracted
+bundle and give the agent the absolute path of its Python interpreter:
 
 ```bash
 python3.12 -m venv /absolute/path/to/japan-travel-venv
 /absolute/path/to/japan-travel-venv/bin/python -m pip install -r /absolute/path/to/japan-travel/requirements.lock
 ```
 
-Register the stable source directory and install the bundle:
+## Complete plugin in Claude Code
+
+In a terminal, register the project’s GitHub marketplace and install all thirteen skills:
+
+```bash
+claude plugin marketplace add ScienJus/japan-travel-skills
+claude plugin install japan-travel@japan-travel-skills
+claude plugin list
+```
+
+For a local checkout or extracted ZIP, use its absolute directory path in place of
+`ScienJus/japan-travel-skills`. To try a checkout for just one session, launch
+`claude --plugin-dir /absolute/path/to/japan-travel`.
+
+Start a new session or run `/reload-plugins`. Ask a travel question in your own words, or
+choose a skill explicitly. For example:
+
+```text
+/japan-travel:japan-weather Check the next seven days in Kanazawa.
+/japan-travel:japan-travel-planner Review this itinerary for tight transfers: [paste itinerary]
+```
+
+The public GitHub repository supplies the marketplace. To refresh a GitHub installation, run
+`claude plugin marketplace update japan-travel-skills`, then
+`claude plugin update japan-travel@japan-travel-skills` and reload the session.
+Run scripts by their absolute path inside the loaded skill directory.
+
+## Complete plugin in Codex
+
+Use a Codex version with `plugin` commands. Register the stable source directory and install the bundle:
 
 ```bash
 codex plugin marketplace add /absolute/path/to/japan-travel
@@ -68,11 +94,24 @@ marketplace --help`. Keep the registered directory available. Check for separate
 before using the same skill both independently and in the bundle: duplicate names can make selection
 ambiguous.
 
-## One skill in Codex or another compatible host
+<a id="one-skill-in-codex-or-another-compatible-host"></a>
+
+## Install one skill
 
 Copy the complete `skills/<name>/` directory, including `SKILL.md`, `LICENSE`, `agents/`, references,
 scripts and runtime data that are present. Do not copy only `SKILL.md` or only its entry script.
 The root repository, wrappers and sibling skills are not required by a specialist.
+
+In Claude Code, use `~/.claude/skills/` for personal skills or `.claude/skills/` for one project.
+From the checkout, for a first-time personal installation:
+
+```bash
+mkdir -p "$HOME/.claude/skills"
+cp -R skills/japan-weather "$HOME/.claude/skills/"
+python3 "$HOME/.claude/skills/japan-weather/scripts/weather.py" doctor
+```
+
+Invoke the standalone skill as `/japan-weather`. See Anthropic’s [skill locations and invocation](https://code.claude.com/docs/en/skills) and [plugin installation guide](https://code.claude.com/docs/en/discover-plugins).
 
 For current Codex filesystem discovery, a user location is `~/.agents/skills/`; repository-scoped
 skills can live in `.agents/skills/` within the intended repository. Use the destination supported
@@ -112,8 +151,9 @@ Local compatibility checks cover macOS arm64 with Python 3.9/3.12, clean bundle 
 each restaurant skill's independent dependency installation. Codex CLI
 `0.163.0-alpha.10.2` was checked for isolated installation, managed-copy refresh, removal and the
 thirteen installed skill entries in a fresh model-visible prompt from an unrelated directory.
-These host checks do not establish model tool-selection quality or an online success for every
-provider. The checks do not install into a user's ordinary Codex profile.
+Claude Code CLI `2.1.37` was checked with an isolated local marketplace install and skill
+discovery from an unrelated directory. These checks cover packaging and discovery. Automatic
+selection and the quality of a generated itinerary need a model session. The checks do not install into a user's ordinary Codex profile.
 
 The CI matrix covers full offline tests on Python 3.10/3.12 on Ubuntu and Python 3.12 on macOS,
 plus the standard-library travel tests on Python 3.9 without third-party packages. A configured
