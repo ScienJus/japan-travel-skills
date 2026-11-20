@@ -9,7 +9,7 @@ use a source checkout or extract the shareable ZIP into a stable directory, incl
 | Component | Requirements |
 | --- | --- |
 | Eight travel CLIs | Python 3.9+ standard library; outbound HTTPS for live queries |
-| Tabelog and TableCheck | Python 3.11.5+ and the skill's pinned `scripts/requirements.txt` |
+| Hot Pepper Gourmet, Tabelog and TableCheck | Python 3.11.5+ and the skill's pinned `scripts/requirements.txt` |
 | Pocket Concierge | Python 3.10+ and its pinned `scripts/requirements.txt` |
 | Nationwide JAPAN RAIL PASS source | System `curl` in addition to Python |
 | City guide | An available anonymous web search/fetch tool; no Python or CLI |
@@ -20,7 +20,7 @@ must be installed into the interpreter used to run restaurant commands; installi
 not install Python or pip dependencies. These are local-execution tools, not a hosted weather or
 booking service.
 
-For the three restaurant tools, create a virtual environment using a checkout or extracted
+For the four restaurant tools, create a virtual environment using a checkout or extracted
 bundle and give the agent the absolute path of its Python interpreter:
 
 ```bash
@@ -30,7 +30,7 @@ python3.12 -m venv /absolute/path/to/japan-travel-venv
 
 ## Complete plugin in Claude Code
 
-In a terminal, register the project’s GitHub marketplace and install all thirteen skills:
+In a terminal, register the project’s GitHub marketplace and install all fourteen skills:
 
 ```bash
 claude plugin marketplace add ScienJus/japan-travel-skills
@@ -67,7 +67,7 @@ codex plugin list --marketplace japan-travel-local --json
 
 These commands change Codex's marketplace/plugin configuration. Start a new session after
 installation if the host has not refreshed its skills. Verify that the installed package contains
-all thirteen skills; `japan-travel-planner` handles combined questions and specialists can be used
+all fourteen skills; `japan-travel-planner` handles combined questions and specialists can be used
 directly. The package is a managed copy: source changes do not update installed files by themselves.
 
 Once a source repository and release tag are published, a Git-backed marketplace can use
@@ -133,7 +133,7 @@ python3.12 -m venv /absolute/path/to/restaurant-venv
 /absolute/path/to/restaurant-venv/bin/python /absolute/path/to/installed/tabelog/scripts/tabelog.py doctor
 ```
 
-Use the same procedure with `tablecheck` or `pocket-concierge` and its own requirements and entry
+Use the same procedure with `hot-pepper`, `tablecheck` or `pocket-concierge` and its own requirements and entry
 script. Each restaurant skill runs independently. City guidance is usable without installing the
 planner; the planner coordinates only the specialists actually available and is not a substitute
 for their data sources.
@@ -151,7 +151,7 @@ activation. Read each result's status and coverage even after exit 0.
 Local compatibility checks cover macOS arm64 with Python 3.9/3.12, clean bundle dependencies and
 each restaurant skill's independent dependency installation. Codex CLI
 `0.163.0-alpha.10.2` was checked for isolated installation, managed-copy refresh, removal and the
-thirteen installed skill entries in a fresh model-visible prompt from an unrelated directory.
+thirteen then-installed skill entries in a fresh model-visible prompt from an unrelated directory.
 Claude Code CLI `2.1.37` was checked with an isolated local marketplace install and skill
 discovery from an unrelated directory. These checks cover packaging and discovery. Automatic
 selection and the quality of a generated itinerary need a model session. The checks do not install into a user's ordinary Codex profile.

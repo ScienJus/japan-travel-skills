@@ -24,7 +24,7 @@
       "interface": {
         "displayName": "Japan Travel",
         "shortDescription": "Plan, review and visualize Japan trips",
-        "longDescription": "Thirteen skills for Japan travel planning and review, with on-demand interactive map/web guides and presentation handoffs. Covers destinations, weather, rail/bus routes, seasonal viewing, hotels, passes and restaurants. Official source guides curate fourteen destinations; other coverage varies by source. Local HTML generation uses standard-library Python; actual PPTX creation uses the host's authoring tools. Visual resources load only when requested. Anonymous, read-only research with source links and explicit unknowns. No reservations or purchases.",
+        "longDescription": "Fourteen skills for Japan travel planning and review, with on-demand interactive map/web guides and presentation handoffs. Covers destinations, weather, rail/bus routes, seasonal viewing, hotels, passes and restaurants. Official source guides curate fourteen destinations; other coverage varies by source. Local HTML generation uses standard-library Python; actual PPTX creation uses the host's authoring tools. Visual resources load only when requested. Anonymous, read-only research with source links and explicit unknowns. No reservations or purchases.",
         "developerName": "ScienJus",
         "category": "Productivity",
         "capabilities": [

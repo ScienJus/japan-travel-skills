@@ -32,7 +32,7 @@ targeted verification, minimal repairs and handoff; load its worked example only
 | How to connect selected places | `japan-transit`: dated timetable routes; official operation reports have separate, limited operator/section coverage |
 | Calendar constraints | `japan-holidays`: official holidays and weekend blocks, not proof of crowding or business closures |
 | Where to stay | `japan-hotels`: candidate properties and practical requirements; dates are optional for discovery |
-| Which restaurants or published courses fit | `tabelog`, `tablecheck` or `pocket-concierge`: use the requested platform or the capability needed; do not query all three by default |
+| Which restaurants or published courses fit | Use the requested platform or one matching the question. `hot-pepper` has area listings, course terms and exact seat checks; `tabelog` has ratings and reviews; `tablecheck` and `pocket-concierge` can check supported course-linked times |
 | Whether a rail pass is relevant | `japan-passes`: current product terms, compared with selected legs when useful; coverage and savings need verification |
 
 Choose research that changes the user's decision. Broad sightseeing/food questions can start with

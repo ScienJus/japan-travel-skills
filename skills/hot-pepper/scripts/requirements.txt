@@ -1,0 +1,4 @@
+# Hot Pepper Gourmet public HTML pages. Python 3.11.5+.
+beautifulsoup4==4.15.0
+soupsieve==4.1.2
+typing_extensions==4.16.0

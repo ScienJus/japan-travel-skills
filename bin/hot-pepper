@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if [ -n "${HOT_PEPPER_PYTHON:-}" ]; then
+  PYTHON=$HOT_PEPPER_PYTHON
+elif [ -x "$ROOT/.venv/bin/python" ]; then
+  PYTHON=$ROOT/.venv/bin/python
+else
+  PYTHON=python3
+fi
+exec "$PYTHON" "$ROOT/skills/hot-pepper/scripts/hot_pepper.py" "$@"

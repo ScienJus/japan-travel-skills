@@ -49,7 +49,7 @@ runtime pins aligned across the root lock and independent restaurant requirement
 The filename uses `plugin.json`'s version and defaults to
 `~/.local/share/japan-travel-skills/artifacts/japan-travel-<version>.zip`. Keep version metadata stable
 during preparation. Select and confirm the release version once before tagging; do not change it
-for each local build. Inspect the ZIP's manifests, thirteen complete skill folders, eleven wrappers,
+for each local build. Inspect the ZIP's manifests, fourteen complete skill folders, twelve wrappers,
 licenses and dependency files. Tests, captures, local environments and personal paths do not belong
 in the package. The explicit lists in `scripts/build_plugin.py` define its contents.
 

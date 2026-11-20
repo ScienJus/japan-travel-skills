@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hot Pepper Gourmet"
+  short_description: "Find restaurants and courses on Hot Pepper Gourmet"
+  default_prompt: "Use $hot-pepper to find Japanese restaurants, compare their published courses and link the original listings."

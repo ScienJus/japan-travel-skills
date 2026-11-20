@@ -21,7 +21,7 @@ SPEC.loader.exec_module(BUILDER)
 COMMANDS = {"japan-weather": "weather.py", "japan-transit": "transit.py",
             "japan-holidays": "holidays.py", "japan-daylight": "daylight.py", "japan-seasons": "seasons.py",
             "japan-fuji": "fuji.py", "japan-hotels": "hotels.py", "japan-passes": "passes.py",
-            "tabelog": "tabelog.py", "tablecheck": "tablecheck.py", "pocket-concierge": "pocket_concierge.py"}
+            "hot-pepper": "hot_pepper.py", "tabelog": "tabelog.py", "tablecheck": "tablecheck.py", "pocket-concierge": "pocket_concierge.py"}
 GUIDANCE_SKILLS = {"japan-city-guide", "japan-travel-planner"}
 SKILLS = set(COMMANDS) | GUIDANCE_SKILLS
 
@@ -120,7 +120,7 @@ class PackagingTests(unittest.TestCase):
                     for argument in arguments:
                         with self.subTest(skill=name, command=command, argument=argument):
                             environment = dict(os.environ, TABELOG_PYTHON=sys.executable,
-                                               TABLECHECK_PYTHON=sys.executable, POCKET_CONCIERGE_PYTHON=sys.executable)
+                                               HOT_PEPPER_PYTHON=sys.executable, TABLECHECK_PYTHON=sys.executable, POCKET_CONCIERGE_PYTHON=sys.executable)
                             result = subprocess.run(command + [argument], cwd=working, env=environment,
                                                     capture_output=True, text=True, timeout=10)
                             self.assertEqual(result.returncode, 0, result.stderr + result.stdout)

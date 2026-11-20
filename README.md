@@ -1,6 +1,6 @@
 # Japan Travel Skills
 
-**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive HTML travel map and a PowerPoint handoff. The project includes thirteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
+**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive HTML travel map and a PowerPoint handoff. The project includes fourteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
 
 The project supports discovery, introductions, prices, availability, conditions and original booking links. Users complete reservations and purchases manually or with another agent. Transactions, holds, waitlists and payments are outside the project scope. Source uncertainty is preserved in planning results.
 
@@ -22,6 +22,7 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 | [Travel planning and visual guides](skills/japan-travel-planner/SKILL.md) | Build, review or revise itineraries; create requested interactive HTML/map guides and coordinate PPTX handoffs using host authoring tools |
 | [City guides](skills/japan-city-guide/SKILL.md) | Official attraction, event, food and route sources for Tokyo, Osaka, Kyoto, Sapporo, Fukuoka, Nagoya, Yokohama, Kobe, Nara and Naha, plus Kanazawa, Takaoka, Toyama City and Nagano City; prefectural discovery and facility verification; no dedicated CLI |
 | [Tabelog](skills/tabelog/SKILL.md) | Restaurant search, details/courses, reviews, awards and anonymous date/party/time availability |
+| [Hot Pepper Gourmet](skills/hot-pepper/SKILL.md) | Area directories, shop profiles, course prices and terms, and seat checks by course, date, time and party |
 | [TableCheck](skills/tablecheck/SKILL.md) | Restaurant discovery, courses and anonymous date/time availability; course/seat checks on supported public v1 forms |
 | [Pocket Concierge](skills/pocket-concierge/SKILL.md) | Native restaurant discovery, courses, calendar hints and course-linked sessions; instant/request/waitlist modes remain separate |
 | [Weather](skills/japan-weather/SKILL.md) | Weathernews forecasts for about two weeks; optional JMA forecasts for about one week; current JMA meteorological-warning/advisory snapshots and monthly station climate normals |
@@ -85,15 +86,16 @@ git clone https://github.com/ScienJus/japan-travel-skills.git
 cd japan-travel-skills
 ```
 
-Travel CLIs require **Python 3.9+** and use the standard library. The nationwide JAPAN RAIL PASS (`jr-group`) source additionally requires system **curl**. Tabelog and TableCheck require **Python 3.11.5+**. Pocket Concierge requires **Python 3.10+**. Each restaurant skill includes its dependencies in `scripts/requirements.txt`. The city-guide skill needs an available web search/fetch tool and has no Python dependency or CLI. Planning needs only the relevant specialists or source-reading tools; the optional local visual helper uses Python 3.9+ without packages. None requires an API key, account, GUI browser or background service.
+Travel CLIs require **Python 3.9+** and use the standard library. The nationwide JAPAN RAIL PASS (`jr-group`) source additionally requires system **curl**. Hot Pepper Gourmet, Tabelog and TableCheck require **Python 3.11.5+**. Pocket Concierge requires **Python 3.10+**. Each restaurant skill includes its dependencies in `scripts/requirements.txt`. The city-guide skill needs an available web search/fetch tool and has no Python dependency or CLI. Planning needs only the relevant specialists or source-reading tools; the optional local visual helper uses Python 3.9+ without packages. None requires an API key, account, GUI browser or background service.
 
-For all eleven tools, use a suitable Python environment and install the combined pinned dependencies. No wheel or editable project installation is needed:
+For all twelve tools, use a suitable Python environment and install the combined pinned dependencies. No wheel or editable project installation is needed:
 
 ```bash
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.lock
 bin/tabelog doctor
 bin/tablecheck doctor
+bin/hot-pepper doctor
 bin/pocket-concierge doctor
 ```
 
@@ -139,7 +141,7 @@ Commands emit JSON with source metadata and measured request usage. Inspect stat
 
 Follow [installation and runtime compatibility](docs/installation.md) for complete-plugin or single-skill installation, Python dependencies, updates and validation boundaries. That guide is the maintained source for host-specific install commands.
 
-Claude Code and Codex each expose the same thirteen skills as one `japan-travel` plugin. CLI-backed skills need a local Python interpreter. Restaurant skills also need their declared Python packages.
+Claude Code and Codex each expose the same fourteen skills as one `japan-travel` plugin. CLI-backed skills need a local Python interpreter. Restaurant skills also need their declared Python packages.
 
 For publication, follow the [release preparation guide](docs/releasing.md). It covers source checks,
 bundle inspection, checksums and the separate repository/release and plugin-directory steps.
@@ -184,7 +186,7 @@ From a source checkout, `tests/browser/README.md` describes optional headless ch
 date/transport synchronization, JSON export, offline fallback and phone layouts. Node and
 Playwright are development-only; they are not needed to generate or open the guide.
 
-The restaurant skills are copied from [Japan Restaurant Skills](https://github.com/ScienJus/japan-restaurant-skills), with their licenses and upstream attribution retained. They run independently here; the original repository is not a runtime dependency. HTTP clients follow the [development contract](docs/http-client.md) and one offline behavior matrix, while keeping implementations and source policies local to each skill. No cross-skill HTTP runtime library or generated copies are required. Restaurant commands retain their native exit codes: 0 for ok, 3 for partial, 1 for error; read each travel skill for its own status/exit-code rules.
+Tabelog, TableCheck and Pocket Concierge were copied from [Japan Restaurant Skills](https://github.com/ScienJus/japan-restaurant-skills), with their licenses and upstream attribution retained. They run independently here; the original repository is not a runtime dependency. HTTP clients follow the [development contract](docs/http-client.md) and one offline behavior matrix, while keeping implementations and source policies local to each skill. No cross-skill HTTP runtime library or generated copies are required. Those three commands retain their native exit codes: 0 for ok, 3 for partial, 1 for error; read each travel skill for its own status/exit-code rules.
 
 ## Sources and license
 

@@ -9,6 +9,7 @@ This project provides Japanese travel-planning skills and anonymous, read-only q
 | Build, review or revise itineraries; requested map/web and presentation handoffs | [japan-travel-planner](skills/japan-travel-planner/SKILL.md) | Planning guidance; optional offline visual helper, no query CLI |
 | Official attractions, events, city/prefecture sources and facility verification | [japan-city-guide](skills/japan-city-guide/SKILL.md) | Source guidance; no CLI |
 | Tabelog restaurant discovery, reviews and anonymous availability | [tabelog](skills/tabelog/SKILL.md) | `bin/tabelog` |
+| Hot Pepper area listings, practical details, course terms and exact seat checks | [hot-pepper](skills/hot-pepper/SKILL.md) | `bin/hot-pepper` |
 | TableCheck discovery, courses and anonymous venue/course/seat availability | [tablecheck](skills/tablecheck/SKILL.md) | `bin/tablecheck` |
 | Pocket Concierge discovery, courses and anonymous sessions | [pocket-concierge](skills/pocket-concierge/SKILL.md) | `bin/pocket-concierge` |
 | City forecasts, meteorological warnings and station climate normals | [japan-weather](skills/japan-weather/SKILL.md) | `bin/japan-weather` |
@@ -20,7 +21,7 @@ This project provides Japanese travel-planning skills and anonymous, read-only q
 | Hotel discovery, facilities and static room information | [japan-hotels](skills/japan-hotels/SKILL.md) | `bin/japan-hotels` |
 | Official rail-pass catalogs, prices and conditions | [japan-passes](skills/japan-passes/SKILL.md) | `bin/japan-passes` |
 
-Use absolute installed skill paths when the working directory is unrelated to this checkout. CLIs require Python 3.9+ and outbound HTTPS; `jr-group` pass queries additionally require system curl. Tabelog and TableCheck require Python 3.11.5+, and Pocket Concierge requires Python 3.10+. Install their declared dependencies; use the root setup or each skill's requirements. Run the selected CLI's offline `doctor` before first use. The city-guide skill uses web search/fetch directly and has no CLI or `doctor`.
+Use absolute installed skill paths when the working directory is unrelated to this checkout. CLIs require Python 3.9+ and outbound HTTPS; `jr-group` pass queries additionally require system curl. Hot Pepper Gourmet, Tabelog and TableCheck require Python 3.11.5+, and Pocket Concierge requires Python 3.10+. Install their declared dependencies; use the root setup or each skill's requirements. Run the selected CLI's offline `doctor` before first use. The city-guide skill uses web search/fetch directly and has no CLI or `doctor`.
 
 Use the planner for questions spanning specialist capabilities; otherwise use the specialist directly. Load only
 the skills and mode references needed for the user's decision. Broad sightseeing/food exploration

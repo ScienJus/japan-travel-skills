@@ -54,6 +54,8 @@ class UrllibAdapter:
 
 
 def urllib_adapters():
+    sys.path.insert(0, str(ROOT / 'skills/hot-pepper/scripts'))
+    from hotpepper_client import source as hp
     w = load('japan-weather', 'weather_common.py')
     t = load('japan-transit', 'transit_transport.py')
     o = load('japan-transit', 'rail_operations.py')
@@ -67,6 +69,7 @@ def urllib_adapters():
     c = load('japan-weather', 'jma_climate.py')
     csv = '国民の祝日・休日月日,国民の祝日・休日名称\n2026/1/1,元日\n2026/11/23,勤労感謝の日\n'.encode('cp932')
     return [
+        UrllibAdapter('hot-pepper', hp, hp.BASE + '/strJ000000001/', hp.LIMIT, 1, hp.SourceError),
         UrllibAdapter('forecast', w, 'https://www.jma.go.jp/bosai/forecast/data/forecast/170000.json', w.MAX_BYTES, 30, w.WeatherError),
         UrllibAdapter('transit', t, t.BASE, t.MAX_BYTES, 6, t.TransitError),
         UrllibAdapter('operations', o, o.WEST_DATA, o.MAX_BYTES, 1, o.OperationsError),

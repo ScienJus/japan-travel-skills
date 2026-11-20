@@ -56,6 +56,19 @@ SKILL_FILES = {
     "japan-passes": (
         "SKILL.md", "LICENSE", "scripts/passes.py", "scripts/pass_source.py",
         "scripts/pass_providers.py", "references/sources.md", "agents/openai.yaml"),
+    'hot-pepper': (
+        'LICENSE',
+        'SKILL.md',
+        'agents/openai.yaml',
+        'references/sources.md',
+        'scripts/hot_pepper.py',
+        'scripts/hotpepper_client/__init__.py',
+        'scripts/hotpepper_client/cli.py',
+        'scripts/hotpepper_client/network.py',
+        'scripts/hotpepper_client/pages.py',
+        'scripts/hotpepper_client/source.py',
+        'scripts/requirements.txt',
+    ),
     'tabelog': (
         'LICENSE',
         'README.md',
