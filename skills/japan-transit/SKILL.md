@@ -29,20 +29,25 @@ convenience only.
 
 ### Timetable routes
 
-1. Resolve exact native names/codes with `stations` or `stops --kind station|bus|all`. Preserve
-   operator qualifiers and `kind`; partial or ambiguous names return candidates. Stops such as 富山,
-   富山駅 and 電鉄富山 are distinct. Suggestions are limited native results, not an exhaustive catalog.
-2. Require a concrete JST date and departure/arrival time. Use `--mode first|last` without `--time`
-   for service-date searches. Last connections can cross midnight; they are not the last departure
-   before a supplied clock.
+1. Query the full journey on the requested JST date. Allow time from the actual starting point
+   to the platform and from the arrival platform to any fixed meeting or deadline. Lead with the
+   route that best meets those constraints, including luggage and any required service or stop.
+   For departure or arrival, supply `--time HH:MM`. For the first or last connection of the
+   service date, use `--mode first` or `--mode last` and omit `--time`. The journey can cross midnight.
+2. Pass exact native station or stop names directly to `route`. For uncertain names use `stations`
+   or `stops`; for ambiguous results inspect the returned candidates. Preserve operator qualifiers
+   and kind (e.g. 富山, 富山駅 and 電鉄富山 are distinct). For each known endpoint in a later query,
+   reuse its name and code from `query.from` or `query.to` with `--from-code` or `--to-code`.
+   Mixed mode also needs the corresponding `--from-kind` or `--to-kind`.
 3. Select `--transport rail|bus|mixed`. Rail is the default. Bus results filter embedded
    alternatives to bus/walking with at least one bus leg; an empty result does not prove no service.
    Bus mode requires bus-stop endpoints. For a railway station to a bus stop, select `mixed`,
    even when the planned ride is only a bus and the station approach is on foot.
    Mixed permits supported surface modes without requiring both bus and rail.
-4. Reuse verified native name/code pairs to avoid suggestion reads. In mixed mode, a reused code
-   also requires its `--from-kind` or `--to-kind`. The route must still match the selected identity.
-   Read `--help` for sorting, ticket, seat, Shinkansen/limited-express preferences and `--detail`.
+4. When joining separately found legs, check whether the dated through search returns that exact
+   connection, or compare the gap with the operator's published transfer time for those lines at
+   that station. Flag a below-standard connection. If neither check establishes feasibility,
+   report the gap as unverified and prefer a supported alternative when available.
 5. For a sightseeing stop, use the outbound arrival plus walking to the attraction, the user's visit
    allowance and walking back, plus any luggage handling, as the onward query's earliest departure.
    A result that leaves too little sightseeing or transfer time needs a suitable later query,
@@ -51,10 +56,10 @@ convenience only.
 
 ```bash
 python3 "<skill-dir>/scripts/transit.py" doctor
-python3 "<skill-dir>/scripts/transit.py" stations 金沢
 python3 "<skill-dir>/scripts/transit.py" stops 善光寺大門 --kind bus
 python3 "<skill-dir>/scripts/transit.py" route --from 東京 --to 京都 --date 2026-11-03 --time 09:00
-python3 "<skill-dir>/scripts/transit.py" route --from 金沢 --to 富山 --date 2026-11-03 --mode last
+# If checking a later departure, substitute the two codes returned by the preceding route.
+python3 "<skill-dir>/scripts/transit.py" route --from 東京 --from-code "<query.from.code>" --to 京都 --to-code "<query.to.code>" --date 2026-11-03 --time 09:30
 python3 "<skill-dir>/scripts/transit.py" route --from '金沢駅/北陸鉄道バス' --to '兼六園下・金沢城/北陸鉄道バス' --transport bus --date 2026-11-03 --time 10:00
 ```
 
