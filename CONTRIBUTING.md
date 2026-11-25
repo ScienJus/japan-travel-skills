@@ -59,7 +59,9 @@ See the [city-guide skill](skills/japan-city-guide/SKILL.md) and the
    what was actually readable; this is separate from the publisher's update time.
 3. Add a small set of useful entries for attractions, events, food, routes and practical access,
    where available. Preserve Japanese source names and link to original pages. Explain material
-   language, geographic or access limits, and use facility/operator sites for visit conditions.
+   language, geographic or access limits. For a frequently visited or requested attraction, link the official page
+   under the place name and briefly describe what it publishes, such as access, opening hours
+   or dated foliage reports. Label a seasonal overview as such.
 4. Keep hours, prices, event dates and seasonal conditions for live verification. Do not copy whole
    articles, mirror third-party content or treat a tourism listing as proof a venue is open.
 5. Update the skill's destination index and, when coverage changes, the root capability summary.

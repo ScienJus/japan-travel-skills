@@ -2,7 +2,7 @@
 
 ## Scope and source checks
 
-Entry/navigation checks: 2026-11-02 (JST). This identifies the source/link check, not publication
+Portal navigation checked on 2026-11-02 (JST). Facility entries checked on 2026-11-25 (JST). This identifies the source/link check, not publication
 freshness or site-wide validation. Japanese pages are the starting references; follow current
 language links from the official portal when needed and retain the source version used.
 
@@ -36,15 +36,9 @@ the entry check.
 | Local access and maps | Follow アクセス and 観光サポート from the portal; use operator schedules for a concrete travel date |
 | Current city themes | Follow 特集 from the portal; preserve year/date and distinguish editorial guidance from current operating facts |
 
-### Following a facility to its responsible source
+### Selected facility sources
 
-The [兼六園 record](https://www.kanazawa-kankoukyoukai.or.jp/spot/detail_10106.html) is a useful
-example: it separates address, ordinary/early access, visit-duration estimates and an official
-facility link labelled 金沢城と兼六園. Follow that link to the prefectural garden/park manager for
-current operating conditions. Its location in a prefectural management site does not make the
-garden a prefecture-wide destination.
-
-Do not copy this record's price or hours into the skill. Its viewing-season descriptions do not
-predict the user's travel-date foliage. Night opening/light-up dates need their own current event
-record; the ordinary daytime rule alone does not establish night admission. Other shortlisted
-facilities should be verified through their own listed managers in the same way.
+| Official source | Available information |
+| --- | --- |
+| [兼六園・金沢城公園 / Kenrokuen and Kanazawa Castle Park](https://shiro-niwa.pref.ishikawa.lg.jp/info.html) | Opening hours, early entry, night openings and park facilities. The [city’s Kenrokuen guide](https://www.kanazawa-kankoukyoukai.or.jp/spot/detail_10106.html) covers access and sightseeing. |
+| [金沢21世紀美術館 / 21st Century Museum of Contemporary Art, Kanazawa](https://www.kanazawa21.jp/data_list.php?d=1&g=7) | Visitor hours and closures by museum zone. |

@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 奈良市 / Nara City is distinct from 奈良県 / Nara Prefecture. Yoshino, Asuka, Sakurai and
@@ -30,6 +31,7 @@ Primary portal: [奈良市観光協会](https://narashikanko.or.jp/). The footer
 | Routes | [モデルコース](https://narashikanko.or.jp/course/): walking/transport ideas, not dated service proof |
 | Access | [アクセス](https://narashikanko.or.jp/access/): general arrival and local movement guidance |
 | Seasonal and local context | Follow 奈良の四季, 特集 and パンフレット from the city portal |
+| [東大寺 / Todai-ji](https://www.todaiji.or.jp/information/haikan/) | Seasonal hours and admission for the halls and museum. |
 
 Temple grounds, halls, museums and special events can have separate admission rules. Daytime
 access does not establish a night opening. A park introduction does not imply one closing rule

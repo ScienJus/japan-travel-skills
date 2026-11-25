@@ -19,8 +19,9 @@ new venue research. Do not apply full-trip coverage to a narrow question.
 
 Start with city order, overnight bases and daily areas. Explain the important trade-offs: fewer hotel
 moves, luggage handling, daylight or admission windows, and travel versus visit time. Separate day
-trips from overnight bases. Keep attractive alternatives outside the main schedule unless there is
-room for them; a candidate list is not a day plan.
+trips from overnight bases. When activities compete for a short window, give it to the experience
+the traveler values most (for example, an outdoor view before the light fades). Move flexible stops
+around it. Keep attractive alternatives outside the main schedule unless there is room for them.
 
 Maintain one working plan with dates, bases, daily priorities, key movement legs, venue choices and
 open decisions. For revisions, start from the latest agreed version and keep deferred ideas outside it.
@@ -85,16 +86,18 @@ open decisions and any requested presentation/map. Mark an older view as superse
 be updated. Moving an uncertain venue does not make it verified.
 
 Treat a conditional fallback as a complete branch: state its trigger, changed visits and onward
-movement, and any affected cost or deadline. Do not attach a main-plan return service to a fallback
-that finishes after it departs. Where queues or unavailable luggage storage would materially change
-the day, give a decision point and a feasible alternative; do not promise an alternative has no wait.
+movement, and any affected cost or deadline. If the choice expires, work back from the alternative’s
+access time and any fixed commitments to say where and by when to switch. Allow time to reach the
+onward service after the fallback ends. For queues or uncertain luggage storage, give a feasible
+alternative without promising it has no wait.
 
 ## Handoff and completion
 
 Lead with the usable result. A full plan usually needs a date/base overview, daily priorities and
 movements, key dated connections, local food and meal options, lodging choices where needed, and the
 remaining decisions. A review usually needs findings and the corrected affected days; do not rewrite
-unaffected days unnecessarily.
+unaffected days unnecessarily. Where a meeting or boarding point could be confused, put its exact local name or exit
+beside the relevant stop. Include a short phrase in Japanese there when the traveler needs staff help.
 Use [the deliverable guide](deliverables.md) only for requested maps, mobile daily plans, slides or coordinated files.
 Plain text/Markdown can be the complete deliverable.
 

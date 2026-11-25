@@ -20,7 +20,7 @@ use focused regression tests and source evidence; when an integration changes, f
 live-check policy. Keep captures, review records and artifacts outside the repository.
 
 Confirm that every shipped skill retains its license, runtime data and declared dependencies.
-Keep the documented qualifications: fourteen curated destinations, source-specific coverage,
+Keep the documented qualifications: curated destination coverage, source-specific coverage,
 unverified Windows execution and Weathernews sakura forecasts awaiting in-season live validation.
 Do not describe an offline check as provider availability or model-quality validation.
 

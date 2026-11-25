@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 神戸市 / Kobe City includes central districts and outlying areas such as Arima and Rokko.
@@ -27,6 +28,7 @@ Primary portal: [Feel KOBE](https://www.feel-kobe.jp/). Its footer identifies �
 | Food and neighborhood themes | [コラム](https://www.feel-kobe.jp/column/): food/culture discovery; article dates and editorial status matter |
 | Routes | [モデルコース](https://www.feel-kobe.jp/model_course/): check actual mode, extent and visit assumptions |
 | Access | [アクセス](https://www.feel-kobe.jp/access/): orientation, with operator verification for a dated connection |
+| [神戸布引ハーブ園 / Kobe Nunobiki Herb Gardens](https://www.kobeherb.com/infomation/hours_fare/) | Garden hours, last admission and ropeway timetable. |
 
 Central Kobe, Arima and mountain areas need different access and transfer allowances. Ropeways,
 mountain transport, museums and gardens have their own operating calendars; a tourism course

@@ -10,10 +10,15 @@ PowerPoint file requires presentation tools available in the agent's host.
 [Set up the Japan Travel Skills](installation.md) and give the planner a trip brief or an existing
 itinerary. Say whether to research the trip or only reformat your supplied content.
 
-> Use the japan-travel-planner skill to turn my Japan itinerary into a mobile-friendly local HTML guide with
-> a map, a separate day-by-day timeline, and an illustrated companion PPTX if presentation tools are available. Include overnight bases,
-> intercity travel, sights, local dishes and restaurant candidates from my plan. Preserve fixed
-> choices, source links and unresolved checks. Do not publish the files.
+Ask for the format that fits the moment. For example:
+
+**During the trip**
+
+> Make a phone-friendly map of my itinerary. Group sights, restaurants and hotels by day. Give me a separate daily plan so I can follow the stops and transfers in order.
+
+**Before departure**
+
+> Make an illustrated PowerPoint for my travel companions. Show the route, where we’ll stay and what we’ll eat. End with the choices we still need to make together.
 
 For a draft that may contain scheduling conflicts, [check the itinerary](check-japan-itinerary.md)
 before producing several views of it.

@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 那覇市 / Naha City includes Shuri and its central districts; it is not all of Okinawa Island
@@ -31,6 +32,7 @@ association body were readable. Follow actual language links and preserve the ve
 | Food leads | [Gourmet filter](https://www.naha-navi.or.jp/en/?s=&word%5B%5D=gourmet): English discovery view; check individual records rather than inferring current menus or exhaustive coverage |
 | Access and sequence ideas | [Access to main tourist attractions](https://www.naha-navi.or.jp/en/sitepage/access/): English practical guide; recheck operator timetables |
 | Maps, walks and local culture | Follow 観光ガイドマップ and the relevant sightseeing/category entry from NAHANAVI |
+| [首里城公園 / Shurijo Castle Park](https://oki-park.jp/shurijo/info/15/) | Hours for paid and free areas, ticket cutoff and closure dates. |
 
 The English homepage's events section was marked in preparation and some English features were
 old; do not use it to establish the current Japanese event calendar. For Shuri, inspect the park

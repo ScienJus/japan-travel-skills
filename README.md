@@ -10,7 +10,8 @@ The project supports discovery, introductions, prices, availability, conditions 
 | --- | --- |
 | Plan a Japan trip with trains, hotels and local food | [Build a sourced itinerary](skills/japan-travel-planner/examples/hokuriku-six-days.md) from a dated worked example. |
 | Check an existing Japan itinerary for closures, last entry and tight connections | [Check a Japan travel itinerary](docs/check-japan-itinerary.md), with an example request and the evidence to retain. |
-| Create a Japan itinerary map or PowerPoint for my travel companions | [Turn an itinerary into a map and PowerPoint](docs/japan-itinerary-map-and-powerpoint.md), with linked map and daily-plan demos and a shared presentation brief. |
+| Follow my trip on my phone | Try the Kyoto–Nara [interactive map](https://www.scienjus.com/japan-travel-skills/assets/kyoto-nara-demo.html) and [daily plan](https://www.scienjus.com/japan-travel-skills/assets/kyoto-nara-daily.html). |
+| Walk my companions through the trip before we leave | Ask for an illustrated PowerPoint with the route, food and choices to discuss. [See example requests and PPTX requirements](docs/japan-itinerary-map-and-powerpoint.md). |
 | Use one tool, such as Japanese rail timetables or hotel discovery | Choose the relevant specialist below. |
 
 See [installation](docs/installation.md) to install the full plugin in Claude Code or Codex, or choose individual skills for a compatible host.
@@ -20,7 +21,7 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 | Skill | Capability and source scope |
 | --- | --- |
 | [Travel planning and visual guides](skills/japan-travel-planner/SKILL.md) | Build, review or revise itineraries; create requested travel maps and mobile daily plans, and coordinate PPTX handoffs using host authoring tools |
-| [City guides](skills/japan-city-guide/SKILL.md) | Official attraction, event, food and route sources for Tokyo, Osaka, Kyoto, Sapporo, Fukuoka, Nagoya, Yokohama, Kobe, Nara and Naha, plus Kanazawa, Takaoka, Toyama City and Nagano City; prefectural discovery and facility verification; no dedicated CLI |
+| [City guides](skills/japan-city-guide/SKILL.md) | Official attraction, event, food and route sources for selected cities and towns across Japan, including [nine Hokkaido destinations](skills/japan-city-guide/references/hokkaido.md). Includes prefectural portals and facility operators. |
 | [Tabelog](skills/tabelog/SKILL.md) | Restaurant search, details/courses, reviews, awards and anonymous date/party/time availability |
 | [Hot Pepper Gourmet](skills/hot-pepper/SKILL.md) | Area directories, shop profiles, course prices and terms, and seat checks by course, date, time and party |
 | [TableCheck](skills/tablecheck/SKILL.md) | Restaurant discovery, courses and anonymous date/time availability; course/seat checks on supported public v1 forms |
@@ -34,18 +35,17 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 | [Hotels](skills/japan-hotels/SKILL.md) | Undated Jalan landmark discovery, bath/station filters, coordinate-based straight-line radius, static profiles and room-type tables |
 | [Rail passes](skills/japan-passes/SKILL.md) | Live official catalogs, prices, eligibility and conditions for nationwide JAPAN RAIL PASS, JR West/joint passes, Tourist Pass, Hokkaido and Shikoku; JR East/Kyushu are reference-only |
 
-Each linked skill documents its workflow, supported locations, source policy and result interpretation. Nationwide scope depends on each source's coverage. City-guide references currently curate fourteen destinations, including ten popular-city starting points as a practical selection, not an official ranking. Municipal sources handle local discovery, and prefectural sources add explicitly wider scope; Tokyo's entry distinguishes its urban areas from the wider metropolis. The references guide live reading rather than storing attraction hours, prices or event calendars. Hotel discovery prioritizes suitable properties and practical details; dates are optional. Stay-specific inventory and cross-platform price comparison are secondary extensions.
+Each linked skill documents its workflow, supported locations, source policy and result interpretation. Nationwide scope depends on each source's coverage. City-guide references currently curate 22 destinations across 13 prefectures. Municipal sources handle local discovery, and prefectural sources add explicitly wider scope; Tokyo's entry distinguishes its urban areas from the wider metropolis. The references guide live reading rather than storing attraction hours, prices or event calendars. Hotel discovery prioritizes suitable properties and practical details; dates are optional. Stay-specific inventory and cross-platform price comparison are secondary extensions.
 
 Weathernews sakura forecast output still awaits in-season live validation; the seasonal skill retains this qualification separately from JMC and foliage coverage.
 
 ## Turn a plan into a travel guide
 
-Visual delivery is a core capability, loaded only when requested. Ordinary planning or plan review
-does not load templates or require a visual output. Ask, for example:
+Ask for the format you want when planning a trip or bring an itinerary you already have.
 
-> Turn this itinerary into a local travel map and a separate mobile daily plan. Include the city order,
-> overnight bases, daily attractions, food and intercity connections. Keep candidates and unresolved
-> checks visible. Also create a PPTX for discussing the plan with my travel companions. Do not publish it.
+> Make me a map I can open on my phone. Show each day’s sights, restaurants and hotel.
+
+> Make an illustrated PowerPoint for my travel companions. Show where we’ll stay, what we’ll eat and which decisions we still need to make.
 
 | Output | How it helps |
 | --- | --- |
@@ -54,7 +54,7 @@ does not load templates or require a visual output. Ask, for example:
 | Companion presentation/PPTX | An illustrated guide to cities, lodging, sights and food, with dates, connections and decisions. Includes photo-page patterns and source/credit guidance; actual slide creation uses the host's authoring tools. |
 | Shared plan records | Keep dates, choices, conditions and sources consistent across outputs and subsequent revisions. |
 
-The [delivery guide](skills/japan-travel-planner/references/deliverables.md) links a reusable,
+The [delivery guide](skills/japan-travel-planner/references/deliverables.md) links to reusable
 dependency-free HTML templates and a presentation handoff brief. Both pages open locally. The map
 automatically requests visible official GSI basemap tiles at supported zoom levels.
 Unknown coordinates stay in the list. Neither plotted locations nor schematic connections are

@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 Distinguish 大阪市 / Osaka City from 大阪府 / Osaka Prefecture. Sakai, Minoh and the
@@ -26,6 +27,7 @@ including Osaka City and Sakai; city and prefectural discovery share this portal
 | Routes | [モデルコース](https://osaka-info.jp/modelcourse/): distinguish central-city walks from Sakai and other wider itineraries |
 | Transport orientation | [便利な交通手段](https://osaka-info.jp/information/useful-access/): general access; operators provide dated services and ticket conditions |
 | Maps and support | Follow パンフレットダウンロード and 観光案内所 from the portal |
+| [大阪城天守閣 / Osaka Castle Main Tower](https://www.osakacastle.net/guide/) | Tower hours, last admission and ticket queue notices. |
 
 For city requests, narrow to the relevant city district before selecting records. Do not infer
 current opening or a continuing exhibition from a past seasonal feature. Follow each facility's

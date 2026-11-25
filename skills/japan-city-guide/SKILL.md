@@ -1,6 +1,6 @@
 ---
 name: japan-city-guide
-description: Find official attraction, event, food and route sources for Tokyo, Osaka, Kyoto, Sapporo, Fukuoka, Nagoya, Yokohama, Kobe, Nara, Naha and curated Hokuriku/Nagano cities. Provides municipal/prefectural navigation and facility verification, not a live attraction database.
+description: Find official attraction, event, food and route sources for Hokkaido cities and towns including Sapporo and Biei, plus Tokyo, Osaka, Kyoto, Fukuoka, Nagoya, Yokohama, Kobe, Nara, Naha and curated Hokuriku/Nagano cities. Provides municipal/prefectural navigation and facility verification, not a live attraction database.
 ---
 
 # Japan official destination sources
@@ -8,9 +8,7 @@ description: Find official attraction, event, food and route sources for Tokyo, 
 ## Scope
 
 Discover attractions and official planning information through municipal tourism bodies,
-prefectural tourism portals and linked facility operators. Fourteen curated destinations include
-ten popular-city starting points and the existing Hokuriku/Nagano entries below. This is a practical
-coverage selection, not an official popularity ranking. Prefectural portals add wider discovery,
+prefectural tourism portals and linked facility operators. The table lists the curated destinations by prefecture. Prefectural portals add wider discovery,
 not curated coverage of every municipality or attraction. Tokyo's urban entry uses its 23-ward
 areas; wider Tokyo Metropolis also includes Tama and the islands.
 
@@ -19,7 +17,7 @@ areas; wider Tokyo Metropolis also includes Tama and the islands.
 | 東京 / Tokyo urban areas; wider Tokyo Metropolis | [Tokyo](references/tokyo.md) |
 | 大阪市 / Osaka City; wider Osaka Prefecture | [Osaka](references/osaka.md) |
 | 京都市 / Kyoto City; wider Kyoto Prefecture | [Kyoto](references/kyoto.md) |
-| 札幌市 / Sapporo; wider Hokkaido | [Hokkaido and Sapporo](references/hokkaido.md) |
+| Hokkaido: Sapporo, Asahikawa, Biei, Chitose, Furano, Hakodate, Noboribetsu, Otaru, Toyako | [Hokkaido cities and towns](references/hokkaido.md) |
 | 福岡市 / Fukuoka City; wider Fukuoka Prefecture | [Fukuoka](references/fukuoka.md) |
 | 名古屋市 / Nagoya; wider Aichi | [Aichi and Nagoya](references/aichi.md) |
 | 横浜市 / 横滨 / Yokohama; wider Kanagawa | [Kanagawa and Yokohama](references/kanagawa.md) |
@@ -48,7 +46,8 @@ web search/fetch tool or anonymous HTTP reader for the necessary live pages. Do 
 3. Follow the reference's attraction, event, area or model-route entry according to the question.
    Search results and snippets locate pages; open the actual record before citing changing facts.
    Read only the relevant reference section and selected candidates, not every linked site.
-4. For a selected facility or event, follow the official operator/organizer link and check notices,
+4. For a named facility, start with its operator entry when the reference includes one. Otherwise
+   follow the facility or event record to its operator or organizer. Check notices,
    visit-date hours, last admission, closures, ticket conditions and exceptions as needed. Identify
    the operator: a tourism association and a facility manager can be different official bodies.
 5. Use model courses for sequencing ideas. Recheck their transfer legs for the user's date/mode

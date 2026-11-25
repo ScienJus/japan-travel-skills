@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 Use 京都市 / Kyoto City for the city itinerary. Uji, Amanohashidate, Ine and other prefectural
@@ -30,6 +31,7 @@ use current language links rather than assuming translated versions have identic
 | Routes | [Sample Itineraries](https://kyoto.travel/en/itineraries): ideas for sequencing, not date-specific connection proof |
 | Local movement | [Getting Around Kyoto](https://kyoto.travel/en/getting-around): public-transport orientation |
 | Luggage, maps and visitor support | Follow Luggage Services, Maps & Tools and Tourist Information Center from Kyoto Travel |
+| [清水寺 / Kiyomizu-dera](https://www.kiyomizudera.or.jp/event/yakan.php) | Night opening dates and evening admission hours. |
 
 Temple special openings, night visits and ordinary daytime access can have different conditions.
 Use the temple, garden or event organizer's current notice for the selected visit. Keep source

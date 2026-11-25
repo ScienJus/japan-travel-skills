@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 Tokyo is a metropolis, not a present-day municipality called Tokyo City. For an urban Tokyo
@@ -27,6 +28,7 @@ Tama, Izu and Ogasawara, so it serves both urban and wider metropolitan discover
 | Local food culture | [食＆グルメ](https://www.gotokyo.org/jp/see-and-do/drinking-and-dining/index.html): food themes and area ideas, not an exhaustive restaurant ranking |
 | Route ideas | [おすすめモデルコース](https://www.gotokyo.org/jp/story/walks-and-tours/index.html): check geography and mode before adopting a sequence |
 | Access and visitor support | [旅の計画・交通情報](https://www.gotokyo.org/jp/plan/index.html): transport orientation and links to practical help |
+| [東京国立博物館 / Tokyo National Museum](https://www.tnm.jp/modules/r_free_page/index.php?id=113) | Opening hours, collection admission and special exhibition tickets. |
 
 Use district pages to narrow a large city before selecting facilities. Parks, museums and private
 attractions have separate operators; follow their official links for notices and admission.

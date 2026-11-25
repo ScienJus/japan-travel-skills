@@ -6,6 +6,7 @@ Entry/navigation checks: 2026-11-02 (JST). This is a source check, not a publish
 site-wide validation. Resolve 長野市 / Nagano City versus 長野県 / Nagano Prefecture from context.
 For a station stay and local sightseeing, start with the city; for a broader prefectural trip,
 add Go NAGANO and the actual destination's local body/operator.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 ## Prefectural discovery
 
@@ -38,6 +39,7 @@ areas. This is the municipal travel portal, separate from Go NAGANO's prefectura
 | Suggested routes | [モデルコース](https://www.nagano-cvb.or.jp/modules/model/): keep mode and time assumptions; verify dated connections separately |
 | Districts | Follow エリア from the homepage; city-center, 戸隠・飯綱 and other listed city areas are distinct destinations within a municipal guide |
 | Access and maps | Follow アクセス and パンフレット from the homepage; transport schedules and PDF dates require their own checks |
+| [善光寺 / Zenkoji](https://www.zenkoji.jp/contact/faq/) | Morning service times and visitor information. |
 
 The homepage and the linked attraction/event/model-course entry bodies were readable in the
 source check. City-level scope is not synonymous with the station or downtown: the portal

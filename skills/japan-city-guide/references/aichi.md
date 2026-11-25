@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 Use 名古屋市 / Nagoya City for a city request. Inuyama, Toyota and Nagakute are different
@@ -30,6 +31,7 @@ linked [publisher site](https://www.nagoya-info.jp/ncvb/) identify 公益財団�
 | Routes | [モデルコース](https://www.nagoya-info.jp/course/): sequencing ideas with mode and geography checks |
 | Access | [アクセス](https://www.nagoya-info.jp/access/): regional/city movement orientation |
 | Visitor support | Follow メーグル, 観光案内所 and 観光パンフレット from the primary portal |
+| [名古屋城 / Nagoya Castle](https://www.nagoyajo.city.nagoya.jp/info/faq/) | Access to the main keep and Honmaru Palace. |
 
 The portal explicitly includes a nearby-area category; verify municipality before treating a
 candidate as a city attraction. Industrial museums and tour programs need their own facility

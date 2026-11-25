@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 横浜市 / Yokohama City is distinct from 神奈川県 / Kanagawa Prefecture. Kamakura, Hakone,
@@ -29,6 +30,7 @@ identify 公益財団法人横浜市観光協会 / Yokohama City Visitors Bureau
 | Routes | [おすすめコース](https://www.welcome.city.yokohama.jp/courses/): check walking distances, transport assumptions and entry conditions |
 | Access | [アクセス・交通情報](https://www.welcome.city.yokohama.jp/access/): general movement guidance |
 | Maps and practical support | Follow 観光案内所 and 横浜観光バリアフリー情報 from the portal |
+| [三溪園 / Sankeien Garden](https://www.sankeien.or.jp/price-service/) | Garden hours, last entry, fees and event notices. |
 
 The port, central districts and other city areas are not one compact walking location. Confirm
 the selected facility's address and admission separately. Cruise schedules, fireworks and seasonal

@@ -252,9 +252,11 @@ def build_locale(output, base, lang, plan, example_path):
                 '<p class="eyebrow">{example_kicker}</p><h2 id="demo-title">{example_title}</h2>'
                 '<p>{example_description}</p><a class="button" href="{url}">{example_full}</a>'
                 '<a class="button" href="{daily}">{example_daily}</a>'
+                '<a class="button" href="{brief}" download>{brief_label}</a>'
                 '<iframe class="demo-frame" src="{url}" loading="lazy" title="{example_frame}" '
                 'sandbox="allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox"></iframe></section>'
-            ).format(url=DEMO, daily=DEMO_DAILY, **labels)
+            ).format(url=DEMO, daily=DEMO_DAILY, brief=DEMO_BRIEF,
+                     brief_label=home["home_download_the_presentation_brief_md"], **labels)
         (destination / page).write_text(render_page(
             lang, page, title + " | Japan Travel Skills", raw_labels[key + "_description"],
             base, content, raw_labels, assets,

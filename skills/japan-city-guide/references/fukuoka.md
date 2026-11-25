@@ -4,6 +4,7 @@
 
 Entry/navigation checked: 2026-11-05 (JST). This is a source/link check, not publication
 freshness, current admission or site-wide validation. Read selected records and operator notices live.
+The facility link in the city table was checked on 2026-11-25 (JST).
 
 
 Distinguish 福岡市 / Fukuoka City, 博多 / Hakata within the city, and 福岡県 / Fukuoka Prefecture.
@@ -29,6 +30,7 @@ as the secretariat.
 | Yatai | Follow 屋台 from the primary portal; obtain venue rules and actual operating information before assigning a visit |
 | Routes | [モデルコース](https://yokanavi.com/routes): selected city and nearby-area sequences |
 | City transport | [市内交通ガイド](https://yokanavi.com/trafficguide): practical orientation; use dated operator evidence for connections |
+| [福岡市博物館 / Fukuoka City Museum](https://museum.city.fukuoka.jp/about/information.html) | Opening calendar, evening hours and last admission. |
 
 Portal rankings, user travel logs and AI-generated course features are different from facility or
 operator notices. Prefer the latter for actual opening and access. A yatai introduction does not

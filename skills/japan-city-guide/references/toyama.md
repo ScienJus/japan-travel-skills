@@ -2,7 +2,7 @@
 
 ## Scope and source checks
 
-Entry/navigation checks: 2026-11-02 (JST). Source checks are not publisher update times or site-wide
+Portal navigation checked on 2026-11-02 (JST). Facility and route operator entries checked on 2026-11-25 (JST). Source checks are not publisher update times or site-wide
 validation. Keep 富山県 / Toyama Prefecture, 富山市 / Toyama City and 高岡市 / Takaoka City distinct.
 Takaoka and Toyama City share the prefectural source; they have separate municipal portals.
 
@@ -24,6 +24,9 @@ These entry bodies were readable in the source check. The portal links foreign-l
 on `visit-toyama-japan.com`; follow the current portal link rather than guessing translated paths.
 Seasonal articles, personal writer reports and official facility records serve different purposes.
 
+[立山黒部アルペンルート / Tateyama Kurobe Alpine Route](https://www.alpen-route.com/index.php)
+provides seasonal timetables and service notices by leg between Toyama and Nagano prefectures.
+
 ## Takaoka City
 
 Primary portal: [高岡観光ナビ](https://www.takaoka.or.jp/). The footer identifies 公益社団法人
@@ -42,7 +45,9 @@ is denied or unavailable, stop that source and disclose the missing evidence. Th
 identified prefectural Takaoka page can provide its own attributed discovery information; do not
 say it confirms a municipal page that could not be read.
 
-For shortlisted temples, museums, gardens or workshops, follow the detail's actual operator link
+[国宝高岡山瑞龍寺 / Zuiryuji Temple](https://zuiryuji.jp/) lists visiting hours, last entry and winter opening times.
+
+For other shortlisted temples, museums, gardens or workshops, follow the detail's actual operator link
 for admission, closures and appointment conditions. A city/prefectural description is not a
 confirmation of available workshop or admission slots. Do not submit booking or contact forms.
 
@@ -66,3 +71,10 @@ districts beyond the station/center; an area name alone is not a travel-time pro
 portal's view of 立山連峰 or nearby trip does not establish that the described place lies in Toyama
 City or that a seasonal mountain route is operating. Verify location and responsible operators
 before using such material in the itinerary.
+
+### Selected museum sources
+
+| Official source | Available information |
+| --- | --- |
+| [富山市ガラス美術館 / Toyama Glass Art Museum](https://toyama-glass-art-museum.jp/) | Opening calendar and exhibitions. |
+| [富山県美術館 / Toyama Prefectural Museum of Art and Design](https://tad-toyama.jp/visitor/general) | Gallery hours, admission and rooftop garden access. |
