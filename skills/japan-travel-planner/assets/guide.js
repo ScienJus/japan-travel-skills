@@ -3,6 +3,7 @@
   const plan = JSON.parse(document.getElementById("plan-data").textContent);
   const words = {
     en: {
+      dailyPlan: "Daily plan", cityMap: "Map", otherLegs: "Connections with unspecified timing relative to visits",
       demo: "DEMONSTRATION", days: "days", cities: "cities", places: "places", nights: "nights", dayTrip: "visit only",
       revision: "Plan snapshot", all: "All", itinerary: "Daily itinerary", itineraryKicker: "DATES / BASES / CONNECTIONS",
       export: "Download plan JSON", locations: "Places & map", filterScope: "City and category filter places only. The day selector also updates the itinerary and transport.",
@@ -18,6 +19,7 @@
       related: "Related places", pointCount: "with sourced coordinates", noPoints: "No sourced coordinates in this view", scope: "Scope", checked: "Checked",
     },
     "zh-CN": {
+      dailyPlan: "每日计划", cityMap: "地图", otherLegs: "交通清单 · 与游览的先后顺序待定",
       demo: "演示行程", days: "天", cities: "个城市", places: "个地点", nights: "晚", dayTrip: "仅游览",
       revision: "行程快照", all: "全部", itinerary: "每天怎么走", itineraryKicker: "日期 / 住宿 / 交通",
       export: "下载行程 JSON", locations: "地点与地图", filterScope: "城市和类型只筛选地点；切换日期会同步更新当天安排和交通。",
@@ -33,6 +35,7 @@
       related: "相关地点", pointCount: "个有来源坐标", noPoints: "当前视图没有可靠坐标", scope: "核对范围", checked: "核对日期",
     },
     ja: {
+      dailyPlan: "日別の予定", cityMap: "地図", otherLegs: "移動一覧（訪問との順序は未指定）",
       demo: "モデルコース", days: "日間", cities: "都市", places: "か所", nights: "泊", dayTrip: "日帰り",
       revision: "旅程スナップショット", all: "すべて", itinerary: "日ごとの旅程", itineraryKicker: "日付 / 宿泊 / 移動",
       export: "旅程JSONをダウンロード", locations: "訪問先と地図", filterScope: "都市と種類は訪問先の絞り込みに使います。日付を切り替えると旅程と交通も連動します。",
@@ -53,6 +56,9 @@
   const byId = rows => new Map(rows.map(row => [row.id, row]));
   const cities = byId(plan.cities), places = byId(plan.places), legs = byId(plan.legs);
   // Empty filter values cannot collide with validated nonempty record identifiers.
+  const daily = document.body.classList.contains("daily");
+  const peer = document.body.dataset.peer;
+  const placeNumbers = new Map(plan.places.map((place, i) => [place.id, i + 1]));
   const state = {day: "", city: "", kind: "", selected: null, zoom: 10, center: null, tiles: true, tileFailed: false};
   const colors = {hotel: "#4c6452", attraction: "#b26243", restaurant: "#9a6b27", transport: "#477489"};
   const make = (tag, text, className) => {
@@ -137,18 +143,18 @@
       label.textContent = t.noPoints; map.append(label);
     }
     // Draw the selected marker last so coincident points do not hide its highlight.
-    rows.map((place, index) => ({place, index}))
-      .sort((a, b) => Number(a.place.id === state.selected) - Number(b.place.id === state.selected))
-      .forEach(({place, index}) => {
+    rows.slice()
+      .sort((a, b) => Number(a.id === state.selected) - Number(b.id === state.selected))
+      .forEach(place => {
       if (!place.coordinates) return;
       const point = project(place.coordinates), x = point[0] * scale - left, y = point[1] * scale - top;
       if (x < -25 || y < -25 || x > w + 25 || y > h + 25) return;
       const group = svg("g", {transform: `translate(${x},${y})`, role: "button", tabindex: 0,
-        "aria-label": `${index + 1}. ${place.name}`, "data-place-id": place.id,
+        "aria-label": `${placeNumbers.get(place.id)}. ${place.name}`, "data-place-id": place.id,
         class: `map-marker${state.selected === place.id ? " selected" : ""}`});
       group.append(svg("circle", {r: 23, fill: "transparent", stroke: "none"}));
       group.append(svg("circle", {r: 15, fill: colors[place.kind]}));
-      const label = svg("text", {}); label.textContent = index + 1; group.append(label);
+      const label = svg("text", {}); label.textContent = placeNumbers.get(place.id); group.append(label);
       const select = () => choosePlace(place.id, false);
       group.addEventListener("click", select);
       group.addEventListener("keydown", event => { if (["Enter", " "].includes(event.key)) { event.preventDefault(); select(); } });
@@ -182,20 +188,39 @@
     $("day-plans").replaceChildren();
     for (const day of selectedDays()) {
       const article = make("article", undefined, "day-plan"); article.dataset.dayId = day.id;
-      article.append(make("p", `${day.date} / ${day.city_ids.map(id => cities.get(id).name).join(" → ")}`, "day-date"), make("h3", day.title), make("p", day.summary, "day-summary"));
-      for (const visit of day.visits) {
+      article.append(make("p", `${day.date} / ${day.city_ids.map(id => cities.get(id).name).join(" → ")}`, "day-date"), make(daily ? "h2" : "h3", day.title), make("p", day.summary, "day-summary"));
+      if (peer) {
+        const links = make("nav", undefined, "peer-links");
+        const addPeer = (label, filter) => {
+          const a = make("a", label); a.href = peer + "#" + new URLSearchParams(filter); links.append(a);
+        };
+        if (daily) {
+          for (const city of day.city_ids) addPeer(cities.get(city).name + " · " + t.cityMap, {day: day.id, city});
+        } else addPeer(t.dailyPlan, {day: day.id});
+        article.append(links);
+      }
+      function appendVisit(visit) {
         const item = make("div", undefined, "visit"), info = make("div");
         const place = places.get(visit.place_id);
-        info.append(make("h3", place.name), make("p", `${t[place.role]} · ${t[place.evidence]}`), make("p", visit.notes));
+        info.append(make("h3", place.name), make("p", `${t[place.role]} · ${t[place.evidence]}`), make("p", visit.notes), sourceLinks(place.sources));
         item.append(make("time", visit.time), info); article.append(item);
       }
-      for (const id of day.leg_ids) {
-        const leg = legs.get(id), item = make("div", undefined, "leg"); item.dataset.legId = id;
+      function appendLeg(leg) {
+        const item = make("div", undefined, "leg"); item.dataset.legId = leg.id;
         item.append(make("strong", `${places.get(leg.from_place_id).name} → ${places.get(leg.to_place_id).name}`),
           make("small", `${leg.time} · ${leg.mode} · ${t[leg.role]} · ${t[leg.evidence]}`), make("small", leg.notes), sourceLinks(leg.sources));
         for (const source of leg.sources) if (source.scope) item.append(make("small", `${t.scope}: ${source.scope}`));
         article.append(item);
       }
+      const dayLegs = day.leg_ids.map(id => legs.get(id));
+      day.visits.forEach((visit, index) => {
+        dayLegs.filter(leg => leg.before_visit === index + 1).forEach(appendLeg);
+        appendVisit(visit);
+      });
+      dayLegs.filter(leg => leg.before_visit === day.visits.length + 1).forEach(appendLeg);
+      const separate = dayLegs.filter(leg => leg.before_visit === undefined);
+      if (separate.length) article.append(make("h4", t.otherLegs));
+      separate.forEach(appendLeg);
       const hotel = day.base_place_id ? places.get(day.base_place_id) : null;
       const hotelLabel = hotel ? `${hotel.name} · ${t[hotel.role]} · ${t[hotel.evidence]}` : t.hotelPending;
       const base = day.base_city_id ? `${cities.get(day.base_city_id).name} / ${hotelLabel}` : t.noBase;
@@ -208,11 +233,11 @@
     const rows = visiblePlaces(); $("places").replaceChildren();
     $("place-count").textContent = `${rows.length} ${t.places} · ${rows.filter(p => p.coordinates).length} ${t.pointCount}`;
     if (!rows.length) $("places").append(make("p", t.empty, "empty"));
-    rows.forEach((place, index) => {
+    rows.forEach(place => {
       const article = make("article", undefined, "place-card"); article.dataset.placeId = place.id;
       const heading = make("h3", undefined, "place-title"), button = make("button", place.name);
       button.type = "button"; button.addEventListener("click", () => choosePlace(place.id, true));
-      heading.append(make("span", index + 1, "number"), button);
+      heading.append(make("span", placeNumbers.get(place.id), "number"), button);
       article.append(heading, make("div", `${t[place.kind]} · ${t[place.role]} · ${t[place.evidence]}`, "meta"), make("p", place.notes));
       for (const source of place.sources) {
         if (source.scope) article.append(make("p", `${t.scope}: ${source.scope}`));
@@ -231,6 +256,53 @@
   $("title").textContent = plan.title; $("notice").textContent = plan.notice;
   $("demo").textContent = plan.demo ? t.demo : "";
   $("revision").textContent = `${t.revision}: ${plan.revision} · Asia/Tokyo`;
+  let renderedHash;
+  const navigate = () => {
+    if (renderedHash === location.hash) return;
+    renderedHash = location.hash;
+    const query = new URLSearchParams(location.hash.slice(1));
+    const day = plan.days.find(d => d.id === query.get("day"));
+    state.day = day ? day.id : daily ? plan.days[0].id : "";
+    state.city = cities.has(query.get("city")) ? query.get("city") : "";
+    state.selected = null;
+    $("days").querySelectorAll("button").forEach(button =>
+      button.setAttribute("aria-pressed", String(button.dataset.dayId === state.day)));
+    renderSchedule();
+    if (!daily) {
+      $("city").value = state.city;
+      if (peer) {
+        const dailyLink = $("daily-open");
+        dailyLink.href = peer + (state.day ? "#" + new URLSearchParams({day: state.day}) : "");
+        dailyLink.textContent = t.dailyPlan;
+        dailyLink.hidden = false;
+      }
+      renderPlaces();
+    }
+  };
+  function selectDateAndCity(day, city) {
+    const params = new URLSearchParams({day});
+    if (city) params.set("city", city);
+    location.hash = params.toString();
+    navigate();
+  }
+  const tabs = plan.days.map(day => [day.id, day.date.slice(5) + " · " + day.title]);
+  if (!daily) tabs.unshift(["", t.all]);
+  for (const [id, label] of tabs) {
+    const button = make("button", label);
+    button.type = "button"; button.dataset.dayId = id;
+    button.addEventListener("click", () => selectDateAndCity(id, state.city));
+    $("days").append(button);
+  }
+  window.addEventListener("hashchange", () => { if (location.hash !== "#schedule") navigate(); });
+  for (const question of plan.open_questions.length ? plan.open_questions : [t.none]) $("questions").append(make("li", question));
+  if (daily) {
+    document.title = t.dailyPlan + " · " + plan.title;
+    $("title").textContent = document.title;
+    $("questions-heading").textContent = t.questions;
+    $("footer").textContent = t.footer;
+    navigate();
+    return;
+  }
   for (const [count, label] of [[plan.days.length, t.days], [plan.cities.length, t.cities], [plan.places.length, t.places]]) {
     const item = make("div", undefined, "stat"); item.append(make("strong", count), make("span", label)); $("stats").append(item);
   }
@@ -241,20 +313,19 @@
   for (const [id, label] of Object.entries({"schedule-heading": t.itinerary, "schedule-kicker": t.itineraryKicker, export: t.export,
     "places-heading": t.locations, "filter-scope": t.filterScope, "city-label": t.city, "kind-label": t.kind,
     "map-label": t.map, fit: t.fit, "network-note": t.network, "questions-heading": t.questions, footer: t.footer})) $(id).textContent = label;
-  for (const [id, text] of [["", t.all], ...plan.days.map(day => [day.id, `${day.date.slice(5)} · ${day.title}`])]) {
-    const button = make("button", text); button.type = "button"; button.dataset.dayId = id; button.setAttribute("aria-pressed", id === "" ? "true" : "false");
-    button.addEventListener("click", () => {
-      state.day = id; state.selected = null;
-      $("days").querySelectorAll("button").forEach(node => node.setAttribute("aria-pressed", node === button ? "true" : "false"));
-      renderSchedule(); renderPlaces();
-    }); $("days").append(button);
-  }
   for (const [id, entries] of [["city", [["", t.all], ...plan.cities.map(city => [city.id, city.name])]],
     ["kind", [["", t.all], ...["hotel", "attraction", "restaurant", "transport"].map(kind => [kind, t[kind]])]]]) {
     for (const [value, label] of entries) { const option = make("option", label); option.value = value; $(id).append(option); }
-    $(id).addEventListener("change", event => {state[id] = event.target.value; state.selected = null; renderPlaces();});
+    $(id).addEventListener("change", event => {
+      if (id === "city") {
+        selectDateAndCity(state.day, event.target.value);
+      } else {
+        state.kind = event.target.value;
+        state.selected = null;
+        renderPlaces();
+      }
+    });
   }
-  for (const question of plan.open_questions.length ? plan.open_questions : [t.none]) $("questions").append(make("li", question));
   $("basemap").addEventListener("click", () => { state.tiles = !state.tiles; drawMap(); });
   $("fit").addEventListener("click", () => drawMap(true));
   $("zoom-in").addEventListener("click", () => { state.zoom = Math.min(16, state.zoom + 1); drawMap(); });
@@ -263,7 +334,8 @@
     const url = URL.createObjectURL(new Blob([JSON.stringify(plan, null, 2)], {type: "application/json"}));
     const a = make("a"); a.href = url; a.download = "plan.json"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
-  renderSchedule(); renderPlaces();
+  navigate();
+  if (state.day && state.city) $("places-heading").scrollIntoView();
   new ResizeObserver(() => {
     if (Math.max(280, Math.round(map.getBoundingClientRect().width)) !== mapWidth) drawMap(true);
   }).observe(map.parentElement);

@@ -10,7 +10,7 @@ let phase = "setup";
 async function main() {
   const args = process.argv.slice(2), options = {};
   for (let i = 0; i < args.length; i += 2) {
-    assert(["--html", "--output", "--browser"].includes(args[i]) && args[i + 1], "Use --html, --output and optional --browser");
+    assert(["--html", "--output", "--browser", "--daily"].includes(args[i]) && args[i + 1], "Use --html, --output and optional --daily and --browser");
     options[args[i].slice(2)] = args[i + 1];
   }
   assert(options.html && options.output, "HTML and an external output directory are required");
@@ -72,6 +72,11 @@ async function main() {
     const naraFood = plan.places.filter(place => place.city_id === "nara" && place.kind === "restaurant");
     assert(naraFood.length > 0, "The public demo must include food candidates");
     assert.equal(await page.locator(".place-card").count(), naraFood.length);
+    for (const place of naraFood) {
+      const number = String(plan.places.findIndex(row => row.id === place.id) + 1);
+      assert.equal(await page.locator(`.place-card[data-place-id="${place.id}"] .number`).textContent(), number);
+      if (place.coordinates) assert.equal(await page.locator(`.map-marker[data-place-id="${place.id}"] text`).textContent(), number);
+    }
     assert.equal(await page.locator(".map-marker").count(), naraFood.filter(place => place.coordinates).length);
     await page.locator('#days button[data-day-id="day-1"]').click();
     assert.equal(await page.locator(".place-card").count(), 0);
@@ -123,6 +128,35 @@ async function main() {
     await page.screenshot({path: path.join(output, "mobile.png"), fullPage: true});
     await page.setViewportSize({width: 320, height: 800});
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "Small mobile view must remain reachable");
+    if (options.daily) {
+      phase = "daily-timeline-and-city-map";
+      network.length = 0;
+      await page.goto(pathToFileURL(path.resolve(options.daily)).href);
+      assert.equal(await page.locator(".day-plan").getAttribute("data-day-id"), plan.days[0].id);
+      assert.equal(await page.locator("#demo").innerText(), "演示行程");
+      const day = plan.days.find(row => row.city_ids.length > 1);
+      await page.locator(`#days button[data-day-id="${day.id}"]`).click();
+      await page.locator(`.day-plan[data-day-id="${day.id}"]`).waitFor();
+      const timeline = await page.locator(".day-plan .leg, .day-plan .visit").evaluateAll(nodes =>
+        nodes.map(node => node.dataset.legId || "visit"));
+      let visits = 0;
+      for (const entry of timeline) {
+        if (entry === "visit") visits++;
+        else assert.equal(plan.legs.find(leg => leg.id === entry).before_visit, visits + 1);
+      }
+      assert.equal(visits, day.visits.length);
+      assert.equal(timeline.length, visits + day.leg_ids.length);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.equal(network.length, 0, "The daily plan must work without external requests");
+      await page.screenshot({path: path.join(output, "daily-mobile.png"), fullPage: true});
+      assert.equal(await page.locator(".peer-links a").count(), day.city_ids.length);
+      const city = day.city_ids[1];
+      await page.locator(`.peer-links a[href$="city=${city}"]`).click();
+      assert.equal(await page.locator("#city").inputValue(), city);
+      assert.equal(await page.locator(".day-plan").getAttribute("data-day-id"), day.id);
+      await page.locator("#daily-open").click();
+      assert.equal(await page.locator(".day-plan").getAttribute("data-day-id"), day.id);
+    }
     phase = "safe-text-and-coincident-points";
     const hostile = structuredClone(plan);
     hostile.language = "en";

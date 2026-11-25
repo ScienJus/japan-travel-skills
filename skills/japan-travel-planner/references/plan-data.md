@@ -1,6 +1,6 @@
 # Shared records for visual handoffs
 
-Read this only when a requested HTML/map or presentation needs structured plan records. Ordinary
+Read this only when a requested map, mobile daily plan or presentation needs structured plan records. Ordinary
 planning and reviews do not require JSON, this reference or the assets. See
 [deliverables](deliverables.md) for research, content and verification requirements.
 
@@ -10,11 +10,18 @@ Resolve `<skill-dir>` from the installed skill catalog. Python 3.9+ standard lib
 no server, pip package, account, API key or browser automation is required by the helper.
 
 ```bash
-python3 "<skill-dir>/scripts/render_plan.py" \
+python3 "<skill-dir>/scripts/render_plan.py" --peer daily.html \
   --input /absolute/path/to/plan.json --output /absolute/path/outside-the-checkout/guide.html
+python3 "<skill-dir>/scripts/render_plan.py" --format daily --peer guide.html \
+  --input /absolute/path/to/plan.json --output /absolute/path/outside-the-checkout/daily.html
 python3 "<skill-dir>/scripts/render_plan.py" --format brief \
   --input /absolute/path/to/plan.json --output /absolute/path/outside-the-checkout/presentation.md
 ```
+
+Each HTML works independently. When delivering both, give each command the other file's basename
+with `--peer` and keep them in one folder. Omit the option for standalone delivery. The daily page
+opens at the first date, works offline and can link to each city on a transfer day. Both HTML files
+embed the complete records, including days hidden by the current view.
 
 Use new output paths; existing files are never overwritten. Generated files must stay outside the
 source checkout and installed skill. The helper validates records before writing and makes no
@@ -57,8 +64,14 @@ Free text is limited to 2,000 characters per field; names/labels should remain c
 | `places` | `{id, city_id, kind, name, role, evidence, notes, sources, coordinates?}`. Kind is `hotel`, `attraction`, `restaurant` or `transport`. |
 | `days` | `{id, date, title, city_ids, base_city_id, base_place_id, summary, visits, leg_ids}`. Dates are distinct, increasing `YYYY-MM-DD` in Japan time. Use null for no overnight base or no specified property. A proposed base may reference a candidate hotel; its role and evidence remain visible and do not establish a booking. |
 | `days[].visits` | `{place_id, time, notes}` in intended order. Times are source times or explicitly labelled estimates; free text does not certify chronology. |
-| `legs` | `{id, day_id, from_place_id, to_place_id, mode, time, role, evidence, notes, sources}`. Both endpoints must exist in that day's cities; each connection belongs to exactly one day. |
+| `legs` | `{id, day_id, from_place_id, to_place_id, mode, time, role, evidence, notes, sources, before_visit?}`. Both endpoints must exist in that day's cities; each connection belongs to exactly one day. |
 | `open_questions` | List of unresolved decisions or material checks, carried into every handoff. |
+
+Optional `legs[].before_visit` is a one-based position in that day's visits. Use 1 before the first
+visit, or the visit count plus 1 for a final onward leg (also 1 on a transport-only day).
+Legs at the same position follow `day.leg_ids` order. Update positions when editing the visit order.
+Unpositioned legs appear under a separate heading. The renderer never guesses order from time labels.
+Use visit or leg notes for flexible stops, rest allowances and the triggers for alternatives.
 
 Identifiers use letters, digits, underscores and hyphens (at most 64 characters). A base property
 must be a hotel in the overnight city. Each day must list its connections and all visit/endpoints

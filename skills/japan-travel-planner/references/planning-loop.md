@@ -23,7 +23,8 @@ trips from overnight bases. Keep attractive alternatives outside the main schedu
 room for them; a candidate list is not a day plan.
 
 Maintain one working plan with dates, bases, daily priorities, key movement legs, venue choices and
-open decisions. A short table is sufficient; stable IDs help when several views or revisions are
+open decisions. For revisions, start from the latest agreed version and keep deferred ideas outside it.
+A short table is sufficient; stable IDs help when several views or revisions are
 involved. Keep plan role (fixed/selected/candidate/backup) separate from evidence status. Treat
 user-reported reservations as constraints, without accessing or claiming to verify their accounts.
 
@@ -45,8 +46,8 @@ Keep the query's date, place, seat/meal conditions and original link with its re
 
 Include local access to the actual visit, not just travel between city stations. Resolve local
 connections when a tight opening window or infrequent service makes them consequential; broad
-plans can retain labelled estimates. If a selected connection leaves a substantial idle wait,
-consider whether another supported connection or more time at the visit better fits the brief.
+plans can retain labelled estimates. For a substantial wait, compare the value of spending that
+time at either end of the journey. Verify any timing assumption that would change the choice.
 Do not minimize every wait at the expense of transfer margin or query every departure.
 
 Give a useful day structure with priorities, movement and recovery time. Make a requested rainy-day
@@ -57,8 +58,8 @@ the user's requested precision. Missing facts stay explicit rather than blocking
 ## Review and repair
 
 Extract the existing plan before judging it. Retain fixed dates, accommodation and must-visits;
-explain incompatible commitments instead of silently replacing one. Do not label a preference for
-a busy or quiet day as an objective error.
+explain incompatible commitments instead of silently replacing one. For a comparison or reflection,
+keep the current version and describe the proposed change separately. A busy or quiet day can be a deliberate choice.
 
 | Finding | What to show |
 | --- | --- |
@@ -66,10 +67,18 @@ a busy or quiet day as an objective error.
 | Recommendation | The estimated pace/routing issue, assumptions, trade-off and optional adjustment |
 | Unresolved check | The exact missing fact, its impact and the decision that depends on it |
 
-Implement the repair in the requested output, not only in a warning beside an unchanged schedule.
+For a feasible plan, compare changes against the traveler's priorities over the whole day or trip.
+Explain what each change makes possible and what it costs in time, energy or flexibility.
+For example, moving lunch closer to the next sight saves a detour, but returning to the hotel
+may be worthwhile when the traveler needs a rest. When looking for missed opportunities, start
+with the chosen route and available time. Keep additions optional until the traveler selects them.
+
+When asked to revise, implement the repair in the affected day's schedule.
 If it cannot be resolved, identify the blocked leg/choice. Recheck affected connections and visit
 conditions; keep still-applicable evidence for unchanged parts. Do not query a failed source again
 to complete a checklist or imply that a different source verified its inaccessible page.
+
+When new information arrives, check which planned visit or decision it affects before proposing a change.
 
 For a local change, record what moved and propagate it to the daily plan, key legs, meal conditions,
 open decisions and any requested presentation/map. Mark an older view as superseded if it cannot
@@ -86,7 +95,7 @@ Lead with the usable result. A full plan usually needs a date/base overview, dai
 movements, key dated connections, local food and meal options, lodging choices where needed, and the
 remaining decisions. A review usually needs findings and the corrected affected days; do not rewrite
 unaffected days unnecessarily.
-Use [the deliverable guide](deliverables.md) only for requested slides, maps or coordinated files.
+Use [the deliverable guide](deliverables.md) only for requested maps, mobile daily plans, slides or coordinated files.
 Plain text/Markdown can be the complete deliverable.
 
 Before finishing, reconcile dates and nights, forward connections, fixed commitments and source

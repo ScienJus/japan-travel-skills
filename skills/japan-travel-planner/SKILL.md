@@ -1,6 +1,6 @@
 ---
 name: japan-travel-planner
-description: Build, review or revise Japan itineraries and create requested interactive map/web guides or presentation handoffs. Coordinate sightseeing, food, transport and other available specialists; use the relevant specialist directly when one skill can answer the request. Visual outputs are on demand; PPTX creation uses the host's authoring tools.
+description: Build, review or revise Japan itineraries and create requested travel maps, mobile daily plans or companion presentations. Coordinate sightseeing, food, transport and other available specialists; use the relevant specialist directly when one skill can answer the request. Visual outputs are on demand; PPTX creation uses the host's authoring tools.
 ---
 
 # Japan travel planning
@@ -21,7 +21,7 @@ against the current clock.
 
 For a complete itinerary, an existing-plan review or a revision with downstream effects, read
 [the planning loop](references/planning-loop.md). It covers the working brief, city/base choices,
-targeted verification, minimal repairs and handoff; load its worked example only when useful.
+targeted verification, repairs, and trade-offs in route, pace and meal choices. Load the worked example only when useful.
 
 | Decision | Relevant skill and scope |
 | --- | --- |
@@ -80,11 +80,10 @@ prerequisites for a supported query.
 
 ## Present the decision
 
-For a requested presentation/PPTX, interactive map or multi-file handoff, read
-[travel-plan deliverables](references/deliverables.md). It covers trip overview, city details and
-intercity connections, with a reusable local HTML/map template and a shared presentation handoff.
-Load its data contract/assets only for that output; ordinary planning and reviews do not need them.
-Use available presentation tools to create and inspect an actual deck when requested.
+When the user requests a travel map, a separate mobile daily plan, a companion PPTX or a combination,
+read [travel-plan deliverables](references/deliverables.md). Produce the requested views from the
+same plan revision. Load the data contract or presentation brief only for the relevant output.
+Use the host's presentation tools to create and inspect an actual deck when requested.
 
 Answer in the user's language and requested length. Lead with the itinerary or decision and why
 it fits. Put original external links beside key recommendations and dated connections; local notes

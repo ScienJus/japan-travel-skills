@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a researched plan as a local HTML guide or a presentation brief. No queries."""
+"""Render a researched plan as a map, daily timeline or presentation brief. No queries."""
 
 import argparse
 import datetime as dt
@@ -195,9 +195,13 @@ def validate(plan):
 
     legs = {}
     fields = {"day_id", "from_place_id", "to_place_id", "mode", "time", "role", "evidence", "notes", "sources"}
-    for leg, at in records(plan, "legs", fields, fields, 500):
+    for leg, at in records(plan, "legs", fields | {"before_visit"}, fields, 500):
         require(isinstance(leg["day_id"], str) and leg["day_id"] in days, at + ".day_id", "unknown day")
         day = days[leg["day_id"]]
+        if "before_visit" in leg:
+            position = leg["before_visit"]
+            require(type(position) is int and 1 <= position <= len(day["visits"]) + 1, at + ".before_visit",
+                    "expected a one-based position before a visit or after the final visit")
         require(leg["id"] in day["leg_ids"], at + ".id", "leg must be listed by its day")
         for field in ("from_place_id", "to_place_id"):
             require(isinstance(leg[field], str) and leg[field] in places and places[leg[field]]["city_id"] in day["city_ids"],
@@ -219,20 +223,24 @@ def validate(plan):
     return plan
 
 
-def render_html(plan):
+def render_html(plan, view="html", peer=None):
     validate(plan)
+    require(view in ("html", "daily"), "format", "expected a map or daily page")
+    if peer is not None:
+        require(isinstance(peer, str) and re.fullmatch(r"[a-zA-Z0-9_-][a-zA-Z0-9._-]*\.html", peer),
+                "peer", "expected a sibling HTML filename")
     payload = json.dumps(plan, ensure_ascii=False, allow_nan=False)
     for character, escaped in (("<", "\\u003c"), (">", "\\u003e"), ("&", "\\u0026"),
                                ("\u2028", "\\u2028"), ("\u2029", "\\u2029")):
         payload = payload.replace(character, escaped)
     script = (ASSETS / "guide.js").read_text(encoding="utf-8")
     digest = base64.b64encode(hashlib.sha256(script.encode()).digest()).decode()
-    template = (ASSETS / "guide.html").read_text(encoding="utf-8")
+    template = (ASSETS / ("daily.html" if view == "daily" else "guide.html")).read_text(encoding="utf-8")
     # A callable substitution prevents replacements inside user-supplied content.
     slots = {"PLAN": payload, "SCRIPT": script, "SCRIPT_HASH": digest,
              "STYLE": (ASSETS / "guide.css").read_text(encoding="utf-8")}
     slots.update({key: escape(label) for key, label in GUIDE_LABELS[plan["language"]].items()})
-    slots.update(LANG=plan["language"], TITLE=escape(plan["title"]))
+    slots.update(PEER=peer or "", LANG=plan["language"], TITLE=escape(plan["title"]))
     return re.sub(r"@@([A-Z_]+)@@", lambda m: slots[m[1]], template)
 
 
@@ -248,8 +256,8 @@ def reject_constant(_value):
     raise PlanError("plan: non-finite numbers are unsupported")
 
 
-def write_output(plan, output, kind):
-    require(kind in ("html", "brief"), "format", "unsupported output format")
+def write_output(plan, output, kind, peer=None):
+    require(kind in ("html", "daily", "brief"), "format", "unsupported output format")
     output = Path(output).expanduser().resolve()
     roots = [SKILL]
     checkout = SKILL.parent.parent
@@ -257,7 +265,8 @@ def write_output(plan, output, kind):
         roots.append(checkout)
     require(not any(output == root or root in output.parents for root in roots), "output",
             "generated files must stay outside the skill and source checkout")
-    content = render_html(plan) if kind == "html" else presentation_brief(plan)
+    require(peer is None or (kind != "brief" and peer != output.name), "peer", "expected a separate map or daily page")
+    content = presentation_brief(plan) if kind == "brief" else render_html(plan, kind, peer)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8", newline="\n") as stream:
         stream.write(content)
@@ -267,7 +276,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, type=Path, help="Plan JSON; see references/plan-data.md")
     parser.add_argument("--output", required=True, type=Path, help="New file outside the source/installed skill")
-    parser.add_argument("--format", choices=("html", "brief"), default="html")
+    parser.add_argument("--format", choices=("html", "daily", "brief"), default="html")
+    parser.add_argument("--peer", help="Optional sibling HTML filename for links between the map and daily plan")
     args = parser.parse_args()
     try:
         require(args.input.is_file(), "input", "expected a regular file")
@@ -275,7 +285,7 @@ def main():
             data = stream.read(MAX_BYTES + 1)
         require(len(data) <= MAX_BYTES, "input", "plan exceeds the size limit")
         plan = json.loads(data.decode("utf-8-sig"), parse_constant=reject_constant)
-        write_output(plan, args.output, args.format)
+        write_output(plan, args.output, args.format, args.peer)
     except PlanError as error:
         # PlanError messages contain fixed schema locations, never supplied values/keys.
         print(json.dumps({"status": "error", "reason": "invalid_plan_or_output", "detail": str(error)}))

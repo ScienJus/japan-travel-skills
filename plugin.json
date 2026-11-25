@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "japan-travel",
   "version": "0.3.0",
-  "description": "Source-backed Japan travel planning, itinerary review and on-demand map/web or presentation handoffs, with read-only destination, weather, transit, seasonal, hotel, rail-pass and restaurant tools.",
+  "description": "Source-backed Japan travel planning, itinerary review and on-demand travel maps, daily plans and companion presentation handoffs, with read-only destination, weather, transit, seasonal, hotel, rail-pass and restaurant tools.",
   "author": {
     "name": "ScienJus"
   },
@@ -24,7 +24,7 @@
       "interface": {
         "displayName": "Japan Travel",
         "shortDescription": "Plan, review and visualize Japan trips",
-        "longDescription": "Fourteen skills for Japan travel planning and review, with on-demand interactive map/web guides and presentation handoffs. Covers destinations, weather, rail/bus routes, seasonal viewing, hotels, passes and restaurants. Official source guides curate fourteen destinations; other coverage varies by source. Local HTML generation uses standard-library Python; actual PPTX creation uses the host's authoring tools. Visual resources load only when requested. Anonymous, read-only research with source links and explicit unknowns. No reservations or purchases.",
+        "longDescription": "Fourteen skills for Japan travel planning and review, with on-demand travel maps, mobile daily plans and companion presentation handoffs. Covers destinations, weather, rail/bus routes, seasonal viewing, hotels, passes and restaurants. Official source guides curate fourteen destinations; other coverage varies by source. Local HTML generation uses standard-library Python; actual PPTX creation uses the host's authoring tools. Visual resources load only when requested. Anonymous, read-only research with source links and explicit unknowns. No reservations or purchases.",
         "developerName": "ScienJus",
         "category": "Productivity",
         "capabilities": [

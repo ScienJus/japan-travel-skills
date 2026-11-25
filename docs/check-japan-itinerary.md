@@ -34,6 +34,18 @@ exhibition to another day while retaining the overnight bases. Luggage storage r
 The example uses an invented brief and a dated source snapshot; recheck the actual visit dates
 for a real trip.
 
+## Could a feasible day work better?
+
+Suppose a Himeji day runs from the castle to the station for lunch and back to Koko-en.
+The garden is just west of the castle's main gate. With a flexible lunch, going straight to the
+garden removes the station detour and leaves more time to sit. If the traveler needs to lie down
+at a station hotel, keep the break and shorten the garden visit instead.
+[Garden operator's access map](https://www.himeji-machishin.jp/ryokka/kokoen/en/traffic/index.html)
+
+Kassuiken inside the garden is a lunch candidate. On November 24, 2026, its operator listed meal service
+from 11:00 to 15:00, a suspension of seat reservations and possible early closure on busy days. A plan that
+depends on a seated break should keep another option. [Restaurant conditions](https://www.himeji-machishin.jp/ryokka/kokoen/kassuiken/)
+
 The [planning workflow](../skills/japan-travel-planner/references/planning-loop.md) explains how
 to verify a timed chain and make the smallest workable repair. The
 [transit skill](../skills/japan-transit/SKILL.md) distinguishes timetable results from live

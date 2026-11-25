@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="@@LANG@@">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-@@SCRIPT_HASH@@'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>@@TITLE@@</title>
+<style>@@STYLE@@</style>
+</head>
+<body class="daily" data-peer="@@PEER@@">
+<header class="hero"><div class="hero-inner">
+  <div class="title-row"><h1 id="title"></h1><span id="demo" class="demo"></span></div>
+  <p id="notice" class="notice"></p><p id="revision" class="revision"></p>
+</div></header>
+<main><nav id="days" class="day-tabs" aria-label="@@DAYS@@"></nav>
+<section id="day-plans" class="day-plans" aria-live="polite"></section>
+<section class="questions"><h2 id="questions-heading"></h2><ul id="questions"></ul></section>
+<footer id="footer"></footer></main>
+<noscript>@@NOSCRIPT@@</noscript>
+<script id="plan-data" type="application/json">@@PLAN@@</script>
+<script>@@SCRIPT@@</script>
+</body>
+</html>

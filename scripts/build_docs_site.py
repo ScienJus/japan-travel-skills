@@ -25,6 +25,7 @@ REPOSITORY = "https://github.com/ScienJus/japan-travel-skills"
 DEFAULT_URL = "https://www.scienjus.com/japan-travel-skills/"
 PLANNER = ROOT / "skills/japan-travel-planner"
 DEMO = "assets/kyoto-nara-demo.html"
+DEMO_DAILY = "assets/kyoto-nara-daily.html"
 DEMO_BRIEF = "assets/kyoto-nara-presentation.md"
 LOCALES = {"en": "", "zh-CN": "zh/", "ja": "ja/"}
 LANGUAGE_NAMES = {"en": "English", "zh-CN": "简体中文", "ja": "日本語"}
@@ -177,22 +178,27 @@ def localized_plan(plan, lang):
 
 
 def make_demo(output, example, lang, labels):
-    target = output / DEMO
-    for kind, path in (("html", target), ("brief", output / DEMO_BRIEF)):
-        subprocess.run([sys.executable, str(PLANNER / "scripts/render_plan.py"),
-                        "--input", str(example), "--output", str(path), "--format", kind],
-                       check=True)
-    html = target.read_text(encoding="utf-8")
-    # The surrounding guides are the search landing pages for this example.
-    html = html.replace("</head>", '<meta name="robots" content="noindex,follow">\n</head>', 1)
-    navigation = language_links(lang, DEMO, labels["language_label"])
-    html = html.replace('<div id="stats"', navigation + '<div id="stats"', 1)
-    html = html.replace("</style>", """
+    for kind, page, peer in (("html", DEMO, DEMO_DAILY), ("daily", DEMO_DAILY, DEMO),
+                              ("brief", DEMO_BRIEF, None)):
+        target = output / page
+        command = [sys.executable, str(PLANNER / "scripts/render_plan.py"),
+                   "--input", str(example), "--output", str(target), "--format", kind]
+        if peer:
+            command.extend(["--peer", Path(peer).name])
+        subprocess.run(command, check=True)
+        if kind == "brief":
+            continue
+        html = target.read_text(encoding="utf-8")
+        # The surrounding guides are the search landing pages for this example.
+        html = html.replace("</head>", '<meta name="robots" content="noindex,follow">\n</head>', 1)
+        navigation = language_links(lang, page, labels["language_label"])
+        html = html.replace('<p id="revision"', navigation + '<p id="revision"', 1)
+        html = html.replace("</style>", """
 .language-nav { display: flex; flex-wrap: wrap; gap: .45rem 1rem; margin: 0 0 1rem; }
 .language-nav a { color: #eef5e8; font-size: .84rem; }
 .language-nav [aria-current="page"] { font-weight: 800; }
 </style>""", 1)
-    target.write_text(html, encoding="utf-8")
+        target.write_text(html, encoding="utf-8")
     if lang != "en":
         brief = output / DEMO_BRIEF
         _, marker, records = brief.read_text(encoding="utf-8").partition("\n## Plan records\n\n")
@@ -213,7 +219,7 @@ def build_locale(output, base, lang, plan, example_path):
     (destination / "index.html").write_text(render_page(
         lang, "index.html", raw_labels["home_title"], raw_labels["home_description"], base,
         template("home.html").substitute(repository=REPOSITORY, assets=assets, demo=DEMO,
-                                         brief=DEMO_BRIEF, worked_case=WORKED_CASE, **home),
+                                         daily=DEMO_DAILY, brief=DEMO_BRIEF, worked_case=WORKED_CASE, **home),
         raw_labels, assets,
     ), encoding="utf-8")
 
@@ -245,9 +251,10 @@ def build_locale(output, base, lang, plan, example_path):
                 '<section class="shell demo-section" id="demo" aria-labelledby="demo-title">'
                 '<p class="eyebrow">{example_kicker}</p><h2 id="demo-title">{example_title}</h2>'
                 '<p>{example_description}</p><a class="button" href="{url}">{example_full}</a>'
+                '<a class="button" href="{daily}">{example_daily}</a>'
                 '<iframe class="demo-frame" src="{url}" loading="lazy" title="{example_frame}" '
                 'sandbox="allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox"></iframe></section>'
-            ).format(url=DEMO, **labels)
+            ).format(url=DEMO, daily=DEMO_DAILY, **labels)
         (destination / page).write_text(render_page(
             lang, page, title + " | Japan Travel Skills", raw_labels[key + "_description"],
             base, content, raw_labels, assets,

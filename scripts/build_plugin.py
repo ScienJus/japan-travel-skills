@@ -25,7 +25,7 @@ SKILL_FILES = {
         "SKILL.md", "LICENSE", "agents/openai.yaml", "references/deliverables.md",
         "references/planning-loop.md", "examples/hokuriku-six-days.md",
         "references/plan-data.md", "examples/kyoto-nara-demo.json", "scripts/render_plan.py",
-        "assets/guide.html", "assets/guide.css", "assets/guide.js", "assets/presentation.md"),
+        "assets/daily.html", "assets/guide.html", "assets/guide.css", "assets/guide.js", "assets/presentation.md"),
     "japan-city-guide": (
         "SKILL.md", "LICENSE", "references/ishikawa.md", "references/toyama.md",
         "references/nagano.md", "references/tokyo.md", "references/osaka.md",

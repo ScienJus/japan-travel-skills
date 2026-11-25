@@ -395,6 +395,7 @@
     {
       "id": "kyoto-local",
       "day_id": "day-1",
+      "before_visit": 3,
       "from_place_id": "kyoto-station",
       "to_place_id": "kiyomizu",
       "time": "下午移动（待查）",
@@ -407,6 +408,7 @@
     {
       "id": "higashiyama-dinner",
       "day_id": "day-1",
+      "before_visit": 4,
       "from_place_id": "kiyomizu",
       "to_place_id": "kyoto-dinner",
       "time": "参观后至18:00前（估计）",
@@ -419,6 +421,7 @@
     {
       "id": "outbound",
       "day_id": "day-2",
+      "before_visit": 1,
       "from_place_id": "kyoto-station",
       "to_place_id": "nara-station",
       "time": "上午（实际车次待查）",
@@ -438,6 +441,7 @@
     {
       "id": "nara-temple",
       "day_id": "day-2",
+      "before_visit": 2,
       "from_place_id": "nara-station",
       "to_place_id": "todaiji",
       "time": "抵达后（待查）",
@@ -450,6 +454,7 @@
     {
       "id": "temple-lunch",
       "day_id": "day-2",
+      "before_visit": 3,
       "from_place_id": "todaiji",
       "to_place_id": "nara-lunch",
       "time": "参观后至午餐前（估计）",
@@ -462,6 +467,7 @@
     {
       "id": "return",
       "day_id": "day-2",
+      "before_visit": 6,
       "from_place_id": "nara-station",
       "to_place_id": "kyoto-station",
       "time": "傍晚（实际车次待查）",
@@ -481,6 +487,7 @@
     {
       "id": "kyoto-return-meal",
       "day_id": "day-2",
+      "before_visit": 6,
       "from_place_id": "kyoto-station",
       "to_place_id": "fujino",
       "time": "回京都后（估计）",

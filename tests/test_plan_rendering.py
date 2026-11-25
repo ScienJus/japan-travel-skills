@@ -53,7 +53,29 @@ class PlanRenderingTests(unittest.TestCase):
         brief = RENDERER.presentation_brief(plan)
         records = brief.split("## Plan records\n\n```json\n", 1)[1].rsplit("\n```", 1)[0]
         self.assertEqual(EmbeddedData(html).plan(), plan)
+        self.assertEqual(EmbeddedData(RENDERER.render_html(plan, "daily")).plan(), plan)
         self.assertEqual(json.loads(records), plan)
+
+    def test_peer_links_are_optional_sibling_pages(self):
+        plan = fixture()
+        self.assertIn('data-peer=""', RENDERER.render_html(plan, "daily"))
+        self.assertIn('data-peer="my-map.html"', RENDERER.render_html(plan, "daily", "my-map.html"))
+        for value in ("../map.html", "/map.html", "https://example.org/map.html", 'a"b.html'):
+            with self.subTest(peer=value), self.assertRaises(RENDERER.PlanError):
+                RENDERER.render_html(plan, "daily", value)
+
+    def test_positions_are_optional_and_bounded_by_the_days_visits(self):
+        plan = fixture()
+        leg = plan["legs"][0]
+        day = next(day for day in plan["days"] if day["id"] == leg["day_id"])
+        del leg["before_visit"]
+        RENDERER.validate(plan)
+        leg["before_visit"] = len(day["visits"]) + 1
+        RENDERER.validate(plan)
+        for value in (True, 0, len(day["visits"]) + 2, "2"):
+            leg["before_visit"] = value
+            with self.subTest(value=value), self.assertRaises(RENDERER.PlanError):
+                RENDERER.validate(plan)
 
     def test_html_language_and_accessibility_labels_are_available_before_javascript(self):
         plan = fixture()

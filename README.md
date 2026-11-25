@@ -1,6 +1,6 @@
 # Japan Travel Skills
 
-**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive HTML travel map and a PowerPoint handoff. The project includes fourteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
+**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive travel map, a mobile daily plan or a companion PowerPoint. The project includes fourteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
 
 The project supports discovery, introductions, prices, availability, conditions and original booking links. Users complete reservations and purchases manually or with another agent. Transactions, holds, waitlists and payments are outside the project scope. Source uncertainty is preserved in planning results.
 
@@ -10,7 +10,7 @@ The project supports discovery, introductions, prices, availability, conditions 
 | --- | --- |
 | Plan a Japan trip with trains, hotels and local food | [Build a sourced itinerary](skills/japan-travel-planner/examples/hokuriku-six-days.md) from a dated worked example. |
 | Check an existing Japan itinerary for closures, last entry and tight connections | [Check a Japan travel itinerary](docs/check-japan-itinerary.md), with an example request and the evidence to retain. |
-| Create a Japan itinerary map or PowerPoint for my travel companions | [Turn an itinerary into a map and PowerPoint](docs/japan-itinerary-map-and-powerpoint.md), with an offline HTML demo and a shared presentation brief. |
+| Create a Japan itinerary map or PowerPoint for my travel companions | [Turn an itinerary into a map and PowerPoint](docs/japan-itinerary-map-and-powerpoint.md), with linked map and daily-plan demos and a shared presentation brief. |
 | Use one tool, such as Japanese rail timetables or hotel discovery | Choose the relevant specialist below. |
 
 See [installation](docs/installation.md) to install the full plugin in Claude Code or Codex, or choose individual skills for a compatible host.
@@ -19,7 +19,7 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 
 | Skill | Capability and source scope |
 | --- | --- |
-| [Travel planning and visual guides](skills/japan-travel-planner/SKILL.md) | Build, review or revise itineraries; create requested interactive HTML/map guides and coordinate PPTX handoffs using host authoring tools |
+| [Travel planning and visual guides](skills/japan-travel-planner/SKILL.md) | Build, review or revise itineraries; create requested travel maps and mobile daily plans, and coordinate PPTX handoffs using host authoring tools |
 | [City guides](skills/japan-city-guide/SKILL.md) | Official attraction, event, food and route sources for Tokyo, Osaka, Kyoto, Sapporo, Fukuoka, Nagoya, Yokohama, Kobe, Nara and Naha, plus Kanazawa, Takaoka, Toyama City and Nagano City; prefectural discovery and facility verification; no dedicated CLI |
 | [Tabelog](skills/tabelog/SKILL.md) | Restaurant search, details/courses, reviews, awards and anonymous date/party/time availability |
 | [Hot Pepper Gourmet](skills/hot-pepper/SKILL.md) | Area directories, shop profiles, course prices and terms, and seat checks by course, date, time and party |
@@ -43,19 +43,20 @@ Weathernews sakura forecast output still awaits in-season live validation; the s
 Visual delivery is a core capability, loaded only when requested. Ordinary planning or plan review
 does not load templates or require a visual output. Ask, for example:
 
-> Turn this itinerary into a mobile-friendly local HTML guide with a map. Include the city order,
+> Turn this itinerary into a local travel map and a separate mobile daily plan. Include the city order,
 > overnight bases, daily attractions, food and intercity connections. Keep candidates and unresolved
 > checks visible. Also create a PPTX for discussing the plan with my travel companions. Do not publish it.
 
 | Output | How it helps |
 | --- | --- |
 | Interactive guide | Switch days to see the matching schedule and transport; filter hotels, attractions, restaurants and stations; inspect source links and coordinate provenance. |
-| Presentation/PPTX | An illustrated guide to cities, lodging, sights and food, with dates, connections and decisions. Includes photo-page patterns and source/credit guidance; actual slide creation uses the host's authoring tools. |
+| Mobile daily plan | Open a date on your phone, follow visits and connections in sequence, and jump to either city on a transfer day. Works offline. |
+| Companion presentation/PPTX | An illustrated guide to cities, lodging, sights and food, with dates, connections and decisions. Includes photo-page patterns and source/credit guidance; actual slide creation uses the host's authoring tools. |
 | Shared plan records | Keep dates, choices, conditions and sources consistent across outputs and subsequent revisions. |
 
 The [delivery guide](skills/japan-travel-planner/references/deliverables.md) links a reusable,
-dependency-free local HTML template and a presentation handoff brief. The page works without a
-server or external requests by default; users can explicitly load official GSI basemap tiles.
+dependency-free HTML templates and a presentation handoff brief. Both pages open locally. The map
+automatically requests visible official GSI basemap tiles at supported zoom levels.
 Unknown coordinates stay in the list. Neither plotted locations nor schematic connections are
 walking routes or live navigation. Hosting is separate and requires the user's request covering it.
 
@@ -65,7 +66,7 @@ It shows a Kyoto overnight base and Nara day trip, two named hotel candidates, l
 restaurant candidates, scoped source checks and unresolved decisions. Static introductions were
 researched for this dated example; its future dates, activity times and transport remain planning
 estimates, without stay inventory or a verified timetable. Recheck sources for a real trip.
-Generate a guide and a presentation brief from the same records; the brief is not a PPTX file.
+Generate a map, a daily plan and a presentation brief from the same records; the brief is not a PPTX file.
 This curated example demonstrates the data format and rendering, not an independently generated
 plan or a measured improvement in agent planning quality.
 

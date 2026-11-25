@@ -1,6 +1,6 @@
 # 日本の旅程をインタラクティブマップとPowerPointにまとめる
 
-Japan Travel Skillsは、一つの旅程からローカルHTMLの旅行ガイドとスライド制作資料を生成できます。
+Japan Travel Skillsは、一つの旅程から旅行地図、スマートフォン用の日別の予定、同行者向けスライドの制作資料を生成できます。
 日付を切り替えると立ち寄り先と交通が連動し、ホテル、観光地、飲食店で絞り込めます。
 出典のある座標が得られなかった場所は一覧に残ります。PowerPointファイルの作成には、実行環境のスライド作成ツールを使います。
 
@@ -10,7 +10,7 @@ Japan Travel Skillsは、一つの旅程からローカルHTMLの旅行ガイド
 旅程の調査も依頼するか、渡した内容をそのまま別の形式にするかを伝えてください。
 
 > この日本旅行の旅程を、japan-travel-plannerスキルでスマートフォン向けのローカルHTMLガイドにしてください。
-> 地図を添え、スライド作成ツールが使える場合は写真付きのPPTXも作成してください。
+> 地図と日別の予定を別ファイルにまとめ、スライド作成ツールが使える場合は写真付きのPPTXも作成してください。
 > 宿泊する街、都市間の移動、観光、郷土料理と飲食店の候補を含めてください。
 > 確定済みの予定、出典へのリンク、未確認事項を残し、ファイルはローカルに保存してください。
 
@@ -18,19 +18,23 @@ Japan Travel Skillsは、一つの旅程からローカルHTMLの旅行ガイド
 
 ## 京都・奈良の実例をローカルで生成する
 
-リポジトリのルートでPython 3.9以降を使います。二つのコマンドは同じ公開サンプルを読み込み、オフラインで実行できます。出力先はリポジトリの外に指定します。
+リポジトリのルートでPython 3.9以降を使います。三つのコマンドは同じ公開サンプルを読み込み、オフラインで実行できます。出力先はリポジトリの外に指定します。
 
 ```bash
 demo_dir="$(mktemp -d)"
-python3 skills/japan-travel-planner/scripts/render_plan.py \
+python3 skills/japan-travel-planner/scripts/render_plan.py --peer daily.html \
   --input skills/japan-travel-planner/examples/kyoto-nara-demo.json \
   --output "$demo_dir/guide.html"
+python3 skills/japan-travel-planner/scripts/render_plan.py --format daily --peer guide.html \
+  --input skills/japan-travel-planner/examples/kyoto-nara-demo.json \
+  --output "$demo_dir/daily.html"
 python3 skills/japan-travel-planner/scripts/render_plan.py --format brief \
   --input skills/japan-travel-planner/examples/kyoto-nara-demo.json \
   --output "$demo_dir/presentation.md"
 printf 'Example files: %s\n' "$demo_dir"
 ```
 
+`daily.html`ではその日の移動・訪問を順に確認でき、移動日は両都市の地図を開けます。
 `guide.html`を開き、京都での滞在と奈良の日帰りを切り替えてみてください。場所の絞り込みと旅程JSONのダウンロードもできます。
 日付と訪問候補はデモ用です。実際の旅行では利用日ごとの条件を確認してください。
 Markdownには編集可能な旅程データとページ構成案が入り、スライド作成ツールに渡せます。
@@ -38,7 +42,7 @@ Markdownには編集可能な旅程データとページ構成案が入り、ス
 
 ## 地図とスライドの内容をそろえる
 
-日付、宿泊する街、交通の注意点、施設の利用条件を両方に反映します。
+日付、宿泊する街、交通の注意点、施設の利用条件を三つの資料に反映します。
 スライドには再利用可能な画像を使い、クレジットと確認した範囲を、関係する選択肢のそばに記載します。
 旅程を変更したら、影響する地図やスライドを更新してください。
 

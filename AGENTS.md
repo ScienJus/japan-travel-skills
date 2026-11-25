@@ -6,7 +6,7 @@ This project provides Japanese travel-planning skills and anonymous, read-only q
 
 | Task | Instructions | Checkout CLI |
 | --- | --- | --- |
-| Build, review or revise itineraries; requested map/web and presentation handoffs | [japan-travel-planner](skills/japan-travel-planner/SKILL.md) | Planning guidance; optional offline visual helper, no query CLI |
+| Build, review or revise itineraries; requested travel maps, mobile daily plans and companion presentations | [japan-travel-planner](skills/japan-travel-planner/SKILL.md) | Planning guidance; optional offline visual helper, no query CLI |
 | Official attractions, events, city/prefecture sources and facility verification | [japan-city-guide](skills/japan-city-guide/SKILL.md) | Source guidance; no CLI |
 | Tabelog restaurant discovery, reviews and anonymous availability | [tabelog](skills/tabelog/SKILL.md) | `bin/tabelog` |
 | Hot Pepper area listings, practical details, course terms and exact seat checks | [hot-pepper](skills/hot-pepper/SKILL.md) | `bin/hot-pepper` |

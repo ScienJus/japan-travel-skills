@@ -8,7 +8,7 @@
 <title>@@TITLE@@</title>
 <style>@@STYLE@@</style>
 </head>
-<body>
+<body data-peer="@@PEER@@">
 <a class="skip" href="#schedule">@@SKIP@@</a>
 <header class="hero"><div class="hero-inner">
   <p class="eyebrow">@@NOTEBOOK@@</p>
@@ -20,11 +20,7 @@
 </div></header>
 <main>
   <nav id="days" class="day-tabs" aria-label="@@DAYS@@"></nav>
-  <section id="schedule" aria-labelledby="schedule-heading">
-    <div class="section-head"><div><p class="eyebrow" id="schedule-kicker"></p><h2 id="schedule-heading"></h2></div>
-      <button id="export" type="button"></button></div>
-    <div id="day-plans" class="day-plans"></div>
-  </section>
+  <a id="daily-open" hidden></a>
   <section aria-labelledby="places-heading" class="places-section">
     <div class="section-head"><div><p class="eyebrow">@@PLACES@@</p><h2 id="places-heading"></h2></div><p id="filter-scope" class="muted"></p></div>
     <div class="filters"><label><span id="city-label"></span><select id="city"></select></label>
@@ -39,6 +35,11 @@
       </div>
       <div id="places" class="place-list" aria-live="polite"></div>
     </div>
+  </section>
+  <section id="schedule" aria-labelledby="schedule-heading">
+    <div class="section-head"><div><p class="eyebrow" id="schedule-kicker"></p><h2 id="schedule-heading"></h2></div>
+      <button id="export" type="button"></button></div>
+    <div id="day-plans" class="day-plans"></div>
   </section>
   <section class="questions" aria-labelledby="questions-heading"><p class="eyebrow">@@BEFORE@@</p><h2 id="questions-heading"></h2><ul id="questions"></ul></section>
   <footer id="footer"></footer>

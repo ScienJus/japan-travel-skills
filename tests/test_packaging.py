@@ -162,7 +162,7 @@ class PackagingTests(unittest.TestCase):
                     self.assertEqual((isolated / "LICENSE").read_bytes(), (ROOT / "LICENSE").read_bytes())
                     self.assertTrue((isolated / "SKILL.md").is_file())
                     if name == "japan-travel-planner":
-                        for format, suffix in (("html", ".html"), ("brief", ".md")):
+                        for format, suffix in (("html", ".html"), ("daily", "-daily.html"), ("brief", ".md")):
                             output = temporary / ("guide" + suffix)
                             result = subprocess.run([sys.executable, str(isolated / "scripts/render_plan.py"),
                                                      "--input", str(isolated / "examples/kyoto-nara-demo.json"),

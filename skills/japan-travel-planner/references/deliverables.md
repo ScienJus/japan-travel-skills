@@ -1,6 +1,6 @@
 # Travel-plan deliverables
 
-Read this when the user wants a presentation, a map or another structured travel-plan handoff.
+Read this when the user wants a presentation, a map, a mobile daily plan or another structured travel-plan handoff.
 Choose the format that serves the request; a normal planning answer needs neither slides nor a map.
 For a reusable local HTML/map template or a structured handoff to presentation tools, read
 [shared plan records and generation](plan-data.md). The HTML helper uses Python's standard library;
@@ -64,6 +64,19 @@ distinguish a destination meal from a flexible nearby alternative, independently
 retain relevant meal/course times, party sizes and advance-order conditions. Refer to the relevant
 specialist for live verification instead of turning the deliverable into a new source database.
 
+## Mobile daily plan
+
+Build a phone-readable page for the traveler asking “what happens next?”. Start with date selection.
+For a longer trip, a compact overview can put each date on one row with breakfast, morning, lunch,
+afternoon, dinner and evening/overnight. Link to that date and leave unscheduled periods open.
+
+Within a day, put visits, transfers, meals, luggage stops and seated breaks in travel order. Keep a
+booked time or a last departure distinguishable from a suggested start or a flexible stop. Show
+where to board or meet when it matters. For a weather or energy alternative, name the trigger,
+what to skip or replace, and where the routes rejoin. Keep any forecast's issue time and scope.
+On a two-city day, keep the whole sequence together and offer dated map links for both cities.
+When checking the handoff, follow a real sequence from the morning departure to the evening base.
+
 ## Presentation or PPTX
 
 Use an available presentation-authoring skill/tool when requested; follow its creation and visual
@@ -75,6 +88,11 @@ Choose the structure for the audience and the plan's maturity, following the use
 | --- | --- |
 | Explore and compare | Trip overview, city/area introductions, sights, local food, lodging options and decisions still to make. Keep alternatives distinct from the proposed itinerary. |
 | Guide travel companions through an agreed plan | Trip overview, then city chapters beginning with the relevant hotel/base, followed by daily route overviews and sights, activities and meals in visiting order. Split a cross-city day at the city handoff; a day-trip city needs no hotel page. |
+
+For companions, introduce the pace early: the longest walking stretch, where there is a seated
+break and which stop can be skipped. Use the slides to explain what people will see or eat and
+why it is worth the stop. Keep restaurant candidates visibly tentative. Leave private selection
+debates out of the slides and speaker notes. Put the full running order in the daily plan when supplied.
 
 These structures can be combined. Use real place/property/dish photographs to explain the experience.
 For sights, pair an introduction to the place, its cultural/historical context and concrete highlights
@@ -119,6 +137,11 @@ and transport reference points. Keep day trips distinct from overnight bases. Pa
 a readable place list; a detail card can show the native name, plan role, date/meal conditions,
 address, source links and an external-map link. Keep text labels alongside colors and show useful
 empty states. Cuisine or meal-role filters are optional, not a required taxonomy for every trip.
+
+Keep each marker's number paired with the same place across day, city and category filters.
+For a large site, describe the relevant entrance, highlights and any important stairs or rest options
+in the place notes. Distinguish a sourced access point from a building centroid. Qualify fees,
+walking estimates and access conditions with the applicable source and date.
 
 When a date control selects a day's view, update its itinerary and transport alongside its places;
 do not leave another day's schedule beside the selected markers. Explain narrower place-only

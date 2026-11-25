@@ -1,4 +1,4 @@
 interface:
   display_name: "Japan Travel Planner"
   short_description: "Plan, review and visualize Japan travel itineraries"
-  default_prompt: "Use $japan-travel-planner to plan or review my Japan trip, or create a map/web guide or presentation when I request one."
+  default_prompt: "Use $japan-travel-planner to plan or review my Japan trip, or create a travel map, daily plan or companion presentation when I request one."
