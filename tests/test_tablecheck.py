@@ -2,6 +2,7 @@
 import restaurant_test_support  # Resolve the copied skill packages, not an installed checkout.
 from datetime import datetime, timedelta, timezone
 import json
+import shlex
 import unittest
 from unittest.mock import patch
 
@@ -15,6 +16,8 @@ from tablecheck_client.transport import Client, CliError
 SHOP = {'_id': '1'*24, 'slug': 'sample-restaurant', 'time_zone': 'Asia/Tokyo', 'currency': 'JPY', 'booking_page_mode': 'v1',
         'name_translations': [{'locale': 'ja', 'translation': '例示店'}], 'geocode': {'lat': 36.5, 'lon': 136.5},
         'service_categories': [{'id': 'private', 'name_translations': [{'locale': 'en', 'translation': 'Private'}]}]}
+V2_SHOP = {**SHOP, 'slug': 'himawarishokudo2', 'booking_page_mode': 'v2',
+           'tc_input_service_category': 'required', 'service_categories': []}
 COURSE = {'id': '2'*24, 'price': '55000.0', 'is_active': True, 'is_group_order': True, 'meals': ['dinner'],
           'service_category_ids': ['private'], 'valid_date_ranges': [{'start_date': '2026-12-01', 'end_date': '2026-12-31'}]}
 
@@ -53,6 +56,119 @@ class TableCheckTests(unittest.TestCase):
         self.assertEqual(result['days'][1]['offered_times'], ['18:00'])
         self.assertEqual(result['days'][0]['offered_times'], [])
         transport.close()
+
+    def test_v2_dates_and_party_return_venue_start_times(self):
+        first, second = '2099-12-02', '2099-12-03'
+        grid = {}
+        for day in (first, second):
+            grid[day] = {
+                f'{day}T{hour:02}:{minute:02}:00+09:00': {'is_available': day == first and hour == 18}
+                for hour in range(24) for minute in (0, 30)
+            }
+
+        def handler(request):
+            if request.url.path == '/v2/shops/' + V2_SHOP['slug']:
+                return response({'shops': [V2_SHOP]})
+            self.assertEqual(request.url.path, '/v2/hub/availability_calendar_v2')
+            self.assertEqual(json.loads(request.content)['num_people'], 2)
+            return response({'availability_calendar': {
+                'type': 'success', 'time_zone': 'Asia/Tokyo', 'data': grid}})
+
+        result = run(['availability', V2_SHOP['slug'], '--from', first, '--to', second, '--people', '2'],
+                     create_client=lambda **_: client(handler))
+        self.assertEqual(result['exit_code'], 0)
+        data = result['output']['data']
+        self.assertEqual(data['scope'], 'venue')
+        self.assertEqual(data['people'], 2)
+        self.assertIs(data['course_linked'], False)
+        self.assertIs(data['seat_linked'], False)
+        self.assertEqual(data['coverage'], 'complete')
+        self.assertEqual([(day['date'], day['complete'], day['offered_times']) for day in data['days']],
+                         [(first, True, ['18:00', '18:30']), (second, True, [])])
+
+    def test_v2_unverifiable_seat_returns_only_a_separate_venue_command(self):
+        def handler(request):
+            self.assertEqual(request.url.path, '/v2/shops/' + V2_SHOP['slug'])
+            return response({'shops': [V2_SHOP]})
+
+        venue_args = ['availability', V2_SHOP['slug'], '--from', '2099-12-02', '--to', '2099-12-03',
+                      '--people', '2', '--meal', 'dinner', '--after', '18:00', '--max-requests', '5']
+        launcher = ['/path with spaces/python', '/installed skill/scripts/tablecheck.py']
+        for filters in (['--seat=Counter'], ['--seat', 'Private Room', '--course=' + COURSE['id']]):
+            with self.subTest(filters=filters):
+                result = run(venue_args + filters, create_client=lambda **_: client(handler), launcher=launcher)
+                self.assertEqual(result['exit_code'], 1)
+                output = result['output']
+                self.assertNotIn('data', output)
+                self.assertEqual(output['usage']['network_requests_started'], 1)
+                error = output['error']
+                self.assertEqual(error['code'], 'unsupported_scope')
+                self.assertEqual(error['booking_page_mode'], 'v2')
+                self.assertIn('Course and seat remain unverified', error['message'])
+                self.assertEqual(shlex.split(error['venue_query_command']), launcher + venue_args)
+
+    def test_v2_reports_only_filtered_grid_evidence(self):
+        day = '2099-12-02'
+        shop = {**V2_SHOP, 'service_categories': SHOP['service_categories']}
+        for args, group, seats, result_state in (
+            (['--course', COURSE['id']], True, ['private'], 'available'),
+            (['--seat', 'Private'], False, ['private'], 'available'),
+            (['--seat', 'Private', '--course', COURSE['id']], False, ['private'], 'available'),
+            (['--seat', 'Private'], False, ['private'], 'wrong_seat'),
+            (['--course', COURSE['id']], True, ['private'], 'rejected'),
+            (['--course', COURSE['id']], True, ['private'], 'other_experience'),
+            (['--course', COURSE['id']], True, ['private'], 'invalid_flag'),
+            (['--course', COURSE['id']], True, ['private'], 'denied'),
+        ):
+            with self.subTest(args=args, result_state=result_state):
+                def handler(request):
+                    path = request.url.path
+                    if path.startswith('/v2/shops/'):
+                        return response({'shops': [shop]})
+                    if path.endswith('/menu_items'):
+                        self.assertIn('--course', args)
+                        return response({'menu_items': [{**COURSE, 'valid_date_ranges': [], 'is_group_order': group}]})
+                    if path.endswith('/availability_calendar_v2'):
+                        self.assertEqual(result_state, 'available')
+                        return response({'availability_calendar': {'type': 'success', 'time_zone': 'Asia/Tokyo',
+                                                                  'data': {day: calendar(day, True)}}})
+                    self.assertEqual(str(request.url), 'https://production-booking.tablecheck.com/v2/booking/availability_v5/grid')
+                    self.assertEqual(request.method, 'POST')
+                    params = json.loads(request.content)
+                    self.assertEqual(params['shop_id'], shop['slug'])
+                    self.assertEqual(params['pax_adult'], 2)
+                    self.assertEqual(params['start_at'], day + 'T18:00:00+09:00')
+                    self.assertEqual(params['service_category_ids'], seats)
+                    self.assertEqual(params['orders'], [{'menu_item_id': COURSE['id'], 'is_group_order': group,
+                                                         'qty': 1 if group else 2}] if '--course' in args else [])
+                    if result_state == 'denied':
+                        return httpx.Response(403)
+                    if result_state == 'rejected':
+                        return response({'availability_grid': {'code': 'failure', 'data': {'menu_item_ids': [COURSE['id']]}}})
+                    if result_state == 'other_experience':
+                        return response({'availability_grid': {'code': 'success', 'data': [
+                            {'t': day + 'T09:00:00Z', 'a': True, 'exp': 'other'}]}})
+                    seat = 'other' if result_state == 'wrong_seat' else 'private'
+                    # The venue offered 18:00. The filtered grid can reject that start and offer a different one.
+                    return response({'availability_grid': {'code': 'success', 'data': [
+                        {'t': day + 'T09:00:00Z', 'a': False, 'sc': seat},
+                        {'t': day + 'T09:15:00Z', 'a': 'true' if result_state == 'invalid_flag' else True, 'sc': seat}]}})
+
+                times = ['--meal', 'dinner'] if result_state == 'available' else ['--time', '18:00']
+                result = run(['availability', shop['slug'], '--date', day, '--people', '2', *times, *args],
+                             create_client=lambda **_: client(handler))
+                data = result['output']['data']
+                row, = data['days']
+                if result_state == 'available':
+                    self.assertEqual(result['exit_code'], 0)
+                    self.assertEqual(row['offered_times'], ['18:15'])
+                    self.assertEqual(row['slots'][0]['course_id'], COURSE['id'] if '--course' in args else None)
+                    self.assertEqual(row['slots'][0]['seat_category_id'], 'private' if '--seat' in args else None)
+                    self.assertEqual(data['seat_linked'], '--seat' in args)
+                    self.assertEqual(data['course_linked'], '--course' in args)
+                else:
+                    self.assertEqual(result['exit_code'], 3)
+                    self.assertEqual((row['complete'], row['status'], row['offered_times']), (False, 'unknown', []))
 
     def test_missing_calendar_dates_remain_unknown_without_daily_sweep(self):
         def handler(request):
@@ -184,6 +300,8 @@ class TableCheckTests(unittest.TestCase):
 
     def test_unrelated_parameters_and_implicit_party_sizes_are_rejected_offline(self):
         for args in (['availability', SHOP['slug'], '--date', '2099-12-01'], ['detail', SHOP['slug'], '--near', '36,136'],
+                     ['availability', SHOP['slug'], '--date', '2099-12-01', '--people', '2', '--course='],
+                     ['availability', SHOP['slug'], '--date', '2099-12-01', '--people', '2', '--seat='],
                      ['search', '--near', '36,136', '--people', '2'], ['detail', SHOP['slug'], '--no-courses', '--date', '2099-12-01']):
             result = run(args)
             self.assertEqual(result['output']['status'], 'error')

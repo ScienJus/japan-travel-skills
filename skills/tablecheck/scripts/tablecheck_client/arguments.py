@@ -123,8 +123,8 @@ def parse_arguments(argv):
         else:
             window(child, required=True)
         child.add_argument('--people', required=True, type=bounded(1, 99, True), help='explicit adults; no automatic party-size sweep')
-        child.add_argument('--course', help='exact course ID')
-        child.add_argument('--seat', help='exact seat category ID or its English/Japanese name')
+        child.add_argument('--course', help='exact course ID, only for a requested course')
+        child.add_argument('--seat', help='only for a requested seat; use its exact category ID or English/Japanese name')
         clock(child)
     child = command('source', 'Read an allowed public endpoint for diagnostics.', 'READ_ENDPOINT_PATH')
     child.add_argument('--params', type=json.loads)
@@ -163,6 +163,8 @@ def parse_arguments(argv):
             raise CliError('invalid_argument', 'Date-filtered search requires --people, and --people requires dates.')
         if not args.start and any(getattr(args, field) for field in ('meal', 'time', 'after', 'before')):
             raise CliError('invalid_argument', 'Meal/time inventory filters require dates and --people.')
+    if args.command in ('calendar', 'slots', 'availability') and (args.course == '' or args.seat == ''):
+        raise CliError('invalid_argument', 'A course or seat filter requires a nonempty value.')
     if hasattr(args, 'time'):
         if args.time and (args.meal or args.after or args.before):
             raise CliError('invalid_argument', '--time cannot be combined with --meal/--after/--before.')

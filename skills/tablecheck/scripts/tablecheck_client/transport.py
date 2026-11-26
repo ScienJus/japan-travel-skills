@@ -87,10 +87,14 @@ class Client:
     def read(self, method, path, params=None, body=None):
         api = method == 'GET' and re.fullmatch(r'/v2/(?:shops/[a-z0-9][a-z0-9-]{0,80}|cuisines|shop_search|autocomplete)', path)
         api = api or method == 'POST' and path in ('/v2/hub/menu_items', '/v2/hub/availability_calendar_v2')
+        booking_grid = method == 'POST' and path == '/v2/booking/availability_v5/grid'
         page = method == 'GET' and re.fullmatch(r'/en/shops/[a-z0-9][a-z0-9-]{0,80}/(?:reserve|available(?:/timetable)?)', path)
-        if not (api or page) or method == 'GET' and body is not None:
+        if not (api or page or booking_grid) or method == 'GET' and body is not None:
             raise CliError('invalid_argument', 'Only supported anonymous read endpoints are allowed.')
-        url = ('https://production.tablecheck.com' if api else 'https://www.tablecheck.com') + path
+        host = 'https://production.tablecheck.com' if api else 'https://www.tablecheck.com'
+        if booking_grid:
+            host = 'https://production-booking.tablecheck.com'
+        url = host + path
         key = json.dumps([method, url, params, body], sort_keys=True, allow_nan=False)
         if self.blocked:
             raise self.blocked
@@ -109,8 +113,10 @@ class Client:
         self.trace.append(entry)
         self.requests += 1
         started = time.monotonic()
-        headers = {'User-Agent': 'japan-restaurant-skills/0.2.0', 'Accept': 'application/json' if api or '/available' in path else 'text/html',
+        headers = {'User-Agent': 'japan-restaurant-skills/0.2.0', 'Accept': 'application/json' if api or booking_grid or '/available' in path else 'text/html',
                    'Accept-Language': 'en,ja;q=0.9'}
+        if booking_grid:
+            headers['Booking-Page-Version'] = 'v2'
         try:
             with self.session.stream(method, url, params=params, json=body, headers=headers,
                                      timeout=self.timeout, follow_redirects=False) as response:
@@ -148,7 +154,7 @@ class Client:
                 try:
                     def reject_constant(_value):
                         raise ValueError('Non-finite JSON number')
-                    value = json.loads(text, parse_constant=reject_constant) if api or '/available' in path else text
+                    value = json.loads(text, parse_constant=reject_constant) if api or booking_grid or '/available' in path else text
                 except ValueError:
                     raise CliError('unexpected_response', 'Expected JSON; upstream response was not recognized.') from None
                 self.cache[key] = value

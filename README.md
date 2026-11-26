@@ -24,7 +24,7 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 | [City guides](skills/japan-city-guide/SKILL.md) | Official attraction, event, food and route sources for selected cities and towns across Japan, including [nine Hokkaido destinations](skills/japan-city-guide/references/hokkaido.md). Includes prefectural portals and facility operators. |
 | [Tabelog](skills/tabelog/SKILL.md) | Restaurant search, details/courses, reviews, awards and anonymous date/party/time availability |
 | [Hot Pepper Gourmet](skills/hot-pepper/SKILL.md) | Area directories, shop profiles, course prices and terms, and seat checks by course, date, time and party |
-| [TableCheck](skills/tablecheck/SKILL.md) | Restaurant discovery, courses and anonymous date/time availability; course/seat checks on supported public v1 forms |
+| [TableCheck](skills/tablecheck/SKILL.md) | Restaurant discovery, courses and anonymous date/time availability; course/seat checks on supported public v1 and v2 booking pages |
 | [Pocket Concierge](skills/pocket-concierge/SKILL.md) | Native restaurant discovery, courses, calendar hints and course-linked sessions; instant/request/waitlist modes remain separate |
 | [Weather](skills/japan-weather/SKILL.md) | Weathernews forecasts for about two weeks; optional JMA forecasts for about one week; current JMA meteorological-warning/advisory snapshots and monthly station climate normals |
 | [Transit](skills/japan-transit/SKILL.md) | Yahoo! 路線情報 rail/bus stop lookup, dated routes, transfers, fares and first/last connections; separate official line reports for nine JR West Hokuriku sections and IRいしかわ鉄道 |

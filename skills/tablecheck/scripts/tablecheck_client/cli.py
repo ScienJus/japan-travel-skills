@@ -2,6 +2,7 @@
 from importlib.metadata import version
 import json
 from pathlib import Path
+import shlex
 import sys
 
 from .arguments import HelpRequested, parse_arguments
@@ -9,7 +10,21 @@ from .service import TableCheck
 from .transport import Client, CliError, sanitize, stamp
 
 
-def run(argv, create_client=Client):
+def venue_query_command(argv, launcher):
+    # Keep date/time, party size and request limits exactly as supplied.
+    command = list(launcher)
+    tokens = iter(argv)
+    for token in tokens:
+        option, separator, _ = token.partition('=')
+        if option in ('--course', '--seat'):
+            if not separator:
+                next(tokens)
+        else:
+            command.append(token)
+    return shlex.join(command)
+
+
+def run(argv, create_client=Client, *, launcher=('tablecheck',)):
     client = None
     try:
         args = parse_arguments(argv)
@@ -63,7 +78,12 @@ def run(argv, create_client=Client):
         if not isinstance(error, CliError):
             error = CliError('unexpected_response', 'Input or source data was not recognized; no availability inferred.',
                              exception_type=type(error).__name__)
-        return {'output': {'status': 'error', 'error': error.as_dict(), 'usage': client.usage() if client else None,
+        details = error.as_dict()
+        if error.code == 'unsupported_scope':
+            details['message'] += (' The separate venue query checks availability for the requested adults only. '
+                                   'Course and seat remain unverified.')
+            details['venue_query_command'] = venue_query_command(argv, launcher)
+        return {'output': {'status': 'error', 'error': details, 'usage': client.usage() if client else None,
                            'trace': client.trace if client else []}, 'exit_code': 1}
     finally:
         if client:
@@ -71,6 +91,6 @@ def run(argv, create_client=Client):
 
 
 def main():
-    result = run(sys.argv[1:])
+    result = run(sys.argv[1:], launcher=(sys.executable, str(Path(sys.argv[0]).absolute())))
     print(result.get('help') or json.dumps(result['output'], ensure_ascii=False, indent=2, allow_nan=False))
     return result['exit_code']

@@ -257,11 +257,20 @@ class TableCheck:
     def availability(self, target, start, end, people, after='00:00', before='23:59', course=None, seat=None):
         wanted = dates(start, end)
         venue = self.venue(target)
-        tz = self.location(venue)
         if course or seat:
+            if venue.get('booking_page_mode') == 'v2':
+                return self.v2_constrained(venue, wanted, people, after, before, course, seat)
+            if venue.get('booking_page_mode') != 'v1':
+                raise CliError('unsupported_scope', 'The restaurant has no supported public booking page for course or seat checks.',
+                               booking_page_mode=venue.get('booking_page_mode'))
             if course and not seat and venue.get('tc_input_service_category') == 'required':
                 return self.course_any_seat(venue, wanted, people, after, before, course)
             return self.constrained(venue, wanted, people, after, before, course, seat)
+        return self.venue_availability(venue, wanted, people, after, before)
+
+    def venue_availability(self, venue, wanted, people, after, before):
+        tz = self.location(venue)
+        start, end = wanted[0], wanted[-1]
         lo, hi = [int(s[:2])*60+int(s[3:]) for s in (after, before)]
         if hi < lo:
             raise CliError('invalid_argument', '--before must be at least --after; overnight windows are not supported.')
@@ -412,17 +421,136 @@ class TableCheck:
                 'coverage': 'complete' if all(row['complete'] for row in rows.values()) and not errors else 'partial',
                 'note': 'The booking form requires a seat category. Each applicable category is checked separately; slots retain their category IDs.'}
 
+    def v2_constrained(self, venue, wanted, people, after, before, course, seat):
+        selected_seat = self.seat_id(venue, seat) if seat else None
+        categories = [selected_seat] if selected_seat else []
+        if not seat and venue.get('tc_input_service_category') == 'required':
+            categories = [item['id'] for item in venue.get('service_categories') or []]
+        orders = []
+        eligibility = {}
+        if course:
+            menus = self.courses(venue['slug'], wanted[0], wanted[-1], course=course, _venue=venue)['items']
+            if not menus:
+                raise CliError('invalid_argument', 'Course has no eligible date in the requested window.')
+            if len(menus) != 1:
+                raise CliError('unsupported_scope', 'The selected course has ambiguous order details.')
+            menu = menus[0]
+            group = menu['is_group_order']
+            if type(group) is not bool or menu['pax_prices']:
+                raise CliError('unsupported_scope', 'Course order quantity cannot be verified for this party.')
+            if selected_seat and menu['service_category_ids'] and selected_seat not in menu['service_category_ids']:
+                raise CliError('invalid_argument', 'Course does not list this seat category.')
+            eligibility = menu['eligible_dates']
+            orders = [{'menu_item_id': course, 'is_group_order': group, 'qty': 1 if group else people}]
+
+        tz = self.location(venue)
+        failures = []
+        coverage_basis = 'requested_time_checked_against_filtered_booking_grid'
+        if after == before:
+            candidates = []
+            for day in wanted:
+                at = datetime.combine(date.fromisoformat(day), time.fromisoformat(after), tzinfo=tz)
+                candidates.append({'date': day, 'complete': True, 'status': 'unavailable',
+                                   'offered_times': [after] if not_elapsed_today(at) else []})
+        else:
+            calendar = self.venue_availability(venue, wanted, people, after, before)
+            candidates = calendar['days']
+            failures.extend(calendar['errors'])
+            coverage_basis = 'venue_calendar_candidates_checked_against_filtered_booking_grid'
+        body = {'shop_id': venue['slug'], 'pax_adult': people, 'pax_senior': 0, 'pax_child': 0, 'pax_baby': 0,
+                'orders': orders, 'service_category_ids': categories, 'locale': 'en', 'use_experience_page': False}
+        rows = []
+        stopped = False
+        for candidate_day in candidates:
+            day = candidate_day['date']
+            row = {'date': day, 'offered_times': [], 'slots': [], 'complete': candidate_day['complete'],
+                   'status': candidate_day['status']}
+            rows.append(row)
+            if eligibility.get(day) is False:
+                row.update(status='ineligible', complete=True)
+            else:
+                checked = {}
+                for clock in candidate_day['offered_times']:
+                    if clock in checked:
+                        continue
+                    if stopped or self.client.blocked:
+                        row['complete'] = False
+                        break
+                    anchor = datetime.combine(date.fromisoformat(day), time.fromisoformat(clock), tzinfo=tz)
+                    try:
+                        grid = self.client.read('POST', '/v2/booking/availability_v5/grid',
+                                                body={**body, 'start_at': anchor.isoformat()})
+                        checked.update(self.v2_grid_states(grid, day, tz, after, before, course, selected_seat))
+                        if clock not in checked:
+                            row['complete'] = False
+                            failures.append({'code': 'slot_not_confirmed', 'date': day, 'time': clock,
+                                             'message': 'The filtered grid did not verify this venue start for the requested scope.'})
+                    except CliError as error:
+                        failures.append({**error.as_dict(), 'date': day, 'time': clock})
+                        row['complete'] = False
+                        if error.code == 'slot_not_confirmed':
+                            continue
+                        stopped = True
+                        break
+                for clock, available in sorted(checked.items()):
+                    if available:
+                        epoch = datetime.combine(date.fromisoformat(day), time.fromisoformat(clock), tzinfo=tz).timestamp()
+                        row['offered_times'].append(clock)
+                        row['slots'].append({'time': clock, 'start_at_epoch': str(int(epoch)), 'status': 'available',
+                                             'course_id': course, 'seat_category_id': selected_seat,
+                                             'source': 'filtered_booking_grid'})
+                if row['offered_times']:
+                    row['status'] = 'available'
+                elif not row['complete']:
+                    row['status'] = 'unknown'
+                elif row['status'] != 'closed':
+                    row['status'] = 'unavailable'
+            row['booking_url'] = booking_url(venue, day, next(iter(row['offered_times']), None), people)
+        return {'restaurant': venue_summary(venue), 'from': wanted[0], 'to': wanted[-1], 'people': people,
+                'after': after, 'before': before, 'scope': 'filtered_reservation_form',
+                'course_id': course, 'seat_category_id': selected_seat,
+                'course_linked': bool(course), 'seat_linked': bool(selected_seat), 'days': rows, 'errors': failures,
+                'coverage': 'complete' if not failures and all(row['complete'] for row in rows) else 'partial',
+                'coverage_basis': coverage_basis,
+                'note': 'Offered starts come from the booking grid with the requested filters. An exact time is checked directly; ranges cover venue calendar candidates and returned grids.'}
+
+    @staticmethod
+    def v2_grid_states(raw, day, tz, after, before, course, seat):
+        grid = raw.get('availability_grid') if isinstance(raw, dict) else None
+        if not isinstance(grid, dict) or grid.get('code') != 'success':
+            raise CliError('slot_not_confirmed', 'The booking grid did not accept the filtered query.')
+        states = {}
+        for slot in array(grid, 'data'):
+            try:
+                local = datetime.fromisoformat(slot['t'].replace('Z', '+00:00'))
+                if local.tzinfo is None or local.second or local.microsecond or type(slot['a']) is not bool:
+                    raise ValueError()
+                local = local.astimezone(tz)
+            except (ValueError, KeyError, TypeError, AttributeError):
+                raise CliError('unexpected_response', 'Invalid booking grid timestamp or availability flag.') from None
+            clock = local.strftime('%H:%M')
+            if local.date().isoformat() != day or not after <= clock <= before or not not_elapsed_today(local):
+                continue
+            if course and slot.get('exp') and slot['exp'] != course:
+                continue
+            if seat and slot.get('sc') != seat:
+                continue
+            states[clock] = states.get(clock, False) or slot['a']
+        return states
+
+    @staticmethod
+    def seat_id(venue, seat):
+        matches = [item for item in venue.get('service_categories') or [] if seat == item.get('id') or
+                   any(seat.casefold() == str(value.get('translation', '')).casefold()
+                       for value in item.get('name_translations') or [])]
+        if len(matches) != 1 or not matches[0].get('id'):
+            if not venue.get('service_categories') and venue.get('booking_page_mode') == 'v2':
+                raise CliError('unsupported_scope', 'The restaurant exposes no seat categories to verify.', booking_page_mode='v2')
+            raise CliError('invalid_argument', 'Seat must match one category ID or exact translated name from detail.')
+        return matches[0]['id']
+
     def constrained(self, venue, wanted, people, after, before, course, seat):
-        if venue.get('booking_page_mode') != 'v1':
-            raise CliError('unsupported_scope', 'Course/seat-specific inventory currently requires a public v1 reservation page.')
-        categories = venue.get('service_categories') or []
-        selected_seat = None
-        if seat:
-            matches = [item for item in categories if seat == item.get('id') or
-                       any(seat.casefold() == str(value.get('translation', '')).casefold() for value in item.get('name_translations') or [])]
-            if len(matches) != 1:
-                raise CliError('invalid_argument', 'Seat must match one category ID or exact translated name from detail.')
-            selected_seat = matches[0]['id']
+        selected_seat = self.seat_id(venue, seat) if seat else None
         menu = None
         if course:
             menus = self.courses(venue['slug'], wanted[0], wanted[-1], course=course)['items']
