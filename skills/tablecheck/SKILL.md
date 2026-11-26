@@ -37,7 +37,7 @@ Read [the command and source guide](references/guide.md) for the selected mode, 
 
 Inspect `status`, `data.coverage`, per-day `complete`, `errors` and `trace`. Exit codes are 0 for ok, 3 for partial and 1 for error. Every partial result includes top-level errors; report their causes. A recovered request failure remains partial. Normal page/result caps are limited coverage, not failures.
 
-Missing dates, failed confirmations and unrecognized booleans remain unknown; do not infer sold out. Course eligibility and indexed search times do not establish a confirmed course/seat combination. Calendar completeness describes required source reads, not exhaustive inventory. Prices may have qualifying tax/service/cancellation terms; do not invent totals.
+Report a missing v1 timetable date as closed only when the venue calendar explicitly lists it in `closed_dates`. Other missing dates, failed confirmations and unrecognized booleans remain unknown. Course eligibility and indexed search times do not establish a confirmed course/seat combination. Calendar completeness describes required source reads, not exhaustive inventory. Prices may have qualifying tax/service/cancellation terms; do not invent totals.
 
 `practical_info` retains notices, child/payment evidence and listed links. Missing or ambiguous flags stay null. A card guarantee does not establish on-site payment methods, and listed links do not establish every booking channel. Times use the venue timezone. Respond in the user's language, retain Japanese names, link restaurants and state dates, party/course/seat scope and important gaps. Include actual commands, relevant dependencies and measured usage for tool-use, reproducibility, efficiency or technical-failure questions.
 

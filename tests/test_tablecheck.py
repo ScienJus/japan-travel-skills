@@ -271,6 +271,57 @@ class TableCheckTests(unittest.TestCase):
         self.assertTrue(all(day['offered_times'] == ['18:00'] for day in result['days']))
         transport.close()
 
+    def test_sparse_v1_timetable_uses_only_explicit_venue_closures(self):
+        first, second = '2026-12-01', '2026-12-02'
+        shop = {**SHOP, 'slug': 'sushi-ikuta', 'tc_input_service_category': 'required'}
+        for seat, closed, budget, calendar_denied in (
+            (None, [first, second], 20, False),
+            ('Private', [first], 20, False),
+            (None, [], 20, False),
+            ('Private', [first, second], 4, False),
+            (None, [first, second], 20, True),
+        ):
+            with self.subTest(seat=seat, closed=closed, budget=budget, denied=calendar_denied):
+                def handler(request):
+                    path = request.url.path
+                    if '/v2/shops/' in path:
+                        return response({'shops': [shop]})
+                    if path.endswith('/menu_items'):
+                        return response({'menu_items': [COURSE]})
+                    if path.endswith('/reserve'):
+                        return httpx.Response(200, text='<input name="reservation[service_category]" value="private">'
+                            '<input name="reservation[orders_attributes][0][menu_item_id]" value="' + COURSE['id'] + '">'
+                            '<input name="reservation[orders_attributes][0][is_group_order]" value="true">')
+                    if path.endswith('/timetable'):
+                        # The first day is absent; the second has an explicit empty grid.
+                        return response({'queried_date': first, 'data': {'slots': {second: {}}}})
+                    self.assertEqual(path, '/v2/hub/availability_calendar_v2')
+                    body = json.loads(request.content)
+                    self.assertEqual((body['shop_id'], body['num_people']), (shop['_id'], 2))
+                    if calendar_denied:
+                        return httpx.Response(403)
+                    return response({'availability_calendar': {'type': 'success', 'time_zone': 'Asia/Tokyo',
+                        'data': {day: calendar(day, day not in closed) for day in (first, second)},
+                        'closed_dates': closed}})
+
+                transport = client(handler, budget)
+                result = TableCheck(transport).availability(shop['slug'], first, second, 2, '17:00', '21:00',
+                                                            course=COURSE['id'], seat=seat)
+                verified = closed if budget > 4 and not calendar_denied else []
+                for row in result['days']:
+                    is_closed = row['date'] in verified
+                    self.assertEqual(row['status'], 'closed' if is_closed else 'unknown')
+                    self.assertEqual(row['complete'], is_closed)
+                    self.assertEqual(row['offered_times'], [])
+                    if is_closed:
+                        self.assertEqual(row['source'], 'venue_calendar_closed_dates')
+                self.assertEqual(result['coverage'], 'complete' if len(verified) == 2 else 'partial')
+                missing = [day for day in (first, second) if day not in verified]
+                self.assertEqual([e['dates'] for e in result['errors'] if e['code'] == 'incomplete_coverage'],
+                                 [missing] if missing else [])
+                self.assertEqual(transport.requests, min(budget, 5))
+                transport.close()
+
     def test_denial_stops_further_requests_and_reports_no_empty_inventory(self):
         class DeniedBody(httpx.SyncByteStream):
             def __iter__(self):

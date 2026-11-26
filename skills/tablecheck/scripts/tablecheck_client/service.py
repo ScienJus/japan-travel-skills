@@ -264,9 +264,45 @@ class TableCheck:
                 raise CliError('unsupported_scope', 'The restaurant has no supported public booking page for course or seat checks.',
                                booking_page_mode=venue.get('booking_page_mode'))
             if course and not seat and venue.get('tc_input_service_category') == 'required':
-                return self.course_any_seat(venue, wanted, people, after, before, course)
-            return self.constrained(venue, wanted, people, after, before, course, seat)
+                result = self.course_any_seat(venue, wanted, people, after, before, course)
+            else:
+                result = self.constrained(venue, wanted, people, after, before, course, seat)
+            self.finish_timetable_coverage(venue, result)
+            return result
         return self.venue_availability(venue, wanted, people, after, before)
+
+    def read_venue_calendar(self, venue, people, at):
+        raw = self.client.read('POST', '/v2/hub/availability_calendar_v2', body={
+            'shop_id': venue['_id'], 'locale': 'en', 'start_at': at.astimezone(timezone.utc).isoformat(), 'num_people': people})
+        cal = raw.get('availability_calendar') if isinstance(raw, dict) else None
+        if not isinstance(cal, dict) or cal.get('type') != 'success' or not isinstance(cal.get('data'), dict) or cal.get('time_zone') != venue['time_zone']:
+            raise CliError('unexpected_response', 'Calendar status, data or time zone is not recognized.')
+        closed = cal.get('closed_dates', [])
+        if not isinstance(closed, list) or any(not isinstance(day, str) for day in closed):
+            raise CliError('unexpected_response', 'Calendar closed-date list is not recognized.')
+        return cal
+
+    def finish_timetable_coverage(self, venue, result):
+        rows = result['days']
+        errors = result['errors']
+        sparse = [row for row in rows if row['status'] == 'unknown' and row.get('source') == 'missing_timetable_date']
+        # closed_dates describes whole local dates. One batch read suffices for
+        # this cross-check, regardless of the number of time anchors or seats.
+        if sparse and not self.client.blocked and self.client.requests < self.client.max_requests:
+            at = datetime.combine(date.fromisoformat(sparse[0]['date']), time.fromisoformat(result['after']),
+                                  tzinfo=self.location(venue))
+            try:
+                calendar = self.read_venue_calendar(venue, result['people'], at)
+                for row in sparse:
+                    if row['date'] in calendar.get('closed_dates', []):
+                        row.update(status='closed', complete=True, source='venue_calendar_closed_dates')
+            except CliError as error:
+                errors.append({'scope': 'venue_calendar_closed_dates', **error.as_dict()})
+        missing = [row['date'] for row in rows if not row['complete']]
+        if missing:
+            errors.append({'code': 'incomplete_coverage', 'dates': missing,
+                           'message': 'Filtered timetable or slot confirmation did not cover these dates.'})
+        result['coverage'] = 'partial' if errors else 'complete'
 
     def venue_availability(self, venue, wanted, people, after, before):
         tz = self.location(venue)
@@ -291,14 +327,8 @@ class TableCheck:
                     break
                 at = datetime.combine(date.fromisoformat(missing[0]), time.fromisoformat(clock), tzinfo=tz)
                 try:
-                    raw = self.client.read('POST', '/v2/hub/availability_calendar_v2', body={
-                        'shop_id': venue['_id'], 'locale': 'en', 'start_at': at.astimezone(timezone.utc).isoformat(), 'num_people': people})
-                    cal = raw.get('availability_calendar') if isinstance(raw, dict) else None
-                    if not isinstance(cal, dict) or cal.get('type') != 'success' or not isinstance(cal.get('data'), dict) or cal.get('time_zone') != venue['time_zone']:
-                        raise CliError('unexpected_response', 'Calendar status, data or time zone is not recognized.')
+                    cal = self.read_venue_calendar(venue, people, at)
                     closed = cal.get('closed_dates', [])
-                    if not isinstance(closed, list) or any(not isinstance(day, str) for day in closed):
-                        raise CliError('unexpected_response', 'Calendar closed-date list is not recognized.')
                     alternates = cal.get('alternate_timeslots', {})
                     if not isinstance(alternates, dict):
                         raise CliError('unexpected_response', 'Calendar alternate times are not recognized.')
@@ -394,6 +424,7 @@ class TableCheck:
             raise CliError('unsupported_scope', 'Required seat categories could not be resolved.')
         rows = {day: {'date': day, 'status': 'unknown', 'offered_times': [], 'slots': [], 'complete': True} for day in wanted}
         errors, completed, checked_categories = [], 0, []
+        sparse_days = set(wanted)
         for category in categories:
             try:
                 result = self.constrained(venue, wanted, people, after, before, course, category['id'])
@@ -401,6 +432,8 @@ class TableCheck:
                 checked_categories.append({'id': category['id'], **named(category)})
                 errors.extend(result['errors'])
                 for row in result['days']:
+                    if not row['complete'] and row.get('source') != 'missing_timetable_date':
+                        sparse_days.discard(row['date'])
                     merged = rows[row['date']]
                     merged['offered_times'].extend(row['offered_times'])
                     merged['slots'].extend(row['slots'])
@@ -413,6 +446,8 @@ class TableCheck:
             row['complete'] = row['complete'] and completed == len(categories)
             row['offered_times'] = sorted(set(row['offered_times']))
             row['status'] = 'available' if row['offered_times'] else 'unavailable' if row['complete'] else 'unknown'
+            if row['status'] == 'unknown' and day in sparse_days and completed == len(categories):
+                row['source'] = 'missing_timetable_date'
             row['booking_url'] = booking_url(venue, day, row['offered_times'][0] if row['offered_times'] else None, people)
         return {'restaurant': venue_summary(venue), 'from': wanted[0], 'to': wanted[-1], 'people': people, 'after': after, 'before': before,
                 'course_id': course, 'scope': 'course_any_seat_category', 'course_linked': True, 'seat_linked': True,
@@ -608,14 +643,18 @@ class TableCheck:
                 if not isinstance(all_slots, dict) or value.get('queried_date') != day:
                     raise CliError('unexpected_response', 'Timetable lacks matching queried_date and slot data.')
                 gained = False
-                for slot_day, slots in all_slots.items():
-                    if slot_day not in rows or rows[slot_day]['complete']:
+                for slot_day, row in rows.items():
+                    if row['complete']:
                         continue
-                    if not isinstance(slots, dict) or not slots:
+                    slots = all_slots.get(slot_day, {})
+                    if slots == {} or slots == []:
+                        row.setdefault('source', 'missing_timetable_date')
+                        continue
+                    row['source'] = 'filtered_timetable'
+                    if not isinstance(slots, dict):
                         failures.append({'code': 'unexpected_response', 'date': slot_day,
                                          'message': 'Timetable date has no recognizable slot grid.'})
                         continue
-                    row = rows[slot_day]
                     parsed, complete = [], True
                     for epoch, slot in slots.items():
                         try:
@@ -632,7 +671,7 @@ class TableCheck:
                                          'message': 'Timetable slot timestamp or availability state is invalid.'})
                         continue
                     gained = True
-                    row.update(complete=not parsed, status='unknown' if parsed else 'unavailable', source='filtered_timetable')
+                    row.update(complete=not parsed, status='unknown' if parsed else 'unavailable')
                     confirmed = True
                     for epoch, clock in parsed:
                         confirmation = self.client.read('GET', f"/en/shops/{venue['slug']}/available", {**params, 'reservation[start_at_epoch]': epoch})
@@ -656,10 +695,6 @@ class TableCheck:
         for day, row in rows.items():
             row['offered_times'] = sorted(set(row['offered_times']))
             row['booking_url'] = booking_url(venue, day, row['offered_times'][0] if row['offered_times'] else None, people)
-        missing_dates = [day for day, row in rows.items() if not row['complete']]
-        if missing_dates:
-            failures.append({'code': 'incomplete_coverage', 'dates': missing_dates,
-                             'message': 'Filtered timetable or slot confirmation did not cover these dates.'})
         return {'restaurant': venue_summary(venue), 'from': wanted[0], 'to': wanted[-1], 'people': people, 'after': after, 'before': before,
                 'course_id': course, 'seat_category_id': selected_seat, 'scope': 'filtered_reservation_form',
                 'course_linked': bool(course), 'seat_linked': bool(selected_seat), 'days': list(rows.values()),
