@@ -366,6 +366,19 @@ def requested_dates(args, now):
     return [(start + dt.timedelta(days=i)).isoformat() for i in range((end - start).days + 1)]
 
 
+def requested_hours(args, now):
+    date = args.date or now.date()
+    if date < now.date():
+        raise WeatherError("invalid_date_range", "Use today or a future JST date for an hourly forecast.")
+    start = args.from_hour
+    if start is None:
+        start = now.hour if args.date is None and args.to_hour is None else 0
+    end = args.to_hour if args.to_hour is not None else 23
+    if not 0 <= start <= end <= 23:
+        raise WeatherError("invalid_hour_range", "Use JST hours 0-23 with --to-hour on or after --from-hour.")
+    return [dt.datetime.combine(date, dt.time(hour), JST) for hour in range(start, end + 1)]
+
+
 def parser():
     root = argparse.ArgumentParser(description="Japanese forecasts, JMA warnings and monthly station climate normals. Anonymous JSON output; no dependencies.")
     sub = root.add_subparsers(dest="command", required=True)
@@ -377,14 +390,19 @@ def parser():
     cities.add_argument("--limit", type=int, default=10)
     forecast = sub.add_parser("forecast", help="Get website daily forecasts from one or both Japanese sources")
     forecast.add_argument("--source", choices=("weathernews", "jma", "both"), default="weathernews", help="Default weathernews (two weeks); jma retains official regional forecasts; both returns separate records")
-    forecast.add_argument("--city", required=True, action="append", help="Exact municipality name/alias/code; repeat for up to 10 cities")
-    forecast.add_argument("--office", help="Disambiguate municipality by office code/name")
+    hourly = sub.add_parser("hourly", help="Get Weathernews hourly forecasts for a city and JST time window")
+    hourly.add_argument("--date", type=iso_date, help="JST date, default today. A date alone requests the whole day.")
+    hourly.add_argument("--from-hour", type=int, help="First JST hour (0-23), inclusive")
+    hourly.add_argument("--to-hour", type=int, help="Last JST hour (0-23), inclusive")
+    for command in (forecast, hourly):
+        command.add_argument("--city", required=True, action="append", help="Exact municipality name/alias/code; repeat for up to 10 cities")
+        command.add_argument("--office", help="Disambiguate municipality by office code/name")
+        command.add_argument("--timeout", type=float, default=15, help="Per-request timeout in seconds (1-60; default 15)")
     group = forecast.add_mutually_exclusive_group()
     group.add_argument("--days", type=bounded_days, help="1-14 dates starting tomorrow in JST; default 14 (JMA: 7)")
     group.add_argument("--date", type=iso_date, help="One exact JST date")
     group.add_argument("--from", dest="start", type=iso_date, help="First JST date, inclusive; requires --to")
     forecast.add_argument("--to", dest="end", type=iso_date, help="Last JST date, inclusive; requires --from")
-    forecast.add_argument("--timeout", type=float, default=15, help="Per-request timeout in seconds (1-60; default 15)")
     forecast.add_argument("--detail", action="store_true", help="Include original field structure, English labels, wind and temperature uncertainty bounds")
     alerts = sub.add_parser("alerts", help="Current timestamped JMA meteorological warnings/advisories from the official XML aggregate")
     alerts.add_argument("--city", required=True, action="append", help="Exact municipality/subdivision name/code; repeat for up to 10 areas")
@@ -421,28 +439,37 @@ def main(argv=None):
         else:
             if not 1 <= len(args.city) <= 10 or not 1 <= args.timeout <= 60:
                 raise WeatherError("invalid_options", "Use up to 10 cities and a timeout from 1 to 60 seconds.")
-            if args.end and not args.start:
+            if args.command == "forecast" and args.end and not args.start:
                 raise WeatherError("invalid_date_range", "--to requires --from.")
             client.timeout = args.timeout
             now = now_jst()
-            dates = requested_dates(args, now)
             cities = [resolve_city(query, catalog, args.office) for query in args.city]
             forecasts = []
-            for city in cities:
-                if args.source in ("weathernews", "both"):
+            if args.command == "hourly":
+                hours = requested_hours(args, now)
+                codes = weathernews.load_codes()
+                for city in cities:
                     location = weathernews.find_location(client, city)
-                    forecasts.append(weathernews.parse_forecast(
-                        client.get_json(weathernews.data_url(location)), city, location, dates, now, weathernews.load_codes()))
-                if args.source in ("jma", "both"):
-                    forecasts.append(merge_forecast(client.get(city["product_code"]), city, catalog, dates, now))
+                    payload = client.get_json(weathernews.data_url(location))
+                    forecasts.append(weathernews.parse_hourly(payload, city, location, hours, now, codes))
+                result = {"requested_hours": [hour.isoformat() for hour in hours]}
+            else:
+                dates = requested_dates(args, now)
+                for city in cities:
+                    if args.source in ("weathernews", "both"):
+                        location = weathernews.find_location(client, city)
+                        forecasts.append(weathernews.parse_forecast(
+                            client.get_json(weathernews.data_url(location)), city, location, dates, now, weathernews.load_codes()))
+                    if args.source in ("jma", "both"):
+                        forecasts.append(merge_forecast(client.get(city["product_code"]), city, catalog, dates, now))
+                if not args.detail:
+                    forecasts = [compact_forecast(f) for f in forecasts]
+                result = {"requested_dates": dates, "format": "detail" if args.detail else "compact"}
             status = "ok" if all(x["status"] == "ok" for x in forecasts) else "partial"
             if all(x["status"] == "unavailable" for x in forecasts):
                 status = "unavailable"
-            result = {"status": status,
-                      "retrieved_at": now_jst().isoformat(), "requested_dates": dates,
-                      "catalog_retrieved_at": catalog["retrieved_at"],
-                      "format": "detail" if args.detail else "compact",
-                      "forecasts": forecasts if args.detail else [compact_forecast(f) for f in forecasts]}
+            result.update(status=status, retrieved_at=now_jst().isoformat(), forecasts=forecasts,
+                          catalog_retrieved_at=catalog["retrieved_at"])
         result["usage"] = client.usage()
         print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
         return 0

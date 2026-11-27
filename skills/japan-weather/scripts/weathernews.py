@@ -111,9 +111,7 @@ def data_url(location):
     return DATA_URL + "?" + urllib.parse.urlencode({"lat": location["latitude"], "lon": location["longitude"]})
 
 
-def parse_forecast(payload, city, location, dates, now, codes):
-    if not isinstance(payload, dict) or not isinstance(payload.get("mrf"), list) or not payload["mrf"]:
-        raise WeatherError("source_schema_changed", "Weathernews daily forecast list is missing or empty.")
+def verified_point_code(payload, location):
     geo = payload.get("geo", {})
     point_jcode = str(geo.get("JCODE"))
     if payload.get("is_japan") != 1 or point_jcode not in location.get("_point_jcodes", [location["jcode"]]):
@@ -124,15 +122,27 @@ def parse_forecast(payload, city, location, dates, now, codes):
         point_matches = False
     if not point_matches:
         raise WeatherError("weathernews_location_mismatch", "Forecast coordinates differ from the resolved reference point.")
-    point = {"name": location["name"], "jcode": point_jcode,
-             "latitude": location["latitude"], "longitude": location["longitude"]}
-    ref = {"kind": "daily", "issued_at": None, "point": point}
+    return point_jcode
+
+
+def location_warnings(city):
     warnings = [
         "Publisher issue time is not exposed by this website JSON; issued_at is unknown. Sequence start time and HTTP retrieval time are not issue times.",
         "Forecast is for the website's municipality reference coordinates; it is not a mountain or exact-address forecast.",
     ]
     if municipality_query(city) != city["name"]:
         warnings.append("JMA catalog subdivision " + city["name"] + " resolves to a Weathernews municipality reference point; the subdivision is not independently forecast here.")
+    return warnings
+
+
+def parse_forecast(payload, city, location, dates, now, codes):
+    if not isinstance(payload, dict) or not isinstance(payload.get("mrf"), list) or not payload["mrf"]:
+        raise WeatherError("source_schema_changed", "Weathernews daily forecast list is missing or empty.")
+    point_jcode = verified_point_code(payload, location)
+    point = {"name": location["name"], "jcode": point_jcode,
+             "latitude": location["latitude"], "longitude": location["longitude"]}
+    ref = {"kind": "daily", "issued_at": None, "point": point}
+    warnings = location_warnings(city)
     days = {}
     for row in payload["mrf"]:
         if not isinstance(row, dict):
@@ -204,4 +214,63 @@ def parse_forecast(payload, city, location, dates, now, codes):
         "source": {"id": "weathernews", "name": "Weathernews", "publisher": "株式会社ウェザーニューズ",
                    "url": location["url"], "data_url": data_url(location),
                    "processing": "Selected daily website JSON fields; weather labels from publisher's forecast code table. No forecast interpolation or independent prediction."},
+    }
+
+def hourly_value(row, key, low, high):
+    value = row.get(key)
+    if value is None or value == "":
+        return None
+    try:
+        if isinstance(value, bool):
+            raise ValueError()
+        value = float(value)
+        if not low <= value <= high:
+            raise ValueError()
+    except (TypeError, ValueError, OverflowError):
+        raise WeatherError("source_schema_changed", "Invalid Weathernews hourly " + key + " value.") from None
+    return value
+
+
+def parse_hourly(payload, city, location, hours, now, codes):
+    if not isinstance(payload, dict) or not isinstance(payload.get("srf"), list):
+        raise WeatherError("source_schema_changed", "Weathernews hourly forecast list is missing.")
+    point_code = verified_point_code(payload, location)
+    current_hour = now.replace(minute=0, second=0, microsecond=0)
+    by_time = {}
+    for row in payload["srf"]:
+        if not isinstance(row, dict):
+            raise WeatherError("source_schema_changed", "Invalid Weathernews hourly row.")
+        epoch = number(row.get("tm"))
+        try:
+            instant = dt.datetime.fromtimestamp(epoch, JST) if epoch is not None else None
+        except (OSError, OverflowError, ValueError):
+            instant = None
+        if instant is None or instant.minute or instant.second or instant in by_time:
+            raise WeatherError("source_schema_changed", "Expected a unique hourly Weathernews timestamp.")
+        by_time[instant] = row
+
+    selected = []
+    for hour in hours:
+        row = by_time.get(hour, {}) if hour >= current_hour else {}
+        code = number(row.get("WX"))
+        labels = codes["labels"].get(str(code), []) if code != 999 else []
+        values = {"weather_ja": labels[0] if labels else None,
+                  "temperature_c": hourly_value(row, "AIRTMP", -100, 70),
+                  "precipitation_mm": hourly_value(row, "PREC", 0, 500),
+                  "wind_speed_m_s": hourly_value(row, "WNDSPD", 0, 150)}
+        missing = [key for key, value in values.items() if value is None]
+        status = "unavailable" if len(missing) == len(values) else "partial" if missing else "ok"
+        selected.append({"time": hour.isoformat(), "status": status, "weather_code": code,
+                         **values, "missing_fields": missing})
+    statuses = {hour["status"] for hour in selected}
+    available = sorted(t for t in by_time if t >= current_hour)
+    url = location["url"].removesuffix("week.html")
+    return {
+        "city": {k: city[k] for k in ("query", "code", "name", "name_en", "alias_used")},
+        "location": dict({k: v for k, v in location.items() if not k.startswith("_")}, point_jcode=point_code, url=url),
+        "status": statuses.pop() if len(statuses) == 1 else "partial", "timezone": "Asia/Tokyo",
+        "first_published_hour": available[0].isoformat() if available else None,
+        "last_published_hour": available[-1].isoformat() if available else None,
+        "issued_at": {"hourly": None}, "hours": selected, "warnings": location_warnings(city),
+        "source": {"id": "weathernews", "name": "Weathernews", "url": url, "data_url": data_url(location)},
     }

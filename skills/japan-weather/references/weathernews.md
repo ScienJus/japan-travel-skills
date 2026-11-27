@@ -18,6 +18,12 @@ Only native HTTPS `weathernews.jp/onebox/tenki/{prefecture}/{five_digit_code}/` 
 
 The adapter reads v2 forecast JSON using the returned coordinates and verifies both `geo.JCODE` and coordinates before accepting values. A designated city's reference point can be reverse-geocoded to a ward: accept that code only if the same native search explicitly lists the ward under the selected city. City codes have no assumed suffix; the native ward name must identify the selected city, and its code and URL must retain that city's prefecture. Output keeps the selected municipality `jcode` and actual `point_jcode` separately. No neighboring city is substituted on lookup failure. Subdivision-to-municipality changes are disclosed. A forecast point is the website's municipality reference, not a guarantee about every location or elevation in that municipality. If a municipality cannot be matched, use a more explicit supported catalog location or the JMA source; no provider is switched automatically.
 
+## Hourly data and times
+
+The [Kanazawa hourly page](https://weathernews.jp/onebox/tenki/ishikawa/17201/) displays weather, precipitation in millimetres, temperature in °C and wind speed in m/s. The same municipality v2 response used for daily forecasts contains these fields in `srf` as `WX`, `PREC`, `AIRTMP` and `WNDSPD`. The hourly product does not supply a precipitation probability. Weather labels use the bundled publisher code table.
+
+Each `tm` identifies a JST hour by epoch seconds. The short-range sequence typically extends about 72 hours ahead. Inspect the actual first and last published hours and each requested row for gaps. The command selects the current and future hours by timestamp. A missing or elapsed hour stays unavailable. Blank fields remain null and an unknown weather code retains its number. An explicit date alone requests 00:00 through 23:00. A single hour bound defaults its other bound to the start or end of that day. As for daily data, the sequence start is distinct from the unknown forecast issue time.
+
 ## Daily data and times
 
 `mrf` contains `tm`, `WX`, `MAXT`, `MINT`, `POP` and `reliability`, among other fields. `tm` is an epoch timestamp for the JST forecast day; join by that date, not list index. `WX` is interpreted only through Weathernews's code table; `999` is No Data. Unknown codes yield a partial weather field. Temperature and probability blanks remain null, and out-of-range/sentinel values fail explicitly. `PREC` is not exposed because this adapter has not verified its units and semantics for all days.

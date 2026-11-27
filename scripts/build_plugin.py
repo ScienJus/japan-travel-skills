@@ -38,7 +38,7 @@ SKILL_FILES = {
         "scripts/refresh_catalog.py", "scripts/refresh_weathernews_codes.py",
         "scripts/data/catalog.json", "scripts/data/weathernews_codes.json",
         "references/jma.md", "references/weathernews.md", "references/jma-alerts.md",
-        "references/jma-climate.md", "agents/openai.yaml"),
+        "references/jma-climate.md", "references/itinerary-reports.md", "agents/openai.yaml"),
     "japan-transit": (
         "SKILL.md", "LICENSE", "scripts/transit.py", "scripts/rail_operations.py", "scripts/transit_network.py",
         "scripts/transit_source.py", "scripts/transit_transport.py",

@@ -1,6 +1,6 @@
 ---
 name: japan-weather
-description: Query Japanese city weather from Weathernews for about two weeks or JMA for about one week, current meteorological warnings/advisories from the official JMA XML aggregate, and monthly station climate normals. Preserve location scope, timestamps and unknown states. Does not provide mountain visibility or foliage forecasts.
+description: Query hourly Weathernews city forecasts, daily Weathernews forecasts for about two weeks or JMA forecasts for about one week, current meteorological warnings/advisories from the official JMA XML aggregate, and monthly station climate normals. Preserve location scope, timestamps and unknown states. Does not provide mountain visibility or foliage forecasts.
 ---
 
 # Japan city weather
@@ -14,7 +14,9 @@ Read only the references needed for the requested mode:
 
 | Mode | Commands | Required source guidance |
 | --- | --- | --- |
-| Forecast | `cities`, `forecast` | [Weathernews](references/weathernews.md) and/or [JMA](references/jma.md), according to the requested source |
+| Itinerary weather report or daily trip update | `hourly`, `forecast` | [Report by travel date and compare with yesterday](references/itinerary-reports.md), plus the references for the products used |
+| Hourly forecast | `hourly` | [Weathernews hourly fields and coverage](references/weathernews.md#hourly-data-and-times) |
+| Daily forecast | `cities`, `forecast` | [Weathernews](references/weathernews.md) and/or [JMA](references/jma.md), according to the requested source |
 | Current warnings | `alerts` | [JMA warning scope, freshness and exact areas](references/jma-alerts.md) |
 | Monthly climate | `climate-regions`, `climate-stations`, `climate` | [JMA station selection, quantities and quality flags](references/jma-climate.md) |
 
@@ -34,7 +36,7 @@ convenience only.
 1. Resolve exact native municipalities or codes with offline `cities`. Ambiguous names return
    candidates. An alias may select a reference subdivision; preserve its scope and use an explicit
    municipality/subdivision for warning queries.
-2. For forecasts, select `--source weathernews|jma|both`. Default Weathernews covers fourteen
+2. For daily forecasts, select `--source weathernews|jma|both`. Default Weathernews covers fourteen
    requested dates starting tomorrow; JMA defaults to seven. `both` keeps sources separate and never
    fills one source's gaps from another. Repeat `--city` for up to ten places. `--from`/`--to` is
    inclusive and permits up to fourteen dates, including today; a distant single `--date` stays
@@ -42,10 +44,15 @@ convenience only.
    If all requested dates are more than fourteen days ahead, explain this documented limit without
    forecast requests solely to confirm it. Use monthly climate normals if they help the user's
    preparation, keeping them separate from predictions. Query live coverage if explicitly needed.
-3. For `alerts`, select exact intended areas. Forecast aliases such as Tokyo, 富山 or 長野 can narrow
+3. Use `hourly` for a particular activity time or to compare hours. Select the JST date and
+   inclusive whole hours with `--date`, `--from-hour` and `--to-hour`. Use equal bounds for a
+   single hour and separate dates for a window across midnight. With no time options, the query
+   covers the current JST hour through 23:00. Read each requested hour’s status. Coverage is
+   typically about three days and depends on the published rows.
+4. For `alerts`, select exact intended areas. Forecast aliases such as Tokyo, 富山 or 長野 can narrow
    geography and are rejected when they would imply a whole-city warning query. Read the warning
    reference before resolving subdivisions.
-4. For `climate`, use the live prefecture and surface-station menus. Select native station names and
+5. For `climate`, use the live prefecture and surface-station menus. Select native station names and
    months; reuse verified station codes only with matching names. This product has no trip-date
    forecast parameter.
 
@@ -54,6 +61,7 @@ python3 "<skill-dir>/scripts/weather.py" doctor
 python3 "<skill-dir>/scripts/weather.py" cities 金泽
 python3 "<skill-dir>/scripts/weather.py" forecast --city 金泽 --days 14
 python3 "<skill-dir>/scripts/weather.py" forecast --city 札幌市 --source both --days 7
+python3 "<skill-dir>/scripts/weather.py" hourly --city 金沢市 --date YYYY-MM-DD --from-hour 9 --to-hour 12
 python3 "<skill-dir>/scripts/weather.py" alerts --city 金沢市
 python3 "<skill-dir>/scripts/weather.py" climate-stations --prefecture 京都府
 python3 "<skill-dir>/scripts/weather.py" climate --prefecture 京都府 --station 京都 --month 11 --month 12
@@ -70,7 +78,9 @@ and detailed-output options.
 - Preserve Weathernews's municipality reference point, JMA's forecast region and each temperature
   station. Neither describes a mountain or exact address. Weathernews exposure is capped at today
   plus fourteen days.
-- Compact `temperature_c` is `[minimum, maximum]`; source provenance is shared under
+- Hourly rows report the weather label, temperature (°C), precipitation amount (mm) and wind
+  speed (m/s) for each published timestamp. Report unavailable hours explicitly.
+- Daily compact `temperature_c` is `[minimum, maximum]`; source provenance is shared under
   `field_sources`. `--detail` adds nested fields. Daily precipitation and JMA six-hour probabilities
   remain separate; do not combine intervals into a daily probability. Reliability grades retain each
   provider's own scale.

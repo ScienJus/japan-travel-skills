@@ -26,7 +26,7 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 | [Hot Pepper Gourmet](skills/hot-pepper/SKILL.md) | Area directories, shop profiles, course prices and terms, and seat checks by course, date, time and party |
 | [TableCheck](skills/tablecheck/SKILL.md) | Restaurant discovery, courses and anonymous date/time availability; course/seat checks on supported public v1 and v2 booking pages |
 | [Pocket Concierge](skills/pocket-concierge/SKILL.md) | Native restaurant discovery, courses, calendar hints and course-linked sessions; instant/request/waitlist modes remain separate |
-| [Weather](skills/japan-weather/SKILL.md) | Weathernews forecasts for about two weeks; optional JMA forecasts for about one week; current JMA meteorological-warning/advisory snapshots and monthly station climate normals |
+| [Weather](skills/japan-weather/SKILL.md) | Hourly Weathernews forecasts for near-term activities and daily forecasts for about two weeks; optional JMA forecasts for about one week; current JMA meteorological-warning/advisory snapshots and monthly station climate normals |
 | [Transit](skills/japan-transit/SKILL.md) | Yahoo! 路線情報 rail/bus stop lookup, dated routes, transfers, fares and first/last connections; separate official line reports for nine JR West Hokuriku sections and IRいしかわ鉄道 |
 | [Holidays](skills/japan-holidays/SKILL.md) | Cabinet Office live public holidays by date/range/year, weekdays, weekends and consecutive calendar breaks |
 | [Daylight](skills/japan-daylight/SKILL.md) | NAOJ's live named-location calculator for sunrise, sunset and daylight length by date/range |
@@ -107,6 +107,7 @@ Start by reading [AGENTS.md](AGENTS.md) and the relevant skill. `doctor` is offl
 ```bash
 bin/japan-weather doctor
 bin/japan-weather forecast --city 金泽 --days 14
+bin/japan-weather hourly --city 金泽 --from-hour 12 --to-hour 15
 bin/japan-transit --help
 bin/japan-hotels --help
 bin/japan-passes list --provider all

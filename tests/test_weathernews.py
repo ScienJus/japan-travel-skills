@@ -193,6 +193,60 @@ class WeathernewsTests(unittest.TestCase):
         parser.feed('<script>203=wrong</script><table><tr><td>203</td><td>くもり時々雨</td><td><img alt="other"></td></tr></table>')
         self.assertEqual(parser.labels, {"203": ["くもり時々雨"]})
 
+    def hourly_query(self, *flags):
+        with patch.object(w.Client, "get_json", side_effect=[search_rows(), self.payload]) as read, \
+                patch.object(w, "now_jst", return_value=self.now), contextlib.redirect_stdout(io.StringIO()) as out:
+            rc = w.main(["hourly", "--city", "金泽", *flags])
+        return rc, json.loads(out.getvalue()), read.call_count
+
+    def test_hourly_filters_by_jst_timestamp_preserving_gaps_and_fractional_values(self):
+        epoch = int(self.now.timestamp())
+        row = {"tm": epoch, "WX": 100, "AIRTMP": 0, "PREC": 0.5, "WNDSPD": 0}
+        self.payload["srf"] = [dict(row, tm=epoch + 7200, WX=777, PREC=""), row]
+        del self.payload["mrf"]
+        rc, result, count = self.hourly_query()
+        self.assertEqual((rc, count, result["status"]), (0, 2, "partial"))
+        first, gap = result["forecasts"][0]["hours"]
+        self.assertEqual(first["time"], self.now.isoformat())
+        self.assertEqual((first["temperature_c"], first["precipitation_mm"], first["wind_speed_m_s"]), (0, 0.5, 0))
+        self.assertEqual(gap["status"], "unavailable")
+        self.assertIsNone(gap["temperature_c"])
+        rc, result, _ = self.hourly_query("--date", "2026-11-01", "--from-hour", "0", "--to-hour", "0")
+        forecast = result["forecasts"][0]
+        self.assertEqual(rc, 0)
+        midnight, = forecast["hours"]
+        self.assertEqual(midnight["time"], "2026-11-01T00:00:00+09:00")
+        self.assertEqual(midnight["missing_fields"], ["weather_ja", "precipitation_mm"])
+        self.assertEqual(midnight["weather_code"], 777)
+        self.assertIsNone(forecast["issued_at"]["hourly"])
+        self.assertEqual(forecast["location"]["point_jcode"], "17201")
+        self.assertTrue(forecast["source"]["url"].endswith("/17201/"))
+
+    def test_hourly_unpublished_or_elapsed_hours_are_unavailable(self):
+        self.payload["srf"] = [{"tm": int(self.now.timestamp()) - 3600, "WX": 100}]
+        for args in (["--date", "2026-11-01"], ["--from-hour", "21", "--to-hour", "21"]):
+            rc, result, _ = self.hourly_query(*args)
+            self.assertEqual((rc, result["status"]), (0, "unavailable"))
+            self.assertIsNone(result["forecasts"][0]["last_published_hour"])
+
+    def test_hourly_rejects_invalid_source_data(self):
+        row = {"tm": int(self.now.timestamp()), "WX": 100}
+        for rows in (None, [row, row], [dict(row, tm=row["tm"] + 60)], [dict(row, PREC=-1)],
+                     [dict(row, WNDSPD=999)], [dict(row, AIRTMP="NaN")]):
+            with self.subTest(rows=rows):
+                self.payload["srf"] = rows
+                rc, result, _ = self.hourly_query()
+                self.assertEqual((rc, result["error"]["code"]), (2, "source_schema_changed"))
+        self.payload["srf"] = [row]
+        self.payload["geo"]["lat"] = 32
+        self.assertEqual(self.hourly_query()[1]["error"]["code"], "weathernews_location_mismatch")
+
+    def test_invalid_hourly_window_fails_before_network(self):
+        for args in (["--from-hour", "-1"], ["--to-hour", "24"], ["--from-hour", "12", "--to-hour", "8"],
+                     ["--date", "2026-10-30"]):
+            rc, _, count = self.hourly_query(*args)
+            self.assertEqual((rc, count), (2, 0))
+
     def test_default_source_and_two_week_limit(self):
         args = w.parser().parse_args(["forecast", "--city", "金泽"])
         self.assertEqual(args.source, "weathernews")

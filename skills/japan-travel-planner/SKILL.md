@@ -27,7 +27,7 @@ targeted verification, repairs, and trade-offs in route, pace and meal choices. 
 | --- | --- |
 | What to see, local specialties, dated events | `japan-city-guide`: curated official destination sources and facility verification; check its current geographic coverage |
 | Sakura or foliage timing | `japan-seasons`: show both providers separately, including unavailable results |
-| Weather during the trip | `japan-weather`: forecasts within published coverage; monthly climate normals describe typical conditions, not a distant-date forecast |
+| Weather during the trip | `japan-weather`: use its itinerary report guidance for trip-wide forecasts and daily updates, hourly forecasts for timed activities, and monthly climate normals for typical conditions |
 | When outdoor light or Fuji views matter | `japan-daylight` for astronomical daylight; `japan-fuji` for its broad directional viewing index |
 | How to connect selected places | `japan-transit`: dated timetable routes; official operation reports have separate, limited operator/section coverage |
 | Calendar constraints | `japan-holidays`: official holidays and weekend blocks, not proof of crowding or business closures |
