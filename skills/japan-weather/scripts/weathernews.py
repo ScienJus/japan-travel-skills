@@ -4,6 +4,7 @@ import json
 import math
 import re
 import urllib.parse
+from bisect import bisect_right
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -231,7 +232,60 @@ def hourly_value(row, key, low, high):
     return value
 
 
-def parse_hourly(payload, city, location, hours, now, codes):
+# Entry i is the lower bound of Beaufort force i + 1 in m/s.
+WIND_THRESHOLDS = (0.3, 1.6, 3.4, 5.5, 8.0, 10.8, 13.9, 17.2, 20.8, 24.5, 28.5, 32.7)
+INTENSITY_LABELS = {
+    "zh": {
+        "wind": ("静风", "软风", "轻风", "微风", "和风", "清劲风", "强风", "疾风", "大风", "烈风", "狂风", "暴风", "飓风级"),
+        "rain": ("小雨", "中雨", "大雨"),
+        "precipitation": ("弱降水", "中等降水", "强降水"),
+        "dry": "无明显降水",
+    },
+    "ja": {
+        "wind": ("静穏", "至軽風", "軽風", "軟風", "和風", "疾風", "雄風", "強風", "疾強風", "大強風", "全強風", "暴風", "颶風"),
+        "rain": ("弱い雨", "中程度の雨", "強い雨"),
+        "precipitation": ("弱い降水", "中程度の降水", "強い降水"),
+        "dry": "目立った降水なし",
+    },
+    "en": {
+        "wind": ("calm", "light air", "light breeze", "gentle breeze", "moderate breeze",
+                 "fresh breeze", "strong breeze", "near gale", "gale", "strong gale",
+                 "storm", "violent storm", "hurricane force"),
+        "rain": ("light rain", "moderate rain", "heavy rain"),
+        "precipitation": ("light precipitation", "moderate precipitation", "heavy precipitation"),
+        "dry": "no measurable precipitation",
+    },
+}
+
+
+def measurement_display(value, unit, label, lang):
+    number_text = str(value).removesuffix(".0")
+    suffix = f" ({label})" if lang == "en" else f"（{label}）"
+    return f"{number_text} {unit}{suffix}"
+
+
+def wind_display(speed, lang):
+    if speed is None:
+        return None
+    force = bisect_right(WIND_THRESHOLDS, speed)
+    return measurement_display(speed, "m/s", INTENSITY_LABELS[lang]["wind"][force], lang)
+
+
+def precipitation_display(amount, weather_ja, lang):
+    if amount is None:
+        return None
+    labels = INTENSITY_LABELS[lang]
+    label = labels["dry"]
+    if amount > 0:
+        # Mixed and unspecified phases share the same bands with neutral labels.
+        weather = weather_ja or ""
+        liquid = "雨" in weather and "雪" not in weather and "みぞれ" not in weather
+        band = 0 if amount <= 2.5 else 1 if amount <= 8 else 2
+        label = labels["rain" if liquid else "precipitation"][band]
+    return measurement_display(amount, "mm", label, lang)
+
+
+def parse_hourly(payload, city, location, hours, now, codes, lang="zh"):
     if not isinstance(payload, dict) or not isinstance(payload.get("srf"), list):
         raise WeatherError("source_schema_changed", "Weathernews hourly forecast list is missing.")
     point_code = verified_point_code(payload, location)
@@ -260,8 +314,13 @@ def parse_hourly(payload, city, location, hours, now, codes):
                   "wind_speed_m_s": hourly_value(row, "WNDSPD", 0, 150)}
         missing = [key for key, value in values.items() if value is None]
         status = "unavailable" if len(missing) == len(values) else "partial" if missing else "ok"
-        selected.append({"time": hour.isoformat(), "status": status, "weather_code": code,
-                         **values, "missing_fields": missing})
+        rain = precipitation_display(values["precipitation_mm"], values["weather_ja"], lang)
+        wind = wind_display(values["wind_speed_m_s"], lang)
+        item = {"time": hour.isoformat(), "status": status, "weather_code": code,
+                **values, "missing_fields": missing, "precipitation_display": rain, "wind_display": wind}
+        if lang == "zh":
+            item.update(precipitation_display_zh=rain, wind_display_zh=wind)
+        selected.append(item)
     statuses = {hour["status"] for hour in selected}
     available = sorted(t for t in by_time if t >= current_hour)
     url = location["url"].removesuffix("week.html")

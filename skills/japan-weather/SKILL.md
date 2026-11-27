@@ -79,7 +79,9 @@ and detailed-output options.
   station. Neither describes a mountain or exact address. Weathernews exposure is capped at today
   plus fourteen days.
 - Hourly rows report the weather label, temperature (°C), precipitation amount (mm) and wind
-  speed (m/s) for each published timestamp. Report unavailable hours explicitly.
+  speed (m/s) for each published timestamp. Select `--lang zh|ja|en` to match the report language (default `zh`). Copy the CLI’s
+  `precipitation_display` and `wind_display` cells, including units and intensity labels.
+  Show missing cells as unknown. Report unavailable hours explicitly.
 - Daily compact `temperature_c` is `[minimum, maximum]`; source provenance is shared under
   `field_sources`. `--detail` adds nested fields. Daily precipitation and JMA six-hour probabilities
   remain separate; do not combine intervals into a daily probability. Reliability grades retain each

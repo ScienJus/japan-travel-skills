@@ -209,6 +209,10 @@ class WeathernewsTests(unittest.TestCase):
         first, gap = result["forecasts"][0]["hours"]
         self.assertEqual(first["time"], self.now.isoformat())
         self.assertEqual((first["temperature_c"], first["precipitation_mm"], first["wind_speed_m_s"]), (0, 0.5, 0))
+        self.assertEqual(first["precipitation_display_zh"], "0.5 mm（弱降水）")
+        self.assertEqual(first["wind_display_zh"], "0 m/s（静风）")
+        self.assertIsNone(gap["wind_display_zh"])
+        self.assertIsNone(gap["precipitation_display_zh"])
         self.assertEqual(gap["status"], "unavailable")
         self.assertIsNone(gap["temperature_c"])
         rc, result, _ = self.hourly_query("--date", "2026-11-01", "--from-hour", "0", "--to-hour", "0")
@@ -221,6 +225,34 @@ class WeathernewsTests(unittest.TestCase):
         self.assertIsNone(forecast["issued_at"]["hourly"])
         self.assertEqual(forecast["location"]["point_jcode"], "17201")
         self.assertTrue(forecast["source"]["url"].endswith("/17201/"))
+
+    def test_hourly_intensity_display_boundaries(self):
+        for speed, label in ((0.2, "静风"), (0.3, "软风"), (1.6, "轻风"), (3.3, "轻风"),
+                             (3.4, "微风"), (5.5, "和风"), (8, "清劲风"), (10.8, "强风"),
+                             (13.9, "疾风"), (17.2, "大风"), (20.8, "烈风"), (24.5, "狂风"),
+                             (28.5, "暴风"), (32.7, "飓风级")):
+            with self.subTest(speed=speed):
+                self.assertEqual(wn.wind_display(speed, "zh"), f"{speed} m/s（{label}）")
+        for amount, weather, label in ((0, "雨", "无明显降水"), (0.1, "雨", "小雨"),
+                                       (2.5, "雨", "小雨"), (2.6, "雨", "中雨"),
+                                       (8, "雨", "中雨"), (8.1, "雨", "大雨"),
+                                       (2, "雪", "弱降水"), (3, "雨か雪", "中等降水"),
+                                       (9, "雨一時みぞれ", "强降水"), (1, None, "弱降水")):
+            with self.subTest(amount=amount, weather=weather):
+                self.assertEqual(wn.precipitation_display(amount, weather, "zh"), f"{amount} mm（{label}）")
+
+    def test_hourly_language_selects_both_display_cells(self):
+        self.payload["srf"] = [{"tm": int(self.now.timestamp()), "WX": 300, "PREC": 1, "WNDSPD": 4}]
+        for lang, rain, wind in (("zh", "1 mm（小雨）", "4 m/s（微风）"),
+                                 ("ja", "1 mm（弱い雨）", "4 m/s（軟風）"),
+                                 ("en", "1 mm (light rain)", "4 m/s (gentle breeze)")):
+            with self.subTest(lang=lang):
+                rc, result, _ = self.hourly_query("--lang", lang)
+                self.assertEqual((rc, result["display_language"]), (0, lang))
+                hour, gap = result["forecasts"][0]["hours"]
+                self.assertEqual((hour["precipitation_display"], hour["wind_display"]), (rain, wind))
+                self.assertEqual((gap["precipitation_display"], gap["wind_display"]), (None, None))
+                self.assertEqual((hour["precipitation_mm"], hour["wind_speed_m_s"]), (1, 4))
 
     def test_hourly_unpublished_or_elapsed_hours_are_unavailable(self):
         self.payload["srf"] = [{"tm": int(self.now.timestamp()) - 3600, "WX": 100}]

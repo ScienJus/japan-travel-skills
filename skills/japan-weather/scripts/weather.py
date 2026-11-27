@@ -391,6 +391,8 @@ def parser():
     forecast = sub.add_parser("forecast", help="Get website daily forecasts from one or both Japanese sources")
     forecast.add_argument("--source", choices=("weathernews", "jma", "both"), default="weathernews", help="Default weathernews (two weeks); jma retains official regional forecasts; both returns separate records")
     hourly = sub.add_parser("hourly", help="Get Weathernews hourly forecasts for a city and JST time window")
+    hourly.add_argument("--lang", choices=tuple(weathernews.INTENSITY_LABELS), default="zh",
+                        help="Language for wind and precipitation display labels (default: zh)")
     hourly.add_argument("--date", type=iso_date, help="JST date, default today. A date alone requests the whole day.")
     hourly.add_argument("--from-hour", type=int, help="First JST hour (0-23), inclusive")
     hourly.add_argument("--to-hour", type=int, help="Last JST hour (0-23), inclusive")
@@ -451,8 +453,8 @@ def main(argv=None):
                 for city in cities:
                     location = weathernews.find_location(client, city)
                     payload = client.get_json(weathernews.data_url(location))
-                    forecasts.append(weathernews.parse_hourly(payload, city, location, hours, now, codes))
-                result = {"requested_hours": [hour.isoformat() for hour in hours]}
+                    forecasts.append(weathernews.parse_hourly(payload, city, location, hours, now, codes, args.lang))
+                result = {"display_language": args.lang, "requested_hours": [hour.isoformat() for hour in hours]}
             else:
                 dates = requested_dates(args, now)
                 for city in cities:
