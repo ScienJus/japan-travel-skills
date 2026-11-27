@@ -6,9 +6,25 @@
 
 The public page explains a numerical-ensemble basis and a 1–10 富士見指数, with higher numbers indicating greater possibility of seeing Fuji. Updates are described as around 16:00 daily. Coverage is broad views from the **north and south foothills**, separately for 午前 and 午後. No verified point coordinates, lake/park identifiers, exact period boundaries, calibration statistics or per-period probability definition are available in this integration. Do not invent them.
 
-[Weathernews's Fuji-view product](https://weathernews.jp/mountain/fuji_viewable/) has a different scope. Its [publisher description](https://jp.weathernews.com/news/55682/) concerns looking toward Fuji from other mountain summits, evaluating both endpoints and the air between them. It is not integrated into this foothill query. Do not apply its four classes to AMECS's ten-point index or borrow it as a forecast for a lakeside hotel.
+## Weathernews summit map
 
-## Live page and data contract
+The [富士山眺望指数 map](https://weathernews.jp/mountain/fuji_viewable/) covers views *toward* Fuji
+from mountain summits. The [publisher's explanation](https://jp.weathernews.com/wp-content/uploads/2026/04/20260407-app.pdf)
+describes terrain eligibility, cloud around both mountains and atmospheric conditions between them.
+Local vegetation may obscure an otherwise possible view.
+
+The map requests `https://site.weathernews.jp/api/mountain/list?ids=...` with comma-separated
+five-digit mountain IDs. The CLI uses only this anonymous map request. Use the returned name and
+the requested ID. Only `day0` (JST midnight) and `fuji_viewable_index` describe the dated Fuji
+grades. Keep unrelated mountain-weather fields out of the report. The map component maps codes
+0/1 to × 難しい, 2 to △ わずかにチャンスあり, 3 to ○ チャンスあり and 4/5 to ◎ よく見える.
+The series starts on `day0`. Before 18:00 JST the map can use yesterday's base for today's and
+tomorrow's entries. At or after 18:00 require coverage of tomorrow and the following day.
+Limit results to the displayed dates. An absent series yields unavailable. A stale or invalid
+series yields unknown. `day0` anchors the series and does not establish the issue time.
+The summit grades and the AMECS scores have separate scales and geographic scopes.
+
+## AMECS live page and data contract
 
 Each query checks the Japanese page's title, seven date-column pairs, AM/PM order, north/south numeric rows and 1–10 scale. It follows only the single first-party `./lib/t24.js?<12-digit-version>` reference, reads it as text and checks the selected CSV routes and the original numeric DOM-write formula. It does not execute downloaded code or fetch advertisements, tracking, third-party scripts, satellite images or the POST-based image-list endpoint.
 

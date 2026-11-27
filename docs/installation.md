@@ -8,7 +8,7 @@ use a source checkout or extract the shareable ZIP into a stable directory, incl
 
 | Component | Requirements |
 | --- | --- |
-| Eight travel CLIs | Python 3.9+ standard library; outbound HTTPS for live queries |
+| Nine travel CLIs | Python 3.9+ standard library; outbound HTTPS for live queries |
 | Hot Pepper Gourmet, Tabelog and TableCheck | Python 3.11.5+ and the skill's pinned `scripts/requirements.txt` |
 | Pocket Concierge | Python 3.10+ and its pinned `scripts/requirements.txt` |
 | Nationwide JAPAN RAIL PASS source | System `curl` in addition to Python |
@@ -30,7 +30,7 @@ python3.12 -m venv /absolute/path/to/japan-travel-venv
 
 ## Complete plugin in Claude Code
 
-In a terminal, register the project’s GitHub marketplace and install all fourteen skills:
+In a terminal, register the project’s GitHub marketplace and install all fifteen skills:
 
 ```bash
 claude plugin marketplace add ScienJus/japan-travel-skills
@@ -67,7 +67,7 @@ codex plugin list --marketplace japan-travel-local --json
 
 These commands change Codex's marketplace/plugin configuration. Start a new session after
 installation if the host has not refreshed its skills. Verify that the installed package contains
-all fourteen skills; `japan-travel-planner` handles combined questions and specialists can be used
+all fifteen skills; `japan-travel-planner` handles combined questions and specialists can be used
 directly. The package is a managed copy: source changes do not update installed files by themselves.
 
 Once a source repository and release tag are published, a Git-backed marketplace can use

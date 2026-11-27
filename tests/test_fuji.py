@@ -235,4 +235,42 @@ class HTTPTests(unittest.TestCase):
         with self.assertRaises(f.SourceError):f.RejectRedirect().redirect_request(None,None,302,'Moved',{},'https://other.test/')
 
 
+class SummitTests(unittest.TestCase):
+    def run_query(self, stamp, values, *options, base=None):
+        base = base or stamp.replace(hour=0, minute=0)
+        data = {'30858': {'name': '高尾山', 'day0': int(base.timestamp()), 'fuji_viewable_index': values}}
+        with patch.object(f.Client, 'read', return_value=(json.dumps({'data': data}).encode(), {})) as read, patch.object(f, 'now_jst', return_value=stamp):
+            args = cli.parser().parse_args(['summits', '--summit', '高尾山', *options])
+            result = cli.summits.query(f.Client(), args)
+            self.assertTrue(f.allowed(read.call_args.args[0]))
+            return result
+
+    def test_map_switches_at_1800_jst_across_year_end(self):
+        now = dt.datetime(2026, 12, 31, 17, 59, tzinfo=f.JST)
+        for stamp, dates, grades in [
+            (now, ['2026-12-31', '2027-01-01'], ['×', '△']),
+            (now.replace(hour=18, minute=0), ['2027-01-01', '2027-01-02'], ['△', '◎']),
+        ]:
+            result = self.run_query(stamp, [0, 2, 5])
+            self.assertEqual(result['published_dates'], dates)
+            self.assertEqual([r['symbol'] for r in result['records'][0]['days']], grades)
+
+    def test_previous_base_missing_and_invalid_grades(self):
+        now = NOW.replace(hour=9)
+        base = (now-dt.timedelta(days=1)).replace(hour=0)
+        rows = self.run_query(now, [1, 3, 4], base=base)['records'][0]['days']
+        self.assertEqual([r['symbol'] for r in rows], ['○', '◎'])
+        self.assertEqual(self.run_query(NOW, [1, 3, 4], base=base)['status'], 'error')
+        for values, status in [([], 'unavailable'), ([4, None, 2], 'partial'), ([7, 2, 3], 'error')]:
+            self.assertEqual(self.run_query(now, values)['status'], status)
+        self.assertEqual(self.run_query(now, [0, 1, 2], '--date', '2026-11-03')['status'], 'unavailable')
+
+    def test_batch_includes_absent_id_without_substitution(self):
+        result = self.run_query(NOW, [0, 1, 4], '--summit', '31110')
+        self.assertEqual(result['status'], 'partial')
+        self.assertEqual(result['records'][1]['mountain_id'], '31110')
+        self.assertEqual(result['records'][1]['status'], 'unavailable')
+        self.assertFalse(f.allowed(cli.summits.API + '?ids=30858&akey=test'))
+
+
 if __name__=='__main__': unittest.main()

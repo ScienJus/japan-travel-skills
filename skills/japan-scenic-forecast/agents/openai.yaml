@@ -1,0 +1,4 @@
+interface:
+  display_name: "Japan Scenic Forecasts"
+  short_description: "Check Tateyama views and Twin Terrace cloud-sea forecasts"
+  default_prompt: "Use $japan-scenic-forecast to compare viewing times or dates at a supported viewpoint."

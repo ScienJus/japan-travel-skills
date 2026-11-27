@@ -8,7 +8,7 @@ feed. Source identity is separate from accuracy, freshness, geographic fit and u
 | --- | --- | --- |
 | Public institutions | JMA forecasts, warnings and climate; Cabinet Office holidays; NAOJ daylight; GSI geocoding and guide basemaps | Preserve each product's scope and dates; official status does not extend forecasts or turn a basemap into routing/live travel evidence |
 | Responsible operators and official tourism bodies | JR/IR reports and pass catalogs; municipal/prefectural tourism portals and linked facility operators | A tourism listing is discovery evidence, not proof of dated opening, admission or a particular train's operation |
-| Commercial first-party products | Weathernews and JMC seasons/weather, AMECS Fuji index, Yahoo transit, Jalan hotels, Hot Pepper Gourmet, Tabelog, TableCheck and Pocket Concierge | These are their publishers' own products or platform records, not government or independent facility verification; platform reviews remain user opinions |
+| Commercial first-party products | Weathernews and JMC seasons/weather, AMECS foothill and Weathernews summit Fuji indices, Yahoo transit, Jalan hotels, Hot Pepper Gourmet, Tabelog, TableCheck and Pocket Concierge | These are their publishers' own products or platform records, not government or independent facility verification; platform reviews remain user opinions |
 | Community data | Photon geocoding using OpenStreetMap | Explicit `--provider photon` only; retain attribution and candidate ambiguity; never call it official or entrance-accurate |
 | Third-party local calculations | `jpholiday` in Tabelog's regular-hours filter | Offline library rules, not a read of the Cabinet Office feed; temporary changes and actual opening remain unverified |
 

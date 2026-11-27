@@ -20,6 +20,7 @@ BUILDER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(BUILDER)
 COMMANDS = {"japan-weather": "weather.py", "japan-transit": "transit.py",
             "japan-holidays": "holidays.py", "japan-daylight": "daylight.py", "japan-seasons": "seasons.py",
+            "japan-scenic-forecast": "scenic.py",
             "japan-fuji": "fuji.py", "japan-hotels": "hotels.py", "japan-passes": "passes.py",
             "hot-pepper": "hot_pepper.py", "tabelog": "tabelog.py", "tablecheck": "tablecheck.py", "pocket-concierge": "pocket_concierge.py"}
 GUIDANCE_SKILLS = {"japan-city-guide", "japan-travel-planner"}

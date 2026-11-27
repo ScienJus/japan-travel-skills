@@ -48,8 +48,10 @@ SKILL_FILES = {
     "japan-seasons": (
         "SKILL.md", "LICENSE", "scripts/seasons.py", "scripts/season_common.py",
         "scripts/wn_seasons.py", "scripts/jmc_seasons.py", "references/sources.md", "agents/openai.yaml"),
+    "japan-scenic-forecast": (
+        "SKILL.md", "LICENSE", "scripts/scenic.py", "scripts/scenic_source.py", "references/sources.md", "agents/openai.yaml"),
     "japan-fuji": (
-        "SKILL.md", "LICENSE", "scripts/fuji.py", "scripts/fuji_source.py", "references/sources.md", "agents/openai.yaml"),
+        "SKILL.md", "LICENSE", "scripts/fuji.py", "scripts/fuji_source.py", "scripts/fuji_summits.py", "references/sources.md", "agents/openai.yaml"),
     "japan-hotels": (
         "SKILL.md", "LICENSE", "scripts/hotels.py", "scripts/jalan.py",
         "scripts/hotel_geo.py", "scripts/hotel_viewport.py", "references/jalan.md", "agents/openai.yaml"),

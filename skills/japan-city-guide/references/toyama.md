@@ -27,6 +27,11 @@ Seasonal articles, personal writer reports and official facility records serve d
 [立山黒部アルペンルート / Tateyama Kurobe Alpine Route](https://www.alpen-route.com/index.php)
 provides seasonal timetables and service notices by leg between Toyama and Nagano prefectures.
 
+## When to make a detour for Tateyama views
+
+- **Toyama City.** Compare dates for a city-center viewpoint such as the city hall observation tower using the daily probability in [立山眺望予報 / Tateyama viewing forecast](https://homerun.wni.co.jp/TOKS/view.html). The optional `japan-scenic-forecast` skill reads this city-wide forecast.
+- **Amaharashi Coast, Takaoka.** Before continuing to 雨晴海岸, use the [雨晴海岸ライブカメラ / Amaharashi coast live camera](https://www.youtube.com/watch?v=vOFQt1JWSgE) to check the coastal view and frame time. The Toyama City forecast gives regional context. Darkness, a paused stream or a different camera angle leaves current visibility uncertain.
+
 ## Takaoka City
 
 Primary portal: [高岡観光ナビ](https://www.takaoka.or.jp/). The footer identifies 公益社団法人

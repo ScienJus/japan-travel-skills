@@ -17,7 +17,8 @@ This project provides Japanese travel-planning skills and anonymous, read-only q
 | Official public holidays and calendar breaks | [japan-holidays](skills/japan-holidays/SKILL.md) | `bin/japan-holidays` |
 | Sunrise, sunset and daylight length | [japan-daylight](skills/japan-daylight/SKILL.md) | `bin/japan-daylight` |
 | Sakura and autumn-foliage provider comparisons | [japan-seasons](skills/japan-seasons/SKILL.md) | `bin/japan-seasons` |
-| Broad north/south foothill Mount Fuji viewing indices | [japan-fuji](skills/japan-fuji/SKILL.md) | `bin/japan-fuji` |
+| Tateyama views from Toyama City and cloud seas at Fuefuki Twin Terrace | [japan-scenic-forecast](skills/japan-scenic-forecast/SKILL.md) | `bin/japan-scenic-forecast` |
+| Mount Fuji views from north/south foothills or named mountain summits | [japan-fuji](skills/japan-fuji/SKILL.md) | `bin/japan-fuji` |
 | Hotel discovery, facilities and static room information | [japan-hotels](skills/japan-hotels/SKILL.md) | `bin/japan-hotels` |
 | Official rail-pass catalogs, prices and conditions | [japan-passes](skills/japan-passes/SKILL.md) | `bin/japan-passes` |
 

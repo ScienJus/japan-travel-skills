@@ -62,6 +62,7 @@ def urllib_adapters():
     h = load('japan-holidays', 'holidays.py')
     d = load('japan-daylight', 'daylight.py')
     s = load('japan-seasons', 'season_common.py')
+    scenic = load('japan-scenic-forecast', 'scenic_source.py')
     f = load('japan-fuji', 'fuji_source.py')
     j = load('japan-hotels', 'jalan.py')
     p = load('japan-passes', 'pass_source.py')
@@ -76,6 +77,7 @@ def urllib_adapters():
         UrllibAdapter('holidays', h, h.SOURCE_URL, h.MAX_BYTES, 1, h.HolidayError, body=csv),
         UrllibAdapter('daylight', d, d.BASE, d.MAX_BYTES, 2, d.DaylightError),
         UrllibAdapter('seasons', s, s.jmc_url('foliage'), 2*1024*1024, 3, s.SourceError),
+        UrllibAdapter('scenic', scenic, scenic.TATEYAMA, scenic.BODY_LIMIT, 1, scenic.SourceError),
         UrllibAdapter('fuji', f, f.HOME, f.BODY_LIMIT, 4, f.SourceError),
         UrllibAdapter('hotels', j, j.hotel_url('123456'), j.BODY_LIMIT, 2, j.SourceError),
         UrllibAdapter('passes', p, 'https://example.test/catalog', p.LIMIT, 8, p.Error,

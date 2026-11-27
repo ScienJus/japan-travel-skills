@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Query AMECS's published north/south Mount Fuji viewing indices."""
+"""Query AMECS foothill and Weathernews summit views of Mount Fuji."""
 import argparse
 import datetime as dt
 import json
@@ -10,6 +10,7 @@ import sys
 HERE = str(Path(__file__).resolve().parent)
 if HERE not in sys.path: sys.path.insert(0,HERE)
 import fuji_source as source
+import fuji_summits as summits
 
 
 def parser():
@@ -23,6 +24,9 @@ def parser():
     group.add_argument('--from',dest='start',help='First JST date; requires --to')
     group.add_argument('--days',type=int,help='1–7 requested dates starting tomorrow; default 7')
     p.add_argument('--to',dest='end',help='Last JST date, inclusive; requires --from')
+    p = sub.add_parser('summits', help='Weathernews Fuji-view grades from named mountain summits')
+    p.add_argument('--summit', action='append', required=True, help='Repeat for comparison. Map ID or ' + ', '.join(summits.NAMES))
+    p.add_argument('--date', help='One YYYY-MM-DD date in Japan. Default: both dates on the map.')
     return root
 
 
@@ -99,14 +103,23 @@ def main(argv=None):
     try:
         if args.command == 'doctor':
             result = {'status':'ok','python':sys.version.split()[0],'dependencies':'Python standard library only','network_checked':False,
+                      'summit_forecast':{'provider':'weathernews','page_url':summits.MAP,'named_summits':summits.NAMES,
+                                         'visible_days':2,'requests':1},
                       'provider':'amecs','source_url':source.HOME,'sides':['north','south'],'visible_days':7,
                       'scope':'Broad north/south foothill AM/PM viewing index; not a specific viewpoint or current observation.',
                       'request_budget':{'one_side':3,'both_sides':4},'initialization_max_age_hours':source.MAX_AGE_HOURS}
+        elif args.command == 'summits':
+            result = summits.query(client,args)
         else:
             dates = requested_dates(args,source.now_jst())
             result = query(client,args,dates)
     except (source.SourceError,ValueError,TypeError,KeyError,IndexError,OverflowError) as error:
-        result = error_record(error)
+        if args.command == 'summits':
+            result = {'provider':'weathernews','page_url':summits.MAP,'status':'error','state':'unknown',
+                      'records':[], 'error':{'code':getattr(error,'code','source_schema_changed'),
+                                             **getattr(error,'details',{})}}
+        else:
+            result = error_record(error)
     result['usage'] = client.usage()
     print(json.dumps(result,ensure_ascii=False,separators=(',',':')))
     return 2 if result['status']=='error' else 0

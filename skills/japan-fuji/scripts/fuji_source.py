@@ -68,6 +68,8 @@ def norm(value):
 def allowed(url):
     if url in (HOME,*DATA.values()): return True
     p = urllib.parse.urlsplit(url)
+    if (p.scheme, p.netloc, p.path) == ('https', 'site.weathernews.jp', '/api/mountain/list'):
+        return not p.fragment and bool(re.fullmatch(r'ids=[0-9]{5}(?:%2C[0-9]{5}){0,7}', p.query))
     return (p.scheme == 'https' and p.netloc == 'www.fuji-san.info' and p.path == '/lib/t24.js'
             and not p.fragment and bool(re.fullmatch(r'\d{12}',p.query)))
 
@@ -85,7 +87,7 @@ class Client:
         self.opener = urllib.request.build_opener(RejectRedirect())
 
     def read(self,url):
-        if not allowed(url): raise SourceError('unsupported_url','Only configured public AMECS Fuji routes are allowed.')
+        if not allowed(url): raise SourceError('unsupported_url','Only configured public Fuji-view source routes are allowed.')
         if url in self.cache:
             self.cache_hits += 1
             return self.cache[url]
@@ -98,7 +100,7 @@ class Client:
         self.requests += 1
         try:
             request = urllib.request.Request(url,headers={'User-Agent':'japan-travel-skills (anonymous Fuji reader)',
-                                                         'Accept':'text/html,text/plain,text/csv,application/javascript',
+                                                         'Accept':'text/html,text/plain,text/csv,application/javascript,application/json',
                                                          'Cache-Control':'no-cache'})
             with self.opener.open(request,timeout=15) as response:
                 if response.status != 200:

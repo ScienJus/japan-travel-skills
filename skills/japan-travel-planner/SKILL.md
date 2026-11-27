@@ -28,7 +28,8 @@ targeted verification, repairs, and trade-offs in route, pace and meal choices. 
 | What to see, local specialties, dated events | `japan-city-guide`: curated official destination sources and facility verification; check its current geographic coverage |
 | Sakura or foliage timing | `japan-seasons`: show both providers separately, including unavailable results |
 | Weather during the trip | `japan-weather`: use its itinerary report guidance for trip-wide forecasts and daily updates, hourly forecasts for timed activities, and monthly climate normals for typical conditions |
-| When outdoor light or Fuji views matter | `japan-daylight` for astronomical daylight; `japan-fuji` for its broad directional viewing index |
+| Whether to detour for Tateyama views or a sea of clouds at Fuefuki | `japan-scenic-forecast`: daily Toyama City outlook or three-hour FUJIYAMA Twin Terrace probabilities |
+| When outdoor light or Fuji views matter | `japan-daylight` for astronomical daylight; `japan-fuji` for AMECS foothill indices or Weathernews summit grades |
 | How to connect selected places | `japan-transit`: dated timetable routes; official operation reports have separate, limited operator/section coverage |
 | Calendar constraints | `japan-holidays`: official holidays and weekend blocks, not proof of crowding or business closures |
 | Where to stay | `japan-hotels`: candidate properties and practical requirements; dates are optional for discovery |

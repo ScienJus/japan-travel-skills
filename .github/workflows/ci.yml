@@ -111,6 +111,6 @@ jobs:
           python -m unittest -v
           test_weather test_weathernews test_jma_alerts test_jma_climate
           test_transit test_rail_operations test_ir_operations
-          test_holidays test_daylight test_seasons test_fuji
+          test_holidays test_daylight test_seasons test_fuji test_scenic_forecast
           test_hotels test_hotel_geo test_hotel_viewport test_passes
           test_plan_rendering

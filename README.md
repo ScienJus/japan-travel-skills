@@ -1,6 +1,6 @@
 # Japan Travel Skills
 
-**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive travel map, a mobile daily plan or a companion PowerPoint. The project includes fourteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
+**Japan Travel Skills** is an open-source set of Agent Skills for planning and reviewing trips to Japan. Use it to plan a trip, check the feasibility of an existing itinerary, or turn a plan into an interactive travel map, a mobile daily plan or a companion PowerPoint. The project includes fifteen skills, with independent tools for dated train and bus routes, weather, hotels, restaurants and seasonal travel research. Results retain original source links and what still needs checking.
 
 The project supports discovery, introductions, prices, availability, conditions and original booking links. Users complete reservations and purchases manually or with another agent. Transactions, holds, waitlists and payments are outside the project scope. Source uncertainty is preserved in planning results.
 
@@ -31,7 +31,8 @@ See [installation](docs/installation.md) to install the full plugin in Claude Co
 | [Holidays](skills/japan-holidays/SKILL.md) | Cabinet Office live public holidays by date/range/year, weekdays, weekends and consecutive calendar breaks |
 | [Daylight](skills/japan-daylight/SKILL.md) | NAOJ's live named-location calculator for sunrise, sunset and daylight length by date/range |
 | [Seasons](skills/japan-seasons/SKILL.md) | Separately attributed Weathernews spot records and JMC city/species tables for sakura and foliage; predictions, observations and season availability stay distinct |
-| [Mount Fuji](skills/japan-fuji/SKILL.md) | AMECS seven-day north/south foothill viewing indices by AM/PM; broad directional reference, with initialization freshness retained |
+| [Scenic forecasts](skills/japan-scenic-forecast/SKILL.md) | Daily Tateyama viewing probabilities from Toyama City and three-hour sea-of-clouds probabilities at FUJIYAMA Twin Terrace in Fuefuki |
+| [Mount Fuji](skills/japan-fuji/SKILL.md) | AMECS seven-day north/south foothill indices by AM/PM and Weathernews two-day Fuji-view grades from named mountain summits |
 | [Hotels](skills/japan-hotels/SKILL.md) | Undated Jalan landmark discovery, bath/station filters, coordinate-based straight-line radius, static profiles and room-type tables |
 | [Rail passes](skills/japan-passes/SKILL.md) | Live official catalogs, prices, eligibility and conditions for nationwide JAPAN RAIL PASS, JR West/joint passes, Tourist Pass, Hokkaido and Shikoku; JR East/Kyushu are reference-only |
 
@@ -89,7 +90,7 @@ cd japan-travel-skills
 
 Travel CLIs require **Python 3.9+** and use the standard library. The nationwide JAPAN RAIL PASS (`jr-group`) source additionally requires system **curl**. Hot Pepper Gourmet, Tabelog and TableCheck require **Python 3.11.5+**. Pocket Concierge requires **Python 3.10+**. Each restaurant skill includes its dependencies in `scripts/requirements.txt`. The city-guide skill needs an available web search/fetch tool and has no Python dependency or CLI. Planning needs only the relevant specialists or source-reading tools; the optional local visual helper uses Python 3.9+ without packages. None requires an API key, account, GUI browser or background service.
 
-For all twelve tools, use a suitable Python environment and install the combined pinned dependencies. No wheel or editable project installation is needed:
+For all thirteen tools, use a suitable Python environment and install the combined pinned dependencies. No wheel or editable project installation is needed:
 
 ```bash
 python3.12 -m venv .venv
@@ -143,7 +144,7 @@ Commands emit JSON with source metadata and measured request usage. Inspect stat
 
 Follow [installation and runtime compatibility](docs/installation.md) for complete-plugin or single-skill installation, Python dependencies, updates and validation boundaries. That guide is the maintained source for host-specific install commands.
 
-Claude Code and Codex each expose the same fourteen skills as one `japan-travel` plugin. CLI-backed skills need a local Python interpreter. Restaurant skills also need their declared Python packages.
+Claude Code and Codex each expose the same fifteen skills as one `japan-travel` plugin. CLI-backed skills need a local Python interpreter. Restaurant skills also need their declared Python packages.
 
 For publication, follow the [release preparation guide](docs/releasing.md). It covers source checks,
 bundle inspection, checksums and the separate repository/release and plugin-directory steps.
