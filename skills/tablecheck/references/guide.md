@@ -80,7 +80,7 @@ Counts assume known slugs, no failures and no cache hits. N is the number of mis
 | Multi-day search with people | Search pages + each checked candidate's inventory; menus only for retained results when requested |
 | Doctor / usage | 0 |
 
-The native calendar allows at most one follow-up date window per time anchor; remaining missing dates stay partial. Filtered timetables reuse every explicitly returned date. `usage` records request starts, decoded response bytes, elapsed time, pacing, cache hits and HTTPX version. It does not measure wire bytes, CPU, memory, model tokens or money. Save JSON outputs and aggregate them offline without re-querying.
+The native calendar allows at most one follow-up date window per time anchor; remaining missing dates stay partial. A v1 timetable can return a different `queried_date`. The CLI checks the requested date’s own slot timestamps in venue-local time. A shifted grid needs explicit states in the requested window and coverage of its published time columns to establish unavailability. Positive slots still require a confirmation read. `usage` records request starts, decoded response bytes, elapsed time, pacing, cache hits and HTTPX version. It does not measure wire bytes, CPU, memory, model tokens or money. Save JSON outputs and aggregate them offline without re-querying.
 
 ## Sources and acknowledgments
 

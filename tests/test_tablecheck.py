@@ -271,6 +271,66 @@ class TableCheckTests(unittest.TestCase):
         self.assertTrue(all(day['offered_times'] == ['18:00'] for day in result['days']))
         transport.close()
 
+    def test_shifted_v1_timetable_uses_only_the_requested_local_date_and_window(self):
+        day, anchor = '2026-11-29', '2026-11-30'
+        # Three dinner starts from the respiracion timetable, 17:30 through 18:00 in Tokyo.
+        full = {epoch: {'available': False} for epoch in ('1795941000', '1795941900', '1795942800')}
+        partial = {'1795941000': {'available': False}}
+        shop = {**SHOP, 'slug': 'respiracion'}
+        menu = {**COURSE, 'id': '6a8d36151d062533977c6f43', 'valid_date_ranges': []}
+        for echoed_date, target_slots, status, complete, offered in (
+            (anchor, full, 'unavailable', True, []),
+            (anchor, None, 'unknown', False, []),
+            (anchor, {}, 'unknown', False, []),
+            (anchor, partial, 'unknown', False, []),
+            (anchor, {'1795919400': {'available': False}}, 'unknown', False, []),  # lunch only
+            (anchor, {**full, '1795942800': {'available': None}}, 'unknown', False, []),
+            (anchor, {**full, '1796029200': {'available': True}}, 'unknown', False, []),  # other day
+            (None, full, 'unknown', False, []),
+            (anchor, {**full, '1795942800': {'available': True}}, 'available', True, ['18:00']),
+            (anchor, {'1795942800': {'available': True}}, 'available', False, ['18:00']),
+        ):
+            with self.subTest(anchor=echoed_date, slots=target_slots):
+                def handler(request):
+                    path = request.url.path
+                    if path.endswith('/shops/respiracion'):
+                        return response({'shops': [shop]})
+                    if path.endswith('/menu_items'):
+                        return response({'menu_items': [menu]})
+                    if path.endswith('/reserve'):
+                        return httpx.Response(200, text='<input name="reservation[orders_attributes][5][menu_item_id]" value="'
+                                              + menu['id'] + '"><input name="reservation[orders_attributes][5][is_group_order]" value="true">')
+                    if path.endswith('/availability_calendar_v2'):
+                        return response({'availability_calendar': {'type': 'success', 'time_zone': 'Asia/Tokyo',
+                                                                  'data': {}, 'closed_dates': []}})
+                    self.assertEqual(request.url.params['reservation[num_people_adult]'], '2')
+                    self.assertEqual(request.url.params['reservation[orders_attributes][5][menu_item_id]'], menu['id'])
+                    if path.endswith('/timetable'):
+                        self.assertEqual(request.url.params['reservation[start_date]'], day)
+                        slots = {anchor: {'1796029200': {'available': True}}}
+                        if target_slots is not None:
+                            slots[day] = target_slots
+                        table = {'data': {'slots': slots, 'seconds': [41400, 63000, 63900, 64800]}}
+                        if echoed_date is not None:
+                            table['queried_date'] = echoed_date
+                        return response(table)
+                    self.assertEqual(path, '/en/shops/respiracion/available')
+                    self.assertEqual(request.url.params['reservation[start_at_epoch]'], '1795942800')
+                    return response({'status': 'success'})
+
+                with patch('tablecheck_client.arguments.datetime', wraps=datetime) as clock:
+                    clock.now.return_value = datetime.fromisoformat('2026-11-27T10:00:00+09:00')
+                    result = run(['availability', shop['slug'], '--date', day, '--people', '2', '--course', menu['id'],
+                                  '--meal', 'dinner'], create_client=lambda **_: client(handler))
+                self.assertEqual(result['exit_code'], 0 if complete else 3)
+                row, = result['output']['data']['days']
+                self.assertEqual((row['date'], row['status'], row['complete'], row['offered_times']),
+                                 (day, status, complete, offered))
+                if complete:
+                    self.assertEqual(row['timetable_queried_date'], anchor)
+                if status == 'unavailable':
+                    self.assertEqual(result['output']['usage']['network_requests_started'], 4)
+
     def test_sparse_v1_timetable_uses_only_explicit_venue_closures(self):
         first, second = '2026-12-01', '2026-12-02'
         shop = {**SHOP, 'slug': 'sushi-ikuta', 'tc_input_service_category': 'required'}

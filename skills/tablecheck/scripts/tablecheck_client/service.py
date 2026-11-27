@@ -640,8 +640,23 @@ class TableCheck:
                 value = self.client.read('GET', f"/en/shops/{venue['slug']}/available/timetable", query)
                 data = value.get('data') if isinstance(value, dict) else None
                 all_slots = data.get('slots') if isinstance(data, dict) else None
-                if not isinstance(all_slots, dict) or value.get('queried_date') != day:
-                    raise CliError('unexpected_response', 'Timetable lacks matching queried_date and slot data.')
+                if not isinstance(all_slots, dict):
+                    raise CliError('unexpected_response', 'Timetable lacks a date-indexed slot grid.')
+                anchor = value.get('queried_date')
+                try:
+                    if date.fromisoformat(anchor).isoformat() != anchor:
+                        raise ValueError()
+                except (TypeError, ValueError):
+                    raise CliError('unexpected_response', 'Timetable queried_date is missing or invalid.') from None
+                # A v1 timetable can shift its anchor while still returning the requested local date.
+                shifted = anchor != day
+                expected_times = set()
+                if shifted and 'seconds' in data:
+                    seconds = data['seconds']
+                    if not isinstance(seconds, list) or any(type(v) is not int or not 0 <= v < 86400 or v % 60 for v in seconds):
+                        raise CliError('unexpected_response', 'Timetable time columns are invalid.')
+                    columns = (f'{v // 3600:02}:{v % 3600 // 60:02}' for v in seconds)
+                    expected_times = {clock for clock in columns if after <= clock <= before}
                 gained = False
                 for slot_day, row in rows.items():
                     if row['complete']:
@@ -656,24 +671,35 @@ class TableCheck:
                                          'message': 'Timetable date has no recognizable slot grid.'})
                         continue
                     parsed, complete = [], True
+                    observed_times = set()
                     for epoch, slot in slots.items():
                         try:
                             local = datetime.fromtimestamp(int(epoch), tz)
                             if local.date().isoformat() != slot_day or local.second or local.microsecond or not isinstance(slot, dict) or type(slot.get('available')) is not bool:
                                 raise ValueError()
                             clock = local.strftime('%H:%M')
-                            if after <= clock <= before and slot['available'] and not_elapsed_today(local):
-                                parsed.append((epoch, clock))
+                            if after <= clock <= before:
+                                observed_times.add(clock)
+                                if slot['available'] and not_elapsed_today(local):
+                                    parsed.append((epoch, clock))
                         except (ValueError, TypeError, OverflowError, OSError):
                             complete = False
                     if not complete:
                         failures.append({'code': 'unexpected_response', 'date': slot_day,
                                          'message': 'Timetable slot timestamp or availability state is invalid.'})
                         continue
-                    gained = True
-                    row.update(complete=not parsed, status='unknown' if parsed else 'unavailable')
                     confirmed = True
+                    if shifted:
+                        row['timetable_queried_date'] = anchor
+                        if not observed_times or not expected_times.issubset(observed_times):
+                            confirmed = False
+                            failures.append({'code': 'incomplete_timetable', 'date': slot_day,
+                                             'message': 'Shifted timetable has incomplete coverage of the requested time window.'})
+                    gained = gained or confirmed
+                    row['complete'] = False
                     for epoch, clock in parsed:
+                        if clock in row['offered_times']:
+                            continue
                         confirmation = self.client.read('GET', f"/en/shops/{venue['slug']}/available", {**params, 'reservation[start_at_epoch]': epoch})
                         state = confirmation.get('status') if isinstance(confirmation, dict) else None
                         if state == 'success':
@@ -683,9 +709,10 @@ class TableCheck:
                             row['status'] = 'available'
                         else:
                             confirmed = False
-                            row.update(complete=False, status='unknown' if not row['offered_times'] else 'available')
                             failures.append({'code': 'slot_not_confirmed', 'date': slot_day, 'time': clock, 'source_status': state})
                     row['complete'] = confirmed
+                    if not row['offered_times']:
+                        row['status'] = 'unavailable' if confirmed else 'unknown'
                 if not gained:
                     # Do not turn sparse source output into a per-day sweep.
                     break
